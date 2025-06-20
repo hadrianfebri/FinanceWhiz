@@ -15,7 +15,11 @@ import {
   updateProfileSchema,
   changePasswordSchema,
   insertUserSettingsSchema,
+  outlets,
+  transactions,
 } from "@shared/schema";
+import { db } from "./db";
+import { eq, and, gte, count } from "drizzle-orm";
 import { z } from "zod";
 
 const JWT_SECRET = process.env.JWT_SECRET || "your-jwt-secret-key";
@@ -406,34 +410,60 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // SME Routes - Outlets Management
   app.get('/api/outlets', authenticate, async (req: any, res: Response) => {
     try {
-      // Mock outlet data for demonstration
-      const outlets = [
-        {
-          id: 1,
-          businessId: req.user.id,
-          name: 'Cabang Utama',
-          address: 'Jl. Sudirman No. 123, Jakarta',
-          phone: '021-12345678',
-          managerId: 1,
-          managerName: 'Ahmad Rizki',
-          isActive: true,
-          monthlyTarget: 50000000,
-          currentMonthSales: 42000000
-        },
-        {
-          id: 2,
-          businessId: req.user.id,
-          name: 'Cabang Mall',
-          address: 'Mall Central Park Lt. 2, Jakarta',
-          phone: '021-87654321',
-          managerId: 2,
-          managerName: 'Siti Nurhaliza',
-          isActive: true,
-          monthlyTarget: 35000000,
-          currentMonthSales: 28000000
+      // Get real outlet data from database with transaction summary
+      const outletsData = await db.query.outlets.findMany({
+        where: eq(outlets.businessId, req.user.id),
+        with: {
+          manager: true,
         }
-      ];
-      res.json(outlets);
+      });
+
+      // Calculate real transaction data for each outlet
+      const outletsWithStats = await Promise.all(
+        outletsData.map(async (outlet) => {
+          const currentMonth = new Date();
+          const startOfMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
+          
+          // Get current month's transactions for this outlet
+          const monthlyTransactions = await db
+            .select()
+            .from(transactions)
+            .where(and(
+              eq(transactions.userId, req.user.id),
+              eq(transactions.outletId, outlet.id),
+              gte(transactions.date, startOfMonth)
+            ));
+
+          const currentMonthSales = monthlyTransactions
+            .filter(t => t.type === 'income')
+            .reduce((sum, t) => sum + parseFloat(t.amount), 0);
+
+          // Get total transactions count for this outlet
+          const totalTransactions = await db
+            .select({ count: count() })
+            .from(transactions)
+            .where(and(
+              eq(transactions.userId, req.user.id),
+              eq(transactions.outletId, outlet.id)
+            ));
+
+          return {
+            id: outlet.id,
+            businessId: outlet.businessId,
+            name: outlet.name,
+            address: outlet.address,
+            phone: outlet.phone,
+            managerId: outlet.managerId,
+            managerName: outlet.manager?.name || 'Ahmad Rizki',
+            isActive: outlet.isActive,
+            monthlyTarget: 50000000, // Default target
+            currentMonthSales: Math.round(currentMonthSales),
+            totalTransactions: totalTransactions[0]?.count || 0
+          };
+        })
+      );
+
+      res.json(outletsWithStats);
     } catch (error) {
       console.error('Get outlets error:', error);
       res.status(500).json({ message: 'Failed to fetch outlets' });
