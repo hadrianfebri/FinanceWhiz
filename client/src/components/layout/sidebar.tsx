@@ -23,7 +23,7 @@ export default function Sidebar() {
   };
 
   return (
-    <div className="w-60 bg-white h-screen shadow-lg flex flex-col">
+    <div className="w-64 bg-white h-screen shadow-lg flex flex-col">
       {/* Header with Logo */}
       <div className="p-6 border-b border-gray-100">
         <div className="flex items-center space-x-3">

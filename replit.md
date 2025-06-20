@@ -123,3 +123,11 @@ Changelog:
   - Redesigned dashboard with balance card and branded styling
   - Updated sidebar, navbar, and landing page with new brand identity
   - Added hover effects and brand-consistent color scheme
+- June 20, 2025. Navigation optimization and bug fixes:
+  - Fixed duplicate header issue by removing logo from navbar
+  - Implemented dynamic page titles in navbar (Dashboard, Transaksi, Laporan, Profil)
+  - Removed duplicate page titles from all content areas
+  - Fixed Select component value prop errors in transactions page
+  - Fixed transaction creation categoryId type conversion error
+  - Improved login redirect with proper auth state invalidation
+  - Streamlined navigation layout for better user experience
