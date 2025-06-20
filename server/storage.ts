@@ -151,7 +151,25 @@ export class DatabaseStorage implements IStorage {
       conditions.push(sql`${transactions.description} ILIKE ${'%' + filters.search + '%'}`);
     }
 
-    let query = db.select().from(transactions)
+    let query = db.select({
+      id: transactions.id,
+      userId: transactions.userId,
+      categoryId: transactions.categoryId,
+      amount: transactions.amount,
+      description: transactions.description,
+      notes: transactions.notes,
+      type: transactions.type,
+      date: transactions.date,
+      receiptUrl: transactions.receiptUrl,
+      createdAt: transactions.createdAt,
+      updatedAt: transactions.updatedAt,
+      category: {
+        id: categories.id,
+        name: categories.name,
+        type: categories.type,
+      }
+    }).from(transactions)
+      .leftJoin(categories, eq(transactions.categoryId, categories.id))
       .where(and(...conditions))
       .orderBy(desc(transactions.date));
 
