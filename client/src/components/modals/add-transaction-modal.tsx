@@ -25,6 +25,7 @@ const transactionSchema = z.object({
   description: z.string().min(1, "Nama transaksi wajib diisi"),
   amount: z.string().min(1, "Jumlah wajib diisi"),
   categoryId: z.string().min(1, "Kategori wajib dipilih"),
+  outletId: z.string().optional(),
   date: z.string().min(1, "Tanggal wajib diisi"),
   notes: z.string().optional(),
 });
@@ -49,6 +50,12 @@ export default function AddTransactionModal({ open, onClose, transaction }: AddT
     enabled: open,
   });
 
+  const { data: outlets } = useQuery({
+    queryKey: ["/api/outlets"],
+    queryFn: () => api.getOutlets(),
+    enabled: open,
+  });
+
   const form = useForm<TransactionForm>({
     resolver: zodResolver(transactionSchema),
     defaultValues: {
@@ -56,6 +63,7 @@ export default function AddTransactionModal({ open, onClose, transaction }: AddT
       description: transaction?.description || '',
       amount: transaction?.amount || '',
       categoryId: transaction?.categoryId?.toString() || '',
+      outletId: transaction?.outletId?.toString() || '',
       date: transaction?.date ? new Date(transaction.date).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
       notes: transaction?.notes || '',
     },
@@ -152,6 +160,9 @@ export default function AddTransactionModal({ open, onClose, transaction }: AddT
     formData.append('description', data.description);
     formData.append('amount', data.amount);
     formData.append('categoryId', parseInt(data.categoryId).toString());
+    if (data.outletId && data.outletId !== '') {
+      formData.append('outletId', parseInt(data.outletId).toString());
+    }
     formData.append('date', data.date);
     if (data.notes) {
       formData.append('notes', data.notes);
@@ -275,6 +286,32 @@ export default function AddTransactionModal({ open, onClose, transaction }: AddT
                         {filteredCategories.map((category: any) => (
                           <SelectItem key={category.id} value={category.id.toString()}>
                             {category.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="outletId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Outlet</FormLabel>
+                  <FormControl>
+                    <Select value={field.value} onValueChange={field.onChange}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Pilih Outlet (Opsional)" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="">Pusat (Tanpa Outlet)</SelectItem>
+                        {outlets?.map((outlet: any) => (
+                          <SelectItem key={outlet.id} value={outlet.id.toString()}>
+                            {outlet.name}
                           </SelectItem>
                         ))}
                       </SelectContent>
