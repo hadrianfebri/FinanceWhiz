@@ -4,9 +4,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
 import { api } from "@/lib/api";
 import { formatCurrency } from "@/lib/utils";
-import { Download, TrendingUp, TrendingDown, ChartLine, Percent } from "lucide-react";
+import { Download, TrendingUp, TrendingDown, ChartLine, Percent, Building2, X } from "lucide-react";
 import IncomeExpenseChart from "@/components/charts/income-expense-chart";
 import ExpenseCategoryChart from "@/components/charts/expense-category-chart";
 
@@ -15,9 +16,15 @@ export default function Reports() {
     startDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().split('T')[0],
     endDate: new Date().toISOString().split('T')[0],
   });
+  const [selectedOutlet, setSelectedOutlet] = useState<string>("all");
+
+  const { data: outlets } = useQuery({
+    queryKey: ["/api/outlets"],
+    queryFn: () => api.getOutlets(),
+  });
 
   const { data: reportData, isLoading } = useQuery({
-    queryKey: ["/api/reports/financial", dateRange.startDate, dateRange.endDate],
+    queryKey: ["/api/reports/financial", dateRange.startDate, dateRange.endDate, selectedOutlet],
     queryFn: () => api.getFinancialReport(dateRange.startDate, dateRange.endDate),
     enabled: !!dateRange.startDate && !!dateRange.endDate,
   });
@@ -175,7 +182,27 @@ export default function Reports() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
+          <h1 className="text-2xl font-bold text-gray-900 font-league">Laporan Keuangan</h1>
           <p className="text-gray-600">Analisis mendalam tentang kinerja keuangan usaha Anda</p>
+          
+          {/* Outlet Filter Indicator */}
+          {selectedOutlet !== "all" && (
+            <div className="flex items-center space-x-2 mt-2">
+              <Badge variant="outline" className="bg-[#f29716]/10 border-[#f29716] text-[#f29716]">
+                <Building2 className="h-3 w-3 mr-1" />
+                {selectedOutlet === "pusat" ? "Pusat Saja" : 
+                 outlets?.find((o: any) => o.id.toString() === selectedOutlet)?.name || "Outlet"}
+              </Badge>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setSelectedOutlet("all")}
+                className="h-6 w-6 p-0 text-gray-400 hover:text-gray-600"
+              >
+                <X className="h-3 w-3" />
+              </Button>
+            </div>
+          )}
         </div>
         <Button onClick={handleDownloadPDF} className="bg-red-600 hover:bg-red-700">
           <Download className="h-4 w-4 mr-2" />
@@ -186,7 +213,26 @@ export default function Reports() {
       {/* Report Filters */}
       <Card>
         <CardContent className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Outlet
+              </label>
+              <Select value={selectedOutlet} onValueChange={setSelectedOutlet}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Pilih Outlet" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Semua Outlet</SelectItem>
+                  <SelectItem value="pusat">Pusat Saja</SelectItem>
+                  {outlets?.map((outlet: any) => (
+                    <SelectItem key={outlet.id} value={outlet.id.toString()}>
+                      {outlet.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Periode

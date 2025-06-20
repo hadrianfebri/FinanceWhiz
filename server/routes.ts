@@ -211,6 +211,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         ...req.body,
         userId: req.user.id,
         categoryId: parseInt(req.body.categoryId),
+        outletId: req.body.outletId ? parseInt(req.body.outletId) : null,
         amount: req.body.amount.toString(),
         date: new Date(req.body.date),
         receiptUrl: req.file ? `/uploads/receipts/${req.file.filename}` : null,
@@ -284,7 +285,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Reports routes
   app.get('/api/reports/financial', authenticate, async (req: any, res: Response) => {
     try {
-      const { startDate, endDate } = req.query;
+      const { startDate, endDate, outlet: outletId } = req.query;
       
       if (!startDate || !endDate) {
         return res.status(400).json({ message: 'Start date and end date are required' });
@@ -293,7 +294,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const report = await storage.getFinancialReport(
         req.user.id,
         new Date(startDate as string),
-        new Date(endDate as string)
+        new Date(endDate as string),
+        outletId ? parseInt(outletId as string) : undefined
       );
       
       res.json(report);
