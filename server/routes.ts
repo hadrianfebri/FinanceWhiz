@@ -208,6 +208,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const transactionData = {
         ...req.body,
         userId: req.user.id,
+        categoryId: parseInt(req.body.categoryId),
         amount: req.body.amount.toString(),
         date: new Date(req.body.date),
         receiptUrl: req.file ? `/uploads/receipts/${req.file.filename}` : null,
@@ -232,6 +233,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const transactionId = parseInt(req.params.id);
       const updateData: any = { ...req.body };
       
+      if (req.body.categoryId) updateData.categoryId = parseInt(req.body.categoryId);
       if (req.body.amount) updateData.amount = req.body.amount.toString();
       if (req.body.date) updateData.date = new Date(req.body.date);
       if (req.file) updateData.receiptUrl = `/uploads/receipts/${req.file.filename}`;
