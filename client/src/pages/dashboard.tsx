@@ -7,12 +7,14 @@ import { formatCurrency, formatDateTime, getGreeting } from "@/lib/utils";
 import { useAuth } from "@/hooks/use-auth";
 import { useState } from "react";
 import { Wallet, TrendingUp, TrendingDown, Plus, FileText, Lightbulb, ArrowUp, ArrowDown } from "lucide-react";
+import { useLocation } from "wouter";
 import AddTransactionModal from "@/components/modals/add-transaction-modal";
 import CashFlowChart from "@/components/charts/cash-flow-chart";
 
 export default function Dashboard() {
   const { user } = useAuth();
   const { toast } = useToast();
+  const [, setLocation] = useLocation();
   const [showAddTransaction, setShowAddTransaction] = useState(false);
 
   const { data: dashboardStats, isLoading } = useQuery({

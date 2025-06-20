@@ -151,42 +151,19 @@ export class DatabaseStorage implements IStorage {
       conditions.push(sql`${transactions.description} ILIKE ${'%' + filters.search + '%'}`);
     }
 
-    let query = db.select({
-      id: transactions.id,
-      userId: transactions.userId,
-      categoryId: transactions.categoryId,
-      amount: transactions.amount,
-      description: transactions.description,
-      notes: transactions.notes,
-      type: transactions.type,
-      date: transactions.date,
-      receiptUrl: transactions.receiptUrl,
-      createdAt: transactions.createdAt,
-      updatedAt: transactions.updatedAt,
-      category: {
-        id: categories.id,
-        name: categories.name,
-        type: categories.type,
-      }
-    }).from(transactions)
-      .leftJoin(categories, eq(transactions.categoryId, categories.id))
-      .where(and(...conditions))
-      .orderBy(desc(transactions.date));
+    // Get transactions with relationships
+    const transactionResults = await db.query.transactions.findMany({
+      where: and(...conditions),
+      with: {
+        category: true,
+      },
+      orderBy: desc(transactions.date),
+      limit: filters.limit || 100,
+      offset: filters.offset || 0,
+    });
 
-    const countQuery = db.select({ count: count() }).from(transactions)
+    const totalResults = await db.select({ count: count() }).from(transactions)
       .where(and(...conditions));
-
-    if (filters.limit) {
-      query = query.limit(filters.limit);
-    }
-    if (filters.offset) {
-      query = query.offset(filters.offset);
-    }
-
-    const [transactionResults, totalResults] = await Promise.all([
-      query,
-      countQuery
-    ]);
 
     return {
       transactions: transactionResults,
