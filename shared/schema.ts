@@ -166,7 +166,7 @@ export const posTransactions = pgTable("pos_transactions", {
   customerCount: integer("customer_count").default(1),
   transactionTime: timestamp("transaction_time").notNull(),
   cashierName: text("cashier_name"),
-  items: jsonb("items"), // product details
+  items: text("items"), // product details as JSON string
   discountAmount: decimal("discount_amount", { precision: 15, scale: 2 }).default("0"),
   taxAmount: decimal("tax_amount", { precision: 15, scale: 2 }).default("0"),
   syncedToAccounting: boolean("synced_to_accounting").default(false),
@@ -184,7 +184,7 @@ export const aiInsights = pgTable("ai_insights", {
   severity: varchar("severity", { length: 20 }).notNull(), // low, medium, high, critical
   actionRequired: boolean("action_required").default(false),
   isRead: boolean("is_read").default(false),
-  metadata: jsonb("metadata"), // additional data for the insight
+  metadata: text("metadata"), // additional data for the insight as JSON string
   generatedAt: timestamp("generated_at").defaultNow(),
   expiresAt: timestamp("expires_at"),
 });
@@ -313,6 +313,26 @@ export type Category = typeof categories.$inferSelect;
 export type InsertCategory = z.infer<typeof insertCategorySchema>;
 export type UserSettings = typeof userSettings.$inferSelect;
 export type InsertUserSettings = z.infer<typeof insertUserSettingsSchema>;
+
+// New SME types
+export type Outlet = typeof outlets.$inferSelect;
+export type InsertOutlet = typeof outlets.$inferInsert;
+export type Employee = typeof employees.$inferSelect;
+export type InsertEmployee = typeof employees.$inferInsert;
+export type Payroll = typeof payrolls.$inferSelect;
+export type InsertPayroll = typeof payrolls.$inferInsert;
+export type Vendor = typeof vendors.$inferSelect;
+export type InsertVendor = typeof vendors.$inferInsert;
+export type Invoice = typeof invoices.$inferSelect;
+export type InsertInvoice = typeof invoices.$inferInsert;
+export type TaxReport = typeof taxReports.$inferSelect;
+export type InsertTaxReport = typeof taxReports.$inferInsert;
+export type PosTransaction = typeof posTransactions.$inferSelect;
+export type InsertPosTransaction = typeof posTransactions.$inferInsert;
+export type AiInsight = typeof aiInsights.$inferSelect;
+export type InsertAiInsight = typeof aiInsights.$inferInsert;
+export type Notification = typeof notifications.$inferSelect;
+export type InsertNotification = typeof notifications.$inferInsert;
 
 // Additional schemas for API
 export const loginSchema = z.object({
