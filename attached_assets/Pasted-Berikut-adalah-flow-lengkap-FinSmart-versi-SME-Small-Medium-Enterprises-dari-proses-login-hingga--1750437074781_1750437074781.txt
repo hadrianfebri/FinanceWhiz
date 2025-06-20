@@ -1,0 +1,253 @@
+Berikut adalah flow lengkap FinSmart versi SME (Small-Medium Enterprises), dari proses login hingga seluruh fitur, dirancang untuk pengalaman end-to-end user (owner, finance, manager cabang). Alur ini menyusun seluruh fitur dan modul secara terstruktur untuk membentuk gambaran produk final.
+
+🧭 USER FLOW — FinSmart SME (Versi Web-Based)
+
+🔐 LOGIN & ROLE-BASED ACCESS
+
+User membuka https://app.finsmart.id
+
+Input email & password
+
+Autentikasi berhasil → sistem mendeteksi role user:
+
+Owner
+
+Finance
+
+Manager Cabang
+
+Redirect ke Dashboard sesuai role
+
+—
+
+🏠 DASHBOARD UTAMA
+(Semua role melihat sesuai akses masing-masing)
+
+A. Ringkasan Keuangan
+
+Saldo kas aktif
+
+Total pemasukan & pengeluaran bulan ini
+
+Laba/Rugi bulan ini
+
+Prediksi cashflow 30 hari ke depan
+
+B. Insight AI Otomatis
+
+Rangkuman tren pengeluaran
+
+Margin bocor per outlet
+
+Penjualan turun di cabang tertentu
+
+Rekomendasi efisiensi
+
+C. Grafik Tren
+
+Grafik arus kas
+
+Penjualan per outlet
+
+Pie chart pengeluaran per kategori
+
+D. Reminder
+
+Jatuh tempo invoice
+
+Gaji belum dicatat
+
+Pajak belum disetor
+
+E. Akses Cepat
+
+[Catat Transaksi]
+
+[Input Gaji]
+
+[Upload Nota]
+
+[Lihat Laporan]
+
+—
+
+➕ TRANSAKSI
+A. Catat Pemasukan/Pengeluaran
+
+Input nama transaksi, tanggal, nominal, outlet, kategori
+
+Upload nota (opsional → AI bantu isi otomatis)
+
+AI menyarankan kategori
+
+Submit → Tersimpan & laporan auto-update
+
+B. Lihat Daftar Transaksi
+
+Tabel transaksi semua outlet (filter tanggal, outlet, kategori)
+
+Tombol edit/hapus
+
+Tombol [Export Excel]
+
+—
+
+🛒 PENJUALAN / POS
+A. Sinkronisasi POS
+
+Otomatis tarik data dari POS tiap outlet (API atau upload csv)
+
+Data: tanggal, jumlah transaksi, total penjualan, produk, margin
+
+Dihubungkan ke laporan Laba Rugi
+
+B. Analisa Harian
+
+Tabel penjualan per outlet
+
+Jam ramai
+
+Produk terlaris
+
+—
+
+📄 LAPORAN KEUANGAN
+A. Laba Rugi
+
+Per outlet / semua outlet
+
+Filter periode: minggu/bulan/custom
+
+Elemen: pendapatan, biaya operasional, laba bersih
+
+B. Arus Kas
+
+Kas masuk vs keluar
+
+Saldo awal/akhir
+
+Per outlet / total usaha
+
+C. Neraca Sederhana
+
+Aset (kas, piutang)
+
+Liabilitas (utang supplier)
+
+Modal
+
+D. Download
+
+Tombol [PDF] / [Kirim ke email]
+
+—
+
+🧾 PAJAK
+A. Estimasi Pajak
+
+Hitung otomatis omzet bulanan × 0.5% (PPh Final UMKM)
+
+Simulasi jika omzet melebihi batas
+
+B. Laporan Pajak
+
+Export CSV/Excel rekap omzet untuk pelaporan DJP
+
+C. Reminder Pajak
+
+Notifikasi “Waktunya setor pajak bulan ini”
+
+—
+
+💸 PENGELUARAN & VENDOR
+A. Catat Tagihan Vendor
+
+Nama supplier, tanggal jatuh tempo, nominal
+
+Upload invoice
+
+B. Reminder Jatuh Tempo
+
+Notifikasi otomatis di dashboard + email
+
+C. Status Pembayaran
+
+Sudah dibayar / Belum dibayar
+
+—
+
+👤 GAJI & PAYROLL
+A. Catat Gaji Karyawan
+
+Nama, jabatan, outlet, nominal, tanggal
+
+Tambah bonus/insentif
+
+B. Reminder Gaji Bulanan
+
+Sistem mengingatkan 1–2 hari sebelum
+
+C. Rekap Payroll
+
+Total gaji / outlet / bulan
+
+—
+
+👨‍👩‍👦 ROLE & USER MANAGEMENT
+A. Tambah Pengguna
+
+Owner menambahkan user baru
+
+Role: Owner, Finance, Manager Outlet
+
+B. Batasan Akses
+
+Finance tidak bisa menghapus user
+
+Manager hanya bisa lihat transaksi outlet-nya
+
+—
+
+📥 AI INSIGHT ENGINE
+A. Insight Otomatis Mingguan
+
+Dikirim via email atau tampil di dashboard
+
+B. Prediksi Arus Kas
+
+Berdasarkan tren 30 hari terakhir
+
+C. Deteksi Anomali
+
+Void transaksi besar
+
+Diskon ekstrem
+
+Transaksi jam tidak biasa
+
+—
+
+⚙️ PENGATURAN SISTEM
+A. Nama Usaha
+B. Akun Bank
+C. Kategori transaksi kustom
+D. Logo Usaha
+E. Preferensi Reminder
+
+—
+
+🔁 AKSES MOBILE (Responsive)
+
+Dashboard dan fitur disesuaikan tampilan HP
+
+Akses cepat: input transaksi, lihat ringkasan, insight, laporan PDF
+
+—
+
+🧠 ALUR PENGGUNAAN UMUM (END TO END):
+
+Login → Dashboard → Input transaksi harian
+→ Upload nota → POS sync → AI insight muncul
+→ Laporan keuangan update → Estimasi pajak siap
+→ Reminder tagihan & gaji → Owner approve / review
+→ Download laporan → Selesai

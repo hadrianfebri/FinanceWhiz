@@ -2,7 +2,7 @@
 
 ## Overview
 
-FinanceWhiz.AI is an AI-powered financial management application designed specifically for small and medium enterprises (UMKM) in Indonesia. The system enables businesses to record transactions, monitor cash flow, and generate automated financial reports with AI-driven insights. The application features a complete brand transformation with custom logo, color scheme, and typography following professional design guidelines.
+FinanceWhiz.AI is an AI-powered financial management application designed specifically for Small-Medium Enterprises (SME) in Indonesia. The system enables multi-outlet businesses to record transactions, monitor cash flow across locations, generate automated financial reports, and provide AI-driven insights. The application features role-based access (Owner, Finance, Manager Cabang), comprehensive tax management, payroll tracking, and advanced business intelligence capabilities with complete brand transformation.
 
 ## System Architecture
 
