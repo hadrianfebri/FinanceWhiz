@@ -289,7 +289,7 @@ export default function EnhancedDashboard() {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {outlets?.map((outlet) => (
+              {outlets?.map((outlet: any) => (
                 <div key={outlet.id} className="flex items-center justify-between p-3 border rounded-lg">
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
@@ -417,7 +417,7 @@ export default function EnhancedDashboard() {
       {/* Add Transaction Modal */}
       <AddTransactionModal 
         open={showAddTransaction} 
-        onOpenChange={setShowAddTransaction} 
+        onClose={() => setShowAddTransaction(false)} 
       />
     </div>
   );
