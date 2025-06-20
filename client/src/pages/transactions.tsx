@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { api } from "@/lib/api";
 import { formatCurrency, formatDate } from "@/lib/utils";
-import { Plus, Search, Download, Edit, Trash2, ChevronLeft, ChevronRight } from "lucide-react";
+import { Plus, Search, Download, Edit, Trash2, ChevronLeft, ChevronRight, Upload, FileSpreadsheet, Camera, Receipt, Filter } from "lucide-react";
 import AddTransactionModal from "@/components/modals/add-transaction-modal";
 
 interface TransactionFilters {
@@ -25,6 +25,8 @@ export default function Transactions() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [showAddTransaction, setShowAddTransaction] = useState(false);
+  const [showImportModal, setShowImportModal] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
   const [filters, setFilters] = useState<TransactionFilters>({
     startDate: "",
     endDate: "",
@@ -122,20 +124,99 @@ export default function Transactions() {
 
   return (
     <div className="p-6 space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-gray-600">Kelola semua transaksi keuangan Anda</p>
+      {/* Enhanced Header for UMKM */}
+      <div className="card-base">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <h2 className="text-lg font-semibold text-gray-900 font-league mb-1">Manajemen Transaksi</h2>
+            <p className="text-gray-600 font-league">Kelola semua transaksi keuangan usaha Anda dengan mudah</p>
+          </div>
+          
+          {/* Action Buttons */}
+          <div className="flex flex-wrap gap-3">
+            {/* Quick Add Transaction */}
+            <Button 
+              onClick={() => setShowAddTransaction(true)}
+              className="btn-orange flex items-center space-x-2"
+            >
+              <Plus className="h-4 w-4" />
+              <span className="font-league">Catat Transaksi</span>
+            </Button>
+            
+            {/* Import from File */}
+            <Button 
+              variant="outline" 
+              onClick={() => setShowImportModal(true)}
+              className="flex items-center space-x-2 border-[#04474f] text-[#04474f] hover:bg-[#04474f] hover:text-white font-league"
+            >
+              <Upload className="h-4 w-4" />
+              <span>Import File</span>
+            </Button>
+            
+            {/* Export Data */}
+            <Button 
+              variant="outline"
+              className="flex items-center space-x-2 border-gray-300 text-gray-700 hover:bg-gray-50 font-league"
+            >
+              <Download className="h-4 w-4" />
+              <span>Export</span>
+            </Button>
+            
+            {/* Toggle Filters */}
+            <Button 
+              variant="ghost"
+              onClick={() => setShowFilters(!showFilters)}
+              className={`flex items-center space-x-2 font-league ${showFilters ? 'bg-gray-100' : ''}`}
+            >
+              <Filter className="h-4 w-4" />
+              <span>Filter</span>
+            </Button>
+          </div>
         </div>
-        <Button onClick={() => setShowAddTransaction(true)}>
-          <Plus className="h-4 w-4 mr-2" />
-          Tambah Transaksi
-        </Button>
       </div>
 
-      {/* Filters */}
-      <Card>
-        <CardContent className="p-6">
+      {/* Quick Actions Bar for UMKM */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="card-base hover-lift cursor-pointer text-center p-4" onClick={() => setShowAddTransaction(true)}>
+          <div className="w-12 h-12 bg-[#f29716] rounded-xl flex items-center justify-center mx-auto mb-3">
+            <Receipt className="h-6 w-6 text-white" />
+          </div>
+          <p className="font-semibold text-gray-900 font-league">Scan Struk</p>
+          <p className="text-xs text-gray-600">Upload foto struk</p>
+        </div>
+        
+        <div className="card-base hover-lift cursor-pointer text-center p-4" onClick={() => setShowAddTransaction(true)}>
+          <div className="w-12 h-12 bg-[#04474f] rounded-xl flex items-center justify-center mx-auto mb-3">
+            <Plus className="h-6 w-6 text-white" />
+          </div>
+          <p className="font-semibold text-gray-900 font-league">Input Manual</p>
+          <p className="text-xs text-gray-600">Tambah transaksi</p>
+        </div>
+        
+        <div className="card-base hover-lift cursor-pointer text-center p-4" onClick={() => setShowImportModal(true)}>
+          <div className="w-12 h-12 bg-[#ffde32] rounded-xl flex items-center justify-center mx-auto mb-3">
+            <FileSpreadsheet className="h-6 w-6 text-gray-800" />
+          </div>
+          <p className="font-semibold text-gray-900 font-league">Import Excel</p>
+          <p className="text-xs text-gray-600">Upload file CSV/Excel</p>
+        </div>
+        
+        <div className="card-base hover-lift cursor-pointer text-center p-4">
+          <div className="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center mx-auto mb-3">
+            <Download className="h-6 w-6 text-white" />
+          </div>
+          <p className="font-semibold text-gray-900 font-league">Export Data</p>
+          <p className="text-xs text-gray-600">Download laporan</p>
+        </div>
+      </div>
+
+      {/* Collapsible Filters */}
+      {showFilters && (
+        <Card>
+          <CardContent className="p-6">
+            <div className="mb-4">
+              <h3 className="text-sm font-medium text-gray-900 mb-3 font-league">Filter Transaksi</h3>
+            </div>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -216,7 +297,8 @@ export default function Transactions() {
             </Button>
           </div>
         </CardContent>
-      </Card>
+        </Card>
+      )}
 
       {/* Transactions Table */}
       <Card>
@@ -352,6 +434,14 @@ export default function Transactions() {
         open={showAddTransaction} 
         onClose={() => setShowAddTransaction(false)} 
       />
+
+      {/* Import Modal */}
+      {showImportModal && (
+        <ImportTransactionModal 
+          open={showImportModal} 
+          onClose={() => setShowImportModal(false)} 
+        />
+      )}
     </div>
   );
 }
