@@ -380,7 +380,7 @@ export default function SmeDashboard() {
               <p className="font-medium text-blue-800 font-league">Prediksi Arus Kas 30 Hari</p>
             </div>
             <p className="text-sm text-blue-700">
-              Berdasarkan tren historis, estimasi saldo akhir bulan: {formatCurrency(dashboardStats?.cashBalance * 1.1 || 0)}
+              Berdasarkan tren historis, estimasi saldo akhir bulan: {formatCurrency((dashboardStats?.cashBalance || 0) * 1.1)}
             </p>
           </div>
 
