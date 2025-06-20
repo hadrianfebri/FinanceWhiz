@@ -2,7 +2,7 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { TrendingUp, FileText, Smartphone, Shield, Users, Zap, BarChart3 } from "lucide-react";
-import financewhizLogo from "@/assets/financewhiz-logo.svg";
+import financewhizLogo from "@/assets/FINANCEWHIZ_COLOR.svg";
 
 export default function Landing() {
   return (

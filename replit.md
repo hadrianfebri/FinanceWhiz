@@ -1,8 +1,8 @@
-# FinSmart Lite - UMKM Financial Management System
+# FinanceWhiz.AI - UMKM Financial Management System
 
 ## Overview
 
-FinSmart Lite is an AI-powered financial management application designed specifically for small and medium enterprises (UMKM) in Indonesia. The system enables businesses to record transactions, monitor cash flow, and generate automated financial reports with AI-driven insights.
+FinanceWhiz.AI is an AI-powered financial management application designed specifically for small and medium enterprises (UMKM) in Indonesia. The system enables businesses to record transactions, monitor cash flow, and generate automated financial reports with AI-driven insights. The application features a complete brand transformation with custom logo, color scheme, and typography following professional design guidelines.
 
 ## System Architecture
 
@@ -88,7 +88,38 @@ The application uses environment variables for database connection and JWT secre
 
 Preferred communication style: Simple, everyday language.
 
+## Brand Design Guidelines
+
+### Visual Identity
+- **Logo**: Custom FinanceWhiz.AI logo featuring orange and yellow geometric shapes
+- **Primary Colors**: 
+  - Orange (#f29716) - Primary brand color for buttons, highlights, and active states
+  - Yellow (#ffde32) - Secondary accent color for badges and highlights
+  - Dark Teal (#04474f) - Professional accent for balance cards and user avatars
+- **Typography**: League Spartan font family for modern, professional appearance
+- **Background**: Light gray (#f4f4f4) with subtle diagonal line pattern
+
+### UI Components
+- **Card Base**: White background with rounded corners (xl) and subtle shadows
+- **Balance Card**: Dark teal background with white text, following brand guidelines
+- **Buttons**: Orange primary buttons with hover effects and proper spacing
+- **Navigation**: Active menu items show orange left border and background highlight
+- **Icons**: Circular backgrounds with brand colors, consistent sizing throughout
+
+### Layout Structure
+- **Sidebar**: 240px width with logo header, user profile section, and navigation menu
+- **Main Content**: Grid-based layout with proper spacing and responsive design
+- **Quick Actions**: Floating action buttons with rounded corners and shadow effects
+- **Dashboard Cards**: Consistent card-based design with hover animations
+
 ## Changelog
 
 Changelog:
 - June 20, 2025. Initial setup
+- June 20, 2025. Complete FinanceWhiz.AI brand transformation implementation:
+  - Added custom logo and brand colors throughout application
+  - Updated typography to League Spartan font family
+  - Implemented brand design guidelines for UI components
+  - Redesigned dashboard with balance card and branded styling
+  - Updated sidebar, navbar, and landing page with new brand identity
+  - Added hover effects and brand-consistent color scheme
