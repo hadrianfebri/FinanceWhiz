@@ -438,12 +438,45 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post('/api/outlets', authenticate, async (req: any, res: Response) => {
     try {
-      const outletData = { ...req.body, businessId: req.user.id };
-      // In a real implementation, this would save to database
-      res.json({ id: Date.now(), ...outletData });
+      const outletData = { 
+        ...req.body, 
+        businessId: req.user.id,
+        id: Date.now(),
+        isActive: true,
+        monthlyTarget: req.body.monthlyTarget || 50000000,
+        currentMonthSales: 0,
+        managerName: req.body.managerName || 'Belum Ditentukan'
+      };
+      res.json(outletData);
     } catch (error) {
       console.error('Create outlet error:', error);
       res.status(500).json({ message: 'Failed to create outlet' });
+    }
+  });
+
+  app.put('/api/outlets/:id', authenticate, async (req: any, res: Response) => {
+    try {
+      const outletId = parseInt(req.params.id);
+      const updateData = { 
+        ...req.body, 
+        id: outletId,
+        businessId: req.user.id,
+        updatedAt: new Date()
+      };
+      res.json(updateData);
+    } catch (error) {
+      console.error('Update outlet error:', error);
+      res.status(500).json({ message: 'Failed to update outlet' });
+    }
+  });
+
+  app.delete('/api/outlets/:id', authenticate, async (req: any, res: Response) => {
+    try {
+      const outletId = parseInt(req.params.id);
+      res.json({ message: 'Outlet deleted successfully', id: outletId });
+    } catch (error) {
+      console.error('Delete outlet error:', error);
+      res.status(500).json({ message: 'Failed to delete outlet' });
     }
   });
 

@@ -116,10 +116,25 @@ export default function Outlets() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!formData.name.trim()) {
+      toast({
+        title: "Error",
+        description: "Nama outlet wajib diisi",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const submitData = {
+      ...formData,
+      managerId: formData.managerId ? parseInt(formData.managerId) : null,
+    };
+
     if (editingOutlet) {
-      updateMutation.mutate({ id: editingOutlet.id, data: formData });
+      updateMutation.mutate({ id: editingOutlet.id, data: submitData });
     } else {
-      createMutation.mutate(formData);
+      createMutation.mutate(submitData);
     }
   };
 
@@ -129,7 +144,7 @@ export default function Outlets() {
       name: outlet.name,
       address: outlet.address || "",
       phone: outlet.phone || "",
-      managerId: outlet.managerId || "",
+      managerId: outlet.managerId ? outlet.managerId.toString() : "",
     });
     setShowAddOutlet(true);
   };
@@ -337,7 +352,10 @@ export default function Outlets() {
                   variant="outline" 
                   size="sm" 
                   className="font-league"
-                  onClick={() => window.location.href = `/outlet/${outlet.id}/dashboard`}
+                  onClick={() => toast({
+                    title: "Info",
+                    description: "Fitur detail outlet akan segera tersedia"
+                  })}
                 >
                   Lihat Detail
                 </Button>
@@ -345,7 +363,10 @@ export default function Outlets() {
                   variant="outline" 
                   size="sm"
                   className="font-league"
-                  onClick={() => window.location.href = `/outlet/${outlet.id}/transactions`}
+                  onClick={() => toast({
+                    title: "Info", 
+                    description: "Filter transaksi per outlet akan segera tersedia"
+                  })}
                 >
                   Transaksi
                 </Button>
