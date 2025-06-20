@@ -116,6 +116,39 @@ export default function Outlets() {
     },
   });
 
+  const createManagerMutation = useMutation({
+    mutationFn: (data: any) => {
+      // Mock API call for creating manager
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({
+            id: Date.now(),
+            name: data.name,
+            email: data.email,
+            phone: data.phone,
+            role: 'Manager'
+          });
+        }, 1000);
+      });
+    },
+    onSuccess: () => {
+      toast({
+        title: "Manager Berhasil Ditambahkan",
+        description: "Manager baru telah berhasil didaftarkan",
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/users/managers"] });
+      setShowAddManager(false);
+      resetManagerForm();
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Gagal Menambahkan Manager",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
   const resetForm = () => {
     setFormData({
       name: "",
@@ -123,6 +156,29 @@ export default function Outlets() {
       phone: "",
       managerId: "0",
     });
+  };
+
+  const resetManagerForm = () => {
+    setManagerData({
+      name: "",
+      email: "",
+      phone: "",
+    });
+  };
+
+  const handleAddManager = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!managerData.name.trim() || !managerData.email.trim()) {
+      toast({
+        title: "Error",
+        description: "Nama dan email manager wajib diisi",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    createManagerMutation.mutate(managerData);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -256,22 +312,34 @@ export default function Outlets() {
 
               <div>
                 <Label htmlFor="managerId" className="font-league">Manager</Label>
-                <Select 
-                  value={formData.managerId} 
-                  onValueChange={(value) => setFormData(prev => ({ ...prev, managerId: value }))}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Pilih manager outlet" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="0">Belum ada manager</SelectItem>
-                    {managers?.map((manager: any) => (
-                      <SelectItem key={manager.id} value={manager.id.toString()}>
-                        {manager.name} - {manager.email}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <div className="space-y-2">
+                  <Select 
+                    value={formData.managerId} 
+                    onValueChange={(value) => setFormData(prev => ({ ...prev, managerId: value }))}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Pilih manager outlet" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="0">Belum ada manager</SelectItem>
+                      {managers?.map((manager: any) => (
+                        <SelectItem key={manager.id} value={manager.id.toString()}>
+                          {manager.name} - {manager.email}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setShowAddManager(true)}
+                    className="w-full text-[#f29716] border-[#f29716] hover:bg-[#f29716] hover:text-white"
+                  >
+                    <Plus className="h-4 w-4 mr-2" />
+                    Tambah Manager Baru
+                  </Button>
+                </div>
               </div>
 
               <div className="flex justify-end space-x-3 pt-4">
@@ -532,6 +600,70 @@ export default function Outlets() {
               </div>
             </div>
           )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Add Manager Modal */}
+      <Dialog open={showAddManager} onOpenChange={setShowAddManager}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="font-league">Tambah Manager Baru</DialogTitle>
+          </DialogHeader>
+          <form onSubmit={handleAddManager} className="space-y-4">
+            <div>
+              <Label htmlFor="managerName" className="font-league">Nama Manager</Label>
+              <Input
+                id="managerName"
+                value={managerData.name}
+                onChange={(e) => setManagerData(prev => ({ ...prev, name: e.target.value }))}
+                placeholder="Masukkan nama lengkap manager"
+                required
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="managerEmail" className="font-league">Email</Label>
+              <Input
+                id="managerEmail"
+                type="email"
+                value={managerData.email}
+                onChange={(e) => setManagerData(prev => ({ ...prev, email: e.target.value }))}
+                placeholder="manager@example.com"
+                required
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="managerPhone" className="font-league">Nomor Telepon</Label>
+              <Input
+                id="managerPhone"
+                value={managerData.phone}
+                onChange={(e) => setManagerData(prev => ({ ...prev, phone: e.target.value }))}
+                placeholder="081234567890"
+              />
+            </div>
+
+            <div className="flex justify-end space-x-3 pt-4">
+              <Button 
+                type="button" 
+                variant="outline" 
+                onClick={() => {
+                  setShowAddManager(false);
+                  resetManagerForm();
+                }}
+                className="font-league"
+              >
+                Batal
+              </Button>
+              <Button 
+                type="submit"
+                className="btn-orange font-league"
+                disabled={createManagerMutation.isPending}
+              >
+                {createManagerMutation.isPending ? 'Menambahkan...' : 'Tambah Manager'}
+              </Button>
+            </div>
+          </form>
         </DialogContent>
       </Dialog>
     </div>
