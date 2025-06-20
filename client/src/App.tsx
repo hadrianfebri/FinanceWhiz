@@ -16,6 +16,7 @@ import Payroll from "@/pages/payroll";
 import Vendors from "@/pages/vendors";
 import TaxManagement from "@/pages/tax-management";
 import PosSync from "@/pages/pos-sync";
+import AIAnalytics from "@/pages/ai-analytics";
 import NotFound from "@/pages/not-found";
 import Navbar from "@/components/layout/navbar";
 import Sidebar from "@/components/layout/sidebar";
@@ -52,6 +53,7 @@ function AppContent() {
             <Route path="/" component={Dashboard} />
             <Route path="/transactions" component={Transactions} />
             <Route path="/reports" component={Reports} />
+            <Route path="/ai-analytics" component={AIAnalytics} />
             <Route path="/profile" component={Profile} />
             <Route path="/outlets" component={Outlets} />
             <Route path="/payroll" component={Payroll} />
