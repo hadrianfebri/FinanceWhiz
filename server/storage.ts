@@ -52,7 +52,7 @@ export interface IStorage {
     weeklyIncome: number;
     weeklyExpenses: number;
     weeklyProfit: number;
-    recentTransactions: Transaction[];
+    recentTransactions: any[];
     cashFlowData: { date: Date; balance: number }[];
   }>;
 
@@ -243,35 +243,49 @@ export class DatabaseStorage implements IStorage {
     const now = new Date();
     const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
 
-    // Get all transactions to calculate cash balance
-    const allTransactions = await db
-      .select()
+    // Get all transactions with categories to calculate exact totals
+    const allTransactionsWithCategories = await db
+      .select({
+        transaction: transactions,
+        category: categories,
+      })
       .from(transactions)
+      .leftJoin(categories, eq(transactions.categoryId, categories.id))
       .where(eq(transactions.userId, userId))
       .orderBy(asc(transactions.date));
 
+    // Calculate exact cash balance matching other pages
     let cashBalance = 0;
-    for (const transaction of allTransactions) {
-      const amount = parseFloat(transaction.amount);
-      if (transaction.type === 'income') {
+    let totalIncome = 0;
+    let totalExpenses = 0;
+
+    for (const row of allTransactionsWithCategories) {
+      const amount = parseFloat(row.transaction.amount);
+      if (row.transaction.type === 'income') {
         cashBalance += amount;
+        totalIncome += amount;
       } else {
         cashBalance -= amount;
+        totalExpenses += amount;
       }
     }
 
-    // Get weekly stats
+    // Get weekly stats - exactly matching the same calculation method
     const weeklyTransactions = await db
-      .select()
+      .select({
+        transaction: transactions,
+        category: categories,
+      })
       .from(transactions)
+      .leftJoin(categories, eq(transactions.categoryId, categories.id))
       .where(and(eq(transactions.userId, userId), gte(transactions.date, weekAgo)));
 
     let weeklyIncome = 0;
     let weeklyExpenses = 0;
 
-    for (const transaction of weeklyTransactions) {
-      const amount = parseFloat(transaction.amount);
-      if (transaction.type === 'income') {
+    for (const row of weeklyTransactions) {
+      const amount = parseFloat(row.transaction.amount);
+      if (row.transaction.type === 'income') {
         weeklyIncome += amount;
       } else {
         weeklyExpenses += amount;
@@ -280,17 +294,41 @@ export class DatabaseStorage implements IStorage {
 
     const weeklyProfit = weeklyIncome - weeklyExpenses;
 
-    // Get recent transactions
+    // Get recent transactions with category names
     const recentTransactions = await db
-      .select()
+      .select({
+        id: transactions.id,
+        description: transactions.description,
+        amount: transactions.amount,
+        type: transactions.type,
+        date: transactions.date,
+        categoryName: categories.name,
+        outletId: transactions.outletId
+      })
       .from(transactions)
+      .leftJoin(categories, eq(transactions.categoryId, categories.id))
       .where(eq(transactions.userId, userId))
       .orderBy(desc(transactions.date))
       .limit(5);
 
-    // Generate cash flow data for last 7 days
+    // Generate cash flow data for last 7 days with correct running balance
     const cashFlowData = [];
     let runningBalance = 0;
+
+    // First calculate the balance up to a week ago
+    const transactionsBeforeWeek = allTransactionsWithCategories.filter(row => {
+      const transactionDate = new Date(row.transaction.date);
+      return transactionDate < weekAgo;
+    });
+
+    for (const row of transactionsBeforeWeek) {
+      const amount = parseFloat(row.transaction.amount);
+      if (row.transaction.type === 'income') {
+        runningBalance += amount;
+      } else {
+        runningBalance -= amount;
+      }
+    }
 
     // Calculate balance for each day
     for (let i = 6; i >= 0; i--) {
@@ -298,15 +336,15 @@ export class DatabaseStorage implements IStorage {
       const dayStart = new Date(date.getFullYear(), date.getMonth(), date.getDate());
       const dayEnd = new Date(dayStart.getTime() + 24 * 60 * 60 * 1000);
 
-      const dayTransactions = allTransactions.filter(t => {
-        const transactionDate = new Date(t.date);
+      const dayTransactions = allTransactionsWithCategories.filter(row => {
+        const transactionDate = new Date(row.transaction.date);
         return transactionDate >= dayStart && transactionDate < dayEnd;
       });
 
       let dayBalance = runningBalance;
-      for (const transaction of dayTransactions) {
-        const amount = parseFloat(transaction.amount);
-        if (transaction.type === 'income') {
+      for (const row of dayTransactions) {
+        const amount = parseFloat(row.transaction.amount);
+        if (row.transaction.type === 'income') {
           dayBalance += amount;
         } else {
           dayBalance -= amount;
@@ -318,10 +356,10 @@ export class DatabaseStorage implements IStorage {
     }
 
     return {
-      cashBalance,
-      weeklyIncome,
-      weeklyExpenses,
-      weeklyProfit,
+      cashBalance: Math.round(cashBalance),
+      weeklyIncome: Math.round(weeklyIncome),
+      weeklyExpenses: Math.round(weeklyExpenses),
+      weeklyProfit: Math.round(weeklyProfit),
       recentTransactions,
       cashFlowData,
     };

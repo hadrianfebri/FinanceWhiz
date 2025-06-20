@@ -454,7 +454,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
             address: outlet.address,
             phone: outlet.phone,
             managerId: outlet.managerId,
-            managerName: outlet.manager?.name || 'Ahmad Rizki',
+            managerName: outlet.manager?.businessName || 'Ahmad Rizki',
             isActive: outlet.isActive,
             monthlyTarget: 50000000, // Default target
             currentMonthSales: Math.round(currentMonthSales),
