@@ -1,0 +1,80 @@
+Peta Format Lengkap — DESIGN GUIDELINE FinanceWhiz.AI
+ (menjaga format ringkas ala CreateWhiz; memakai logo & palet FinanceWhiz.AI serta layout referensi “Financial Dashboard – Bardia Adibi”)
+
+1 Logo & Branding 
+1.1 Penempatan Logo Logo “FinanceWhiz.AI” tampil di header laman dan pojok kiri-atas sidebar.
+ 1.2 Tipografi Utama Font League Spartan (400 / 600); fallback system-sans.
+ 1.3 Skema Warna
+   • #f29716 (primary orange)
+   • #ffde32 (yellow accent)
+   • #04474f (dark-teal surface)
+   • #000000 (teks gelap) • #FFFFFF (teks terang & kartu)
+ 1.4 Aksen Visual
+   • Background global abu-terang #f4f4f4 dengan pola garis lengkung tipis.
+   • Container utama putih #fff, sudut rounded-xl (20 px).
+   • Header container memiliki radius-atas asimetris & strip diagonal hijau-teal (#04474f).
+
+2 UI Layout & Style
+2.1 Struktur Halaman
+   • Sidebar (240 px) latar #ffffff; profil user di atas; menu ikon + label; menu aktif bar kiri orange.
+   • Konten Utama grid grid-cols-12 gap-6 p-10 di dalam container putih-besar.
+   • Panel Quick-Action stick kanan (icon flying paper plane, lock, bell) rounded-xl bg-white shadow.
+2.2 Tipe Kartu
+Kartu
+Contoh Isi
+Tailwind Snippet
+Balance Card
+$ 7 480, nama user, toggle
+bg-[#04474f] text-white rounded-xl p-6 shadow-md
+Line Chart
+Expenses statistics (merah vs hitam)
+card-base h-40
+Income vs Spending
+2 chip angka & ikon
+flex gap-6 mt-4
+Latest Spendings List
+3 row list + icon bag
+divide-y divide-gray-200
+Scheduled Payments
+kartu abu-muda dengan logo/label
+bg-gray-100 text-black rounded-lg p-4
+Avatar Send Money
+avatar stack + tombol plus black
+flex items-center gap-3
+
+2.3 Responsif
+   • < 1024 px sidebar collapse (ikon saja); container padding p-6.
+   • < 768 px layout menjadi flex flex-col gap-6; panel quick-action jadi bottom floating bar.
+
+3 Komponen & Efek
+3.1 Framework Tailwind CSS v3.
+ 3.2 Utility Classes
+.card-base   { @apply bg-white rounded-xl shadow-sm p-6 text-black; }
+.btn-orange  { @apply bg-[#f29716] text-white rounded-lg px-5 py-2 shadow hover:brightness-110; }
+.badge-yellow{ @apply inline-block text-xs bg-[#ffde32]/20 text-[#ffde32] px-2 py-0.5 rounded-full; }
+.menu-active { @apply text-[#f29716] font-semibold border-l-4 border-[#f29716] pl-4; }
+.icon-circle { @apply w-10 h-10 flex items-center justify-center bg-gray-100 rounded-full; }
+
+3.3 Interaksi
+   • Hover kartu → hover:shadow-lg hover:-translate-y-0.5 transition.
+   • Fokus input/tombol → ring-2 ring-[#f29716] ring-offset-2.
+   • Icon quick-action memiliki tooltip dengan bg dark-teal 80 %.
+
+Ringkasan Struktur Dokumen
+#
+Bagian
+Rincian Kunci
+Implementasi
+1
+Logo & Branding
+Logo sidebar & header, font League Spartan, palette #f29716/#ffde32/#04474f
+Hex codes, font import
+2
+UI Layout & Style
+Sidebar profil, container putih-besar, grid konten, panel quick-action, 6 tipe kartu
+Grid + flex Tailwind
+3
+Komponen & Efek
+Utility classes, btn-orange, badge-yellow, hover/focus states, icon tooltips
+Snippet CSS
+
