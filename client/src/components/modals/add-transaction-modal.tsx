@@ -160,7 +160,7 @@ export default function AddTransactionModal({ open, onClose, transaction }: AddT
     formData.append('description', data.description);
     formData.append('amount', data.amount);
     formData.append('categoryId', parseInt(data.categoryId).toString());
-    if (data.outletId && data.outletId !== '') {
+    if (data.outletId && data.outletId !== '' && data.outletId !== '0') {
       formData.append('outletId', parseInt(data.outletId).toString());
     }
     formData.append('date', data.date);
@@ -308,7 +308,7 @@ export default function AddTransactionModal({ open, onClose, transaction }: AddT
                         <SelectValue placeholder="Pilih Outlet (Opsional)" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="">Pusat (Tanpa Outlet)</SelectItem>
+                        <SelectItem value="0">Pusat (Tanpa Outlet)</SelectItem>
                         {outlets?.map((outlet: any) => (
                           <SelectItem key={outlet.id} value={outlet.id.toString()}>
                             {outlet.name}
