@@ -1,12 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { api } from "@/lib/api";
 import { formatCurrency, formatDateTime, getGreeting } from "@/lib/utils";
 import { useAuth } from "@/hooks/use-auth";
 import { useState } from "react";
-import { Wallet, TrendingUp, TrendingDown, Plus, FileText, Lightbulb, ArrowUp, ArrowDown } from "lucide-react";
+import { 
+  Wallet, TrendingUp, TrendingDown, Plus, FileText, Lightbulb, ArrowUp, ArrowDown,
+  Store, Users, DollarSign, Building2, RotateCcw, AlertTriangle, Calendar,
+  Target, Activity, Bell, CheckCircle
+} from "lucide-react";
 import { useLocation } from "wouter";
 import AddTransactionModal from "@/components/modals/add-transaction-modal";
 import CashFlowChart from "@/components/charts/cash-flow-chart";
@@ -26,6 +31,31 @@ export default function Dashboard() {
     queryKey: ["/api/ai/insights"],
     queryFn: () => api.getAIInsights(),
     staleTime: 30 * 60 * 1000, // 30 minutes
+  });
+
+  const { data: outlets } = useQuery({
+    queryKey: ["/api/outlets"],
+    queryFn: () => api.getOutlets(),
+  });
+
+  const { data: notifications } = useQuery({
+    queryKey: ["/api/notifications"],
+    queryFn: () => api.getNotifications(),
+  });
+
+  const { data: taxSummary } = useQuery({
+    queryKey: ["/api/tax/summary"],
+    queryFn: () => api.getTaxSummary(),
+  });
+
+  const { data: pendingInvoices } = useQuery({
+    queryKey: ["/api/invoices/pending"],
+    queryFn: () => api.getPendingInvoices(),
+  });
+
+  const { data: payrollReminders } = useQuery({
+    queryKey: ["/api/payroll/reminders"],
+    queryFn: () => api.getPayrollReminders(),
   });
 
   if (isLoading) {
