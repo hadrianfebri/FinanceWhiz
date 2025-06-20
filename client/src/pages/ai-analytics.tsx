@@ -208,19 +208,19 @@ export default function AIAnalytics() {
                   <div className="space-y-3">
                     <div className="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
                       <span className="text-sm font-medium">Revenue Growth</span>
-                      <span className="font-bold text-blue-600">+{budgetScenarios[selectedScenario].revenueGrowth}%</span>
+                      <span className="font-bold text-blue-600">+{(budgetScenarios as any)[selectedScenario].revenueGrowth}%</span>
                     </div>
                     <div className="flex justify-between items-center p-3 bg-red-50 rounded-lg">
                       <span className="text-sm font-medium">Cost Increase</span>
-                      <span className="font-bold text-red-600">+{budgetScenarios[selectedScenario].costIncrease}%</span>
+                      <span className="font-bold text-red-600">+{(budgetScenarios as any)[selectedScenario].costIncrease}%</span>
                     </div>
                     <div className="flex justify-between items-center p-3 bg-green-50 rounded-lg">
                       <span className="text-sm font-medium">Projected Profit</span>
-                      <span className="font-bold text-green-600">{formatCurrency(budgetScenarios[selectedScenario].projectedProfit)}</span>
+                      <span className="font-bold text-green-600">{formatCurrency((budgetScenarios as any)[selectedScenario].projectedProfit)}</span>
                     </div>
                     <div className="flex justify-between items-center p-3 bg-orange-50 rounded-lg">
                       <span className="text-sm font-medium">Expected ROI</span>
-                      <span className="font-bold text-orange-600">{budgetScenarios[selectedScenario].roi}%</span>
+                      <span className="font-bold text-orange-600">{(budgetScenarios as any)[selectedScenario].roi}%</span>
                     </div>
                   </div>
                 </div>
