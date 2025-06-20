@@ -408,7 +408,7 @@ export default function SmeDashboard() {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        {dashboardStats?.cashFlowData?.length > 0 && (
+        {dashboardStats?.cashFlowData && dashboardStats.cashFlowData.length > 0 && dashboardStats && (
           <CashFlowChart data={dashboardStats.cashFlowData} />
         )}
       </CardContent>
