@@ -9,7 +9,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { api } from "@/lib/api";
-import { ChartLine, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
+import financewhizLogo from "@/assets/FINANCEWHIZ_COLOR.svg";
 
 const registerSchema = z.object({
   businessName: z.string().min(1, "Nama usaha wajib diisi"),
