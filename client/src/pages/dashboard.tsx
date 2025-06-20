@@ -64,7 +64,11 @@ export default function Dashboard() {
             <Plus className="h-4 w-4" />
             <span className="font-league">Catat Transaksi</span>
           </button>
-          <Button variant="outline" className="flex items-center space-x-2 font-league border-[#f29716] text-[#f29716] hover:bg-[#f29716] hover:text-white">
+          <Button 
+            variant="outline" 
+            className="flex items-center space-x-2 font-league border-[#f29716] text-[#f29716] hover:bg-[#f29716] hover:text-white"
+            onClick={() => setLocation('/laporan')}
+          >
             <FileText className="h-4 w-4" />
             <span>Lihat Laporan</span>
           </Button>

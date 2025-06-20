@@ -28,6 +28,7 @@ export default function Transactions() {
   const [showAddTransaction, setShowAddTransaction] = useState(false);
   const [showImportModal, setShowImportModal] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
+  const [editingTransaction, setEditingTransaction] = useState<any>(null);
   const [filters, setFilters] = useState<TransactionFilters>({
     startDate: "",
     endDate: "",
@@ -96,6 +97,42 @@ export default function Transactions() {
 
   const handleSearch = () => {
     setFilters(prev => ({ ...prev, page: 1 }));
+  };
+
+  const handleExportExcel = () => {
+    if (!transactionsData?.transactions?.length) {
+      toast({
+        title: "Tidak Ada Data",
+        description: "Tidak ada transaksi untuk diekspor",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Create CSV content
+    const csvHeader = "Tanggal,Deskripsi,Kategori,Jenis,Jumlah,Catatan\n";
+    const csvContent = transactionsData.transactions.map((transaction: any) => {
+      return [
+        formatDate(transaction.date),
+        `"${transaction.description}"`,
+        `"${transaction.category?.name || 'Tidak Dikategorikan'}"`,
+        transaction.type === 'income' ? 'Pemasukan' : 'Pengeluaran',
+        transaction.amount,
+        `"${transaction.notes || ''}"`
+      ].join(',');
+    }).join('\n');
+
+    const fullCsv = csvHeader + csvContent;
+    const blob = new Blob([fullCsv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `transaksi_${new Date().toISOString().split('T')[0]}.csv`;
+    link.click();
+    
+    toast({
+      title: "Export Berhasil",
+      description: "Data transaksi berhasil diekspor ke CSV",
+    });
   };
 
   const handleDeleteTransaction = (id: number) => {
@@ -292,7 +329,7 @@ export default function Transactions() {
                 <Search className="h-4 w-4" />
               </Button>
             </div>
-            <Button variant="outline">
+            <Button variant="outline" onClick={handleExportExcel}>
               <Download className="h-4 w-4 mr-2" />
               Export Excel
             </Button>
@@ -413,7 +450,11 @@ export default function Transactions() {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         <div className="flex items-center space-x-2">
-                          <Button variant="ghost" size="sm">
+                          <Button 
+                            variant="ghost" 
+                            size="sm"
+                            onClick={() => setEditingTransaction(transaction)}
+                          >
                             <Edit className="h-4 w-4" />
                           </Button>
                           <Button 
@@ -479,6 +520,15 @@ export default function Transactions() {
         open={showImportModal} 
         onClose={() => setShowImportModal(false)} 
       />
+
+      {/* Edit Transaction Modal */}
+      {editingTransaction && (
+        <AddTransactionModal 
+          open={!!editingTransaction} 
+          onClose={() => setEditingTransaction(null)}
+          transaction={editingTransaction}
+        />
+      )}
     </div>
   );
 }
