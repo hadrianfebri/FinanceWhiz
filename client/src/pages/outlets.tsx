@@ -34,7 +34,7 @@ export default function Outlets() {
     name: "",
     address: "",
     phone: "",
-    managerId: "",
+    managerId: "0",
   });
 
   const { data: outlets, isLoading } = useQuery({
@@ -76,6 +76,7 @@ export default function Outlets() {
       });
       queryClient.invalidateQueries({ queryKey: ["/api/outlets"] });
       setEditingOutlet(null);
+      setShowAddOutlet(false);
       resetForm();
     },
     onError: (error: Error) => {
@@ -110,7 +111,7 @@ export default function Outlets() {
       name: "",
       address: "",
       phone: "",
-      managerId: "",
+      managerId: "0",
     });
   };
 
@@ -128,7 +129,7 @@ export default function Outlets() {
 
     const submitData = {
       ...formData,
-      managerId: formData.managerId ? parseInt(formData.managerId) : null,
+      managerId: formData.managerId && formData.managerId !== "0" ? parseInt(formData.managerId) : null,
     };
 
     if (editingOutlet) {
@@ -144,7 +145,7 @@ export default function Outlets() {
       name: outlet.name,
       address: outlet.address || "",
       phone: outlet.phone || "",
-      managerId: outlet.managerId ? outlet.managerId.toString() : "",
+      managerId: outlet.managerId ? outlet.managerId.toString() : "0",
     });
     setShowAddOutlet(true);
   };
@@ -153,6 +154,22 @@ export default function Outlets() {
     if (window.confirm(`Apakah Anda yakin ingin menghapus outlet "${outlet.name}"?`)) {
       deleteMutation.mutate(outlet.id);
     }
+  };
+
+  const handleViewDetail = (outlet: any) => {
+    toast({
+      title: "Detail Outlet",
+      description: `Menampilkan detail untuk ${outlet.name}`,
+    });
+    console.log('View detail for outlet:', outlet);
+  };
+
+  const handleViewTransactions = (outlet: any) => {
+    toast({
+      title: "Transaksi Outlet",
+      description: `Menampilkan transaksi untuk ${outlet.name}`,
+    });
+    console.log('View transactions for outlet:', outlet);
   };
 
   if (isLoading) {
@@ -182,7 +199,10 @@ export default function Outlets() {
         </div>
         <Dialog open={showAddOutlet} onOpenChange={setShowAddOutlet}>
           <DialogTrigger asChild>
-            <Button className="btn-orange font-league" onClick={() => setEditingOutlet(null)}>
+            <Button className="btn-orange font-league" onClick={() => {
+              setEditingOutlet(null);
+              resetForm();
+            }}>
               <Plus className="h-4 w-4 mr-2" />
               Tambah Outlet
             </Button>
@@ -235,7 +255,7 @@ export default function Outlets() {
                     <SelectValue placeholder="Pilih manager outlet" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">Belum ada manager</SelectItem>
+                    <SelectItem value="0">Belum ada manager</SelectItem>
                     {managers?.map((manager: any) => (
                       <SelectItem key={manager.id} value={manager.id.toString()}>
                         {manager.name} - {manager.email}
@@ -352,10 +372,7 @@ export default function Outlets() {
                   variant="outline" 
                   size="sm" 
                   className="font-league"
-                  onClick={() => toast({
-                    title: "Info",
-                    description: "Fitur detail outlet akan segera tersedia"
-                  })}
+                  onClick={() => handleViewDetail(outlet)}
                 >
                   Lihat Detail
                 </Button>
@@ -363,10 +380,7 @@ export default function Outlets() {
                   variant="outline" 
                   size="sm"
                   className="font-league"
-                  onClick={() => toast({
-                    title: "Info", 
-                    description: "Filter transaksi per outlet akan segera tersedia"
-                  })}
+                  onClick={() => handleViewTransactions(outlet)}
                 >
                   Transaksi
                 </Button>
