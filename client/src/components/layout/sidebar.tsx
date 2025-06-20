@@ -24,36 +24,9 @@ export default function Sidebar() {
 
   return (
     <div className="w-64 bg-white h-screen shadow-lg flex flex-col">
-      {/* Header with Logo */}
-      <div className="p-6 border-b border-gray-100">
-        <div className="flex items-center space-x-3">
-          <img 
-            src={financewhizLogo} 
-            alt="FinanceWhiz.AI Logo" 
-            className="w-8 h-8"
-          />
-          <div>
-            <h1 className="text-lg font-bold text-gray-800 font-league">FinanceWhiz.AI</h1>
-            <p className="text-xs text-gray-600">Manajemen Keuangan UMKM</p>
-          </div>
-        </div>
-      </div>
-
-      {/* User Profile Section */}
-      <div className="p-4 border-b border-gray-100">
-        <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-[#04474f] rounded-full flex items-center justify-center">
-            <User size={20} className="text-white" />
-          </div>
-          <div className="min-w-0 flex-1">
-            <p className="font-semibold text-gray-800 truncate font-league">{user?.businessName || 'Bisnis'}</p>
-            <p className="text-xs text-gray-600 truncate">{user?.email || 'user@example.com'}</p>
-          </div>
-        </div>
-      </div>
 
       {/* Navigation Menu */}
-      <div className="flex-1 py-4">
+      <div className="flex-1 py-6 pt-8">
         <nav className="space-y-1 px-3">
           {navigation.map((item) => {
             const isActive = location === item.href;
@@ -78,17 +51,7 @@ export default function Sidebar() {
         </nav>
       </div>
 
-      {/* Logout Button */}
-      <div className="p-4 border-t border-gray-100">
-        <Button 
-          variant="outline" 
-          className="w-full justify-start space-x-2 border-gray-200 hover:bg-red-50 hover:border-red-300 hover:text-red-600 font-league"
-          onClick={handleLogout}
-        >
-          <LogOut size={16} />
-          <span>Keluar</span>
-        </Button>
-      </div>
+
     </div>
   );
 }

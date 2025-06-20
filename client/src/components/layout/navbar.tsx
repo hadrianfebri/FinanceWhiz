@@ -53,8 +53,20 @@ export default function Navbar() {
     <nav className="bg-white shadow-sm border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-10">
         <div className="flex justify-between items-center h-16">
-          {/* Page Title */}
-          <div className="flex items-center">
+          {/* Logo and Page Title */}
+          <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-3">
+              <img 
+                src={financewhizLogo} 
+                alt="FinanceWhiz.AI Logo" 
+                className="w-8 h-8"
+              />
+              <div>
+                <span className="text-lg font-bold text-gray-900 font-league">FinanceWhiz.AI</span>
+                <div className="text-xs text-gray-500 font-league">Manajemen Keuangan UMKM</div>
+              </div>
+            </div>
+            <div className="w-px h-8 bg-gray-300"></div>
             <h1 className="text-lg font-semibold text-gray-900 font-league">{getPageTitle()}</h1>
           </div>
 
