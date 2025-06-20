@@ -37,7 +37,16 @@ export default function Transactions() {
 
   const { data: transactionsData, isLoading } = useQuery({
     queryKey: ["/api/transactions", filters],
-    queryFn: () => api.getTransactions(filters),
+    queryFn: () => {
+      // Transform filters for API compatibility
+      const apiFilters = {
+        ...filters,
+        categoryId: typeof filters.categoryId === 'string' && filters.categoryId !== '' 
+          ? parseInt(filters.categoryId) 
+          : undefined
+      };
+      return api.getTransactions(apiFilters);
+    },
   });
 
   const { data: categories } = useQuery({
@@ -65,10 +74,22 @@ export default function Transactions() {
   });
 
   const handleFilterChange = (key: keyof TransactionFilters, value: string | number) => {
+    let processedValue = value;
+    
+    // Convert 'all' back to empty string for API calls
+    if (typeof value === 'string' && value === 'all') {
+      processedValue = '';
+    }
+    
+    // Convert categoryId to number for API compatibility
+    if (key === 'categoryId' && processedValue !== '') {
+      processedValue = parseInt(processedValue as string);
+    }
+    
     setFilters(prev => ({
       ...prev,
-      [key]: value,
-      page: key !== 'page' ? 1 : value, // Reset page when other filters change
+      [key]: processedValue,
+      page: key !== 'page' ? 1 : (typeof value === 'number' ? value : 1),
     }));
   };
 
@@ -144,14 +165,14 @@ export default function Transactions() {
                 Kategori
               </label>
               <Select
-                value={filters.categoryId}
+                value={filters.categoryId === '' ? 'all' : filters.categoryId}
                 onValueChange={(value) => handleFilterChange('categoryId', value)}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Semua Kategori" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Semua Kategori</SelectItem>
+                  <SelectItem value="all">Semua Kategori</SelectItem>
                   {categories?.map((category: any) => (
                     <SelectItem key={category.id} value={category.id.toString()}>
                       {category.name}
@@ -172,7 +193,7 @@ export default function Transactions() {
                   <SelectValue placeholder="Semua" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Semua</SelectItem>
+                  <SelectItem value="all">Semua</SelectItem>
                   <SelectItem value="income">Pemasukan</SelectItem>
                   <SelectItem value="expense">Pengeluaran</SelectItem>
                 </SelectContent>
