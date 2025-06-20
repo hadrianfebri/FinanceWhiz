@@ -144,3 +144,14 @@ Changelog:
   - Created PDF download feature for reports page (HTML format with print styling)
   - Fixed category display issue by implementing proper JOIN queries with relations
   - Enhanced transactions page with complete CRUD operations and export capabilities
+- June 20, 2025. Major SME expansion - Comprehensive business management system:
+  - Extended database schema with 8 new enterprise tables (outlets, employees, payrolls, vendors, invoices, tax_reports, pos_transactions, notifications)
+  - Created 5 new SME management pages: Payroll, Vendors, Tax Management, POS Sync, and enhanced Outlets
+  - Implemented role-based access control architecture for Owner, Manager, Staff, Accountant roles
+  - Added multi-outlet operations with outlet-specific transaction tracking
+  - Built comprehensive payroll management with salary, bonus, and deduction tracking
+  - Created vendor management system with payment terms and transaction history
+  - Implemented Indonesian tax compliance features (PPh Final 0.5% for UMKM)
+  - Added POS system integration with real-time synchronization capabilities
+  - Enhanced API with 10+ new endpoints supporting all SME operations
+  - Updated navigation with enterprise features while maintaining UMKM functionality

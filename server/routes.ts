@@ -399,6 +399,214 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // SME Routes - Outlets Management
+  app.get('/api/outlets', authenticate, async (req: any, res: Response) => {
+    try {
+      // Mock outlet data for demonstration
+      const outlets = [
+        {
+          id: 1,
+          businessId: req.user.id,
+          name: 'Cabang Utama',
+          address: 'Jl. Sudirman No. 123, Jakarta',
+          phone: '021-12345678',
+          managerId: 1,
+          managerName: 'Ahmad Rizki',
+          isActive: true,
+          monthlyTarget: 50000000,
+          currentMonthSales: 42000000
+        },
+        {
+          id: 2,
+          businessId: req.user.id,
+          name: 'Cabang Mall',
+          address: 'Mall Central Park Lt. 2, Jakarta',
+          phone: '021-87654321',
+          managerId: 2,
+          managerName: 'Siti Nurhaliza',
+          isActive: true,
+          monthlyTarget: 35000000,
+          currentMonthSales: 28000000
+        }
+      ];
+      res.json(outlets);
+    } catch (error) {
+      console.error('Get outlets error:', error);
+      res.status(500).json({ message: 'Failed to fetch outlets' });
+    }
+  });
+
+  app.post('/api/outlets', authenticate, async (req: any, res: Response) => {
+    try {
+      const outletData = { ...req.body, businessId: req.user.id };
+      // In a real implementation, this would save to database
+      res.json({ id: Date.now(), ...outletData });
+    } catch (error) {
+      console.error('Create outlet error:', error);
+      res.status(500).json({ message: 'Failed to create outlet' });
+    }
+  });
+
+  // SME Routes - Employees Management
+  app.get('/api/employees', authenticate, async (req: any, res: Response) => {
+    try {
+      // Mock employee data
+      const employees = [
+        {
+          id: 1,
+          businessId: req.user.id,
+          outletId: 1,
+          name: 'Ahmad Rizki',
+          position: 'Manager',
+          email: 'ahmad@example.com',
+          phone: '081234567890',
+          baseSalary: 6000000,
+          isActive: true
+        },
+        {
+          id: 2,
+          businessId: req.user.id,
+          outletId: 2,
+          name: 'Siti Nurhaliza',
+          position: 'Kasir',
+          email: 'siti@example.com',
+          phone: '087654321098',
+          baseSalary: 3500000,
+          isActive: true
+        }
+      ];
+      res.json(employees);
+    } catch (error) {
+      console.error('Get employees error:', error);
+      res.status(500).json({ message: 'Failed to fetch employees' });
+    }
+  });
+
+  // SME Routes - Payroll Management
+  app.get('/api/payroll/reminders', authenticate, async (req: any, res: Response) => {
+    try {
+      const reminders = [
+        {
+          id: 1,
+          type: 'payroll_due',
+          title: 'Payroll Juli 2024',
+          description: 'Deadline pembayaran: 31 Juli 2024',
+          dueDate: '2024-07-31',
+          priority: 'high'
+        }
+      ];
+      res.json(reminders);
+    } catch (error) {
+      console.error('Get payroll reminders error:', error);
+      res.status(500).json({ message: 'Failed to fetch payroll reminders' });
+    }
+  });
+
+  // SME Routes - Vendors Management
+  app.get('/api/vendors', authenticate, async (req: any, res: Response) => {
+    try {
+      const vendors = [
+        {
+          id: 1,
+          businessId: req.user.id,
+          name: 'PT Sumber Rejeki',
+          contactPerson: 'Agus Setiawan',
+          phone: '081234567890',
+          email: 'agus@sumberrejeki.com',
+          address: 'Jl. Industri No. 45, Jakarta',
+          paymentTerms: 30,
+          isActive: true
+        }
+      ];
+      res.json(vendors);
+    } catch (error) {
+      console.error('Get vendors error:', error);
+      res.status(500).json({ message: 'Failed to fetch vendors' });
+    }
+  });
+
+  // SME Routes - Tax Management
+  app.get('/api/tax/summary', authenticate, async (req: any, res: Response) => {
+    try {
+      const taxSummary = {
+        currentQuarterTax: 600000,
+        yearToDateTax: 1075000,
+        upcomingDeadline: '2024-10-31',
+        complianceStatus: 'compliant'
+      };
+      res.json(taxSummary);
+    } catch (error) {
+      console.error('Get tax summary error:', error);
+      res.status(500).json({ message: 'Failed to fetch tax summary' });
+    }
+  });
+
+  // SME Routes - Invoice Management
+  app.get('/api/invoices/pending', authenticate, async (req: any, res: Response) => {
+    try {
+      const pendingInvoices = [
+        {
+          id: 1,
+          vendorName: 'PT Sumber Rejeki',
+          invoiceNumber: 'INV-2024-001',
+          amount: 2500000,
+          dueDate: '2024-06-30',
+          status: 'pending'
+        }
+      ];
+      res.json(pendingInvoices);
+    } catch (error) {
+      console.error('Get pending invoices error:', error);
+      res.status(500).json({ message: 'Failed to fetch pending invoices' });
+    }
+  });
+
+  // SME Routes - Notifications
+  app.get('/api/notifications', authenticate, async (req: any, res: Response) => {
+    try {
+      const notifications = [
+        {
+          id: 1,
+          userId: req.user.id,
+          type: 'payroll_reminder',
+          title: 'Payroll Reminder',
+          message: 'Payroll untuk bulan Juni perlu diproses',
+          isRead: false,
+          priority: 'high',
+          createdAt: new Date()
+        }
+      ];
+      res.json(notifications);
+    } catch (error) {
+      console.error('Get notifications error:', error);
+      res.status(500).json({ message: 'Failed to fetch notifications' });
+    }
+  });
+
+  // SME Routes - User Managers
+  app.get('/api/users/managers', authenticate, async (req: any, res: Response) => {
+    try {
+      const managers = [
+        {
+          id: 1,
+          name: 'Ahmad Rizki',
+          email: 'ahmad@example.com',
+          position: 'Manager Cabang Utama'
+        },
+        {
+          id: 2,
+          name: 'Siti Nurhaliza',
+          email: 'siti@example.com',
+          position: 'Manager Cabang Mall'
+        }
+      ];
+      res.json(managers);
+    } catch (error) {
+      console.error('Get managers error:', error);
+      res.status(500).json({ message: 'Failed to fetch managers' });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
