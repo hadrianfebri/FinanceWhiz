@@ -49,11 +49,111 @@ export default function Reports() {
     });
   };
 
-  const downloadPDF = async () => {
-    // Implementation for PDF download would go here
-    // For now, we'll show a toast
-    alert("Fitur download PDF akan segera tersedia");
+  const handleDownloadPDF = () => {
+    if (!reportData) {
+      return;
+    }
+
+    // Create HTML content for PDF
+    const htmlContent = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <title>Laporan Keuangan FinanceWhiz.AI</title>
+        <style>
+          body { font-family: Arial, sans-serif; margin: 40px; }
+          .header { text-align: center; margin-bottom: 30px; }
+          .logo { color: #f29716; font-size: 24px; font-weight: bold; }
+          .summary { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin: 30px 0; }
+          .metric { background: #f8f9fa; padding: 20px; border-radius: 8px; text-align: center; }
+          .metric-value { font-size: 24px; font-weight: bold; margin-bottom: 8px; }
+          .income { color: #22c55e; }
+          .expense { color: #ef4444; }
+          .profit { color: #04474f; }
+          .table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+          .table th, .table td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+          .table th { background-color: #f8f9fa; }
+          .footer { text-align: center; margin-top: 40px; color: #666; }
+        </style>
+      </head>
+      <body>
+        <div class="header">
+          <div class="logo">FinanceWhiz.AI</div>
+          <h2>Laporan Keuangan</h2>
+          <p>Periode: ${new Date(dateRange.startDate).toLocaleDateString('id-ID')} - ${new Date(dateRange.endDate).toLocaleDateString('id-ID')}</p>
+        </div>
+
+        <div class="summary">
+          <div class="metric">
+            <div class="metric-value income">${formatCurrency(reportData.totalIncome)}</div>
+            <div>Total Pemasukan</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value expense">${formatCurrency(reportData.totalExpenses)}</div>
+            <div>Total Pengeluaran</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value profit">${formatCurrency(reportData.netProfit)}</div>
+            <div>Laba Bersih</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">${reportData.profitMargin.toFixed(1)}%</div>
+            <div>Margin Keuntungan</div>
+          </div>
+        </div>
+
+        <h3>Pemasukan per Kategori</h3>
+        <table class="table">
+          <thead>
+            <tr><th>Kategori</th><th>Jumlah</th><th>Persentase</th></tr>
+          </thead>
+          <tbody>
+            ${reportData.incomeByCategory.map(item => `
+              <tr>
+                <td>${item.category}</td>
+                <td>${formatCurrency(item.amount)}</td>
+                <td>${((item.amount / reportData.totalIncome) * 100).toFixed(1)}%</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+
+        <h3>Pengeluaran per Kategori</h3>
+        <table class="table">
+          <thead>
+            <tr><th>Kategori</th><th>Jumlah</th><th>Persentase</th></tr>
+          </thead>
+          <tbody>
+            ${reportData.expensesByCategory.map(item => `
+              <tr>
+                <td>${item.category}</td>
+                <td>${formatCurrency(item.amount)}</td>
+                <td>${item.percentage.toFixed(1)}%</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+
+        <div class="footer">
+          <p>Laporan dibuat pada ${new Date().toLocaleString('id-ID')}</p>
+          <p>FinanceWhiz.AI - Sistem Manajemen Keuangan UMKM</p>
+        </div>
+      </body>
+      </html>
+    `;
+
+    // Create blob and download
+    const blob = new Blob([htmlContent], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `laporan-keuangan-${dateRange.startDate}-${dateRange.endDate}.html`;
+    link.click();
+    URL.revokeObjectURL(url);
   };
+
+
 
   if (isLoading) {
     return (
@@ -77,7 +177,7 @@ export default function Reports() {
         <div>
           <p className="text-gray-600">Analisis mendalam tentang kinerja keuangan usaha Anda</p>
         </div>
-        <Button onClick={downloadPDF} className="bg-red-600 hover:bg-red-700">
+        <Button onClick={handleDownloadPDF} className="bg-red-600 hover:bg-red-700">
           <Download className="h-4 w-4 mr-2" />
           Download PDF
         </Button>

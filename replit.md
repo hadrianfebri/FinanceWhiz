@@ -137,3 +137,10 @@ Changelog:
   - Created clean header with FinanceWhiz.AI branding on left, user controls on right
   - Implemented sticky header that stays fixed during scrolling
   - Achieved professional, streamlined navigation design
+- June 20, 2025. Completed missing functionality implementations:
+  - Fixed dashboard "Lihat Laporan" button to navigate to reports page
+  - Added Excel export functionality for transactions page (CSV format)
+  - Implemented edit transaction functionality using existing modal
+  - Created PDF download feature for reports page (HTML format with print styling)
+  - Fixed category display issue by implementing proper JOIN queries with relations
+  - Enhanced transactions page with complete CRUD operations and export capabilities
