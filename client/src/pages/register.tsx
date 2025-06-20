@@ -38,7 +38,7 @@ export default function Register() {
     onSuccess: () => {
       toast({
         title: "Registrasi berhasil",
-        description: "Selamat datang di FinSmart Lite!",
+        description: "Selamat datang di FinanceWhiz.AI!",
       });
       setLocation("/");
     },
@@ -56,102 +56,115 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-teal-50 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center space-y-4">
+    <div className="min-h-screen bg-gradient-to-br from-[#f29716]/5 via-[#ffde32]/5 to-[#04474f]/5 flex items-center justify-center p-4" style={{
+      backgroundImage: `
+        repeating-linear-gradient(
+          45deg,
+          transparent,
+          transparent 35px,
+          rgba(4, 71, 79, 0.02) 35px,
+          rgba(4, 71, 79, 0.02) 70px
+        )
+      `
+    }}>
+      <div className="card-base w-full max-w-md">
+        <div className="text-center space-y-4 mb-6">
           <div className="flex items-center justify-center">
-            <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center">
-              <ChartLine className="h-8 w-8 text-white" />
-            </div>
+            <img 
+              src={financewhizLogo} 
+              alt="FinanceWhiz.AI Logo" 
+              className="w-16 h-16"
+            />
           </div>
           <div>
-            <CardTitle className="text-3xl font-bold">FinSmart Lite</CardTitle>
-            <p className="text-gray-600 mt-2">Daftar akun baru</p>
+            <h1 className="text-3xl font-bold font-league">FinanceWhiz.AI</h1>
+            <p className="text-gray-600 mt-2 font-league">Daftar akun baru</p>
           </div>
-        </CardHeader>
+        </div>
 
-        <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <FormField
-                control={form.control}
-                name="businessName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Nama Usaha</FormLabel>
-                    <FormControl>
-                      <Input 
-                        placeholder="Toko Berkah" 
-                        {...field} 
-                        disabled={registerMutation.isPending}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="businessName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-league">Nama Usaha</FormLabel>
+                  <FormControl>
+                    <Input 
+                      placeholder="Toko Berkah" 
+                      {...field} 
+                      disabled={registerMutation.isPending}
+                      className="font-league"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input 
-                        type="email" 
-                        placeholder="email@example.com" 
-                        {...field} 
-                        disabled={registerMutation.isPending}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-league">Email</FormLabel>
+                  <FormControl>
+                    <Input 
+                      type="email" 
+                      placeholder="email@example.com" 
+                      {...field} 
+                      disabled={registerMutation.isPending}
+                      className="font-league"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input 
-                        type="password" 
-                        placeholder="Minimal 8 karakter" 
-                        {...field}
-                        disabled={registerMutation.isPending}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-league">Password</FormLabel>
+                  <FormControl>
+                    <Input 
+                      type="password" 
+                      placeholder="Minimal 8 karakter" 
+                      {...field}
+                      disabled={registerMutation.isPending}
+                      className="font-league"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-              <Button 
-                type="submit" 
-                className="w-full" 
-                disabled={registerMutation.isPending}
-              >
-                {registerMutation.isPending && (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                )}
-                Daftar Sekarang
-              </Button>
-            </form>
-          </Form>
+            <button 
+              type="submit" 
+              className="btn-orange w-full" 
+              disabled={registerMutation.isPending}
+            >
+              {registerMutation.isPending && (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              )}
+              Daftar Sekarang
+            </button>
+          </form>
+        </Form>
 
-          <div className="mt-6 text-center">
-            <p className="text-sm text-gray-600">
-              Sudah punya akun?{" "}
-              <Link href="/login" className="text-primary hover:underline font-medium">
-                Masuk di sini
-              </Link>
-            </p>
-          </div>
-        </CardContent>
-      </Card>
+        <div className="mt-6 text-center">
+          <p className="text-sm text-gray-600 font-league">
+            Sudah punya akun?{" "}
+            <Link href="/login" className="text-[#f29716] hover:underline font-medium">
+              Masuk di sini
+            </Link>
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
