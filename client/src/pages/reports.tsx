@@ -25,7 +25,7 @@ export default function Reports() {
 
   const { data: reportData, isLoading } = useQuery({
     queryKey: ["/api/reports/financial", dateRange.startDate, dateRange.endDate, selectedOutlet],
-    queryFn: () => api.getFinancialReport(dateRange.startDate, dateRange.endDate),
+    queryFn: () => api.getFinancialReport(dateRange.startDate, dateRange.endDate, selectedOutlet),
     enabled: !!dateRange.startDate && !!dateRange.endDate,
   });
 
