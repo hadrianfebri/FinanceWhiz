@@ -179,7 +179,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         type,
         search,
         page = '1',
-        limit = '10'
+        limit = '10',
+        outlet: outletId
       } = req.query;
 
       const filters: any = {};
@@ -189,6 +190,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (categoryId) filters.categoryId = parseInt(categoryId as string);
       if (type) filters.type = type as 'income' | 'expense';
       if (search) filters.search = search as string;
+      if (outletId) filters.outletId = parseInt(outletId as string);
       
       const pageNum = parseInt(page as string);
       const limitNum = parseInt(limit as string);

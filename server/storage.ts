@@ -132,6 +132,7 @@ export class DatabaseStorage implements IStorage {
     search?: string;
     limit?: number;
     offset?: number;
+    outletId?: number;
   } = {}): Promise<{ transactions: Transaction[]; total: number }> {
     const conditions = [eq(transactions.userId, userId)];
 
@@ -150,12 +151,17 @@ export class DatabaseStorage implements IStorage {
     if (filters.search) {
       conditions.push(sql`${transactions.description} ILIKE ${'%' + filters.search + '%'}`);
     }
+    if (filters.outletId) {
+      conditions.push(eq(transactions.outletId, filters.outletId));
+    }
 
     // Get transactions with relationships
     const transactionResults = await db.query.transactions.findMany({
       where: and(...conditions),
       with: {
         category: true,
+        outlet: true,
+        vendor: true,
       },
       orderBy: desc(transactions.date),
       limit: filters.limit || 100,

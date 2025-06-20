@@ -261,6 +261,8 @@ export const notificationsRelations = relations(notifications, ({ one }) => ({
 export const transactionsRelations = relations(transactions, ({ one }) => ({
   user: one(users, { fields: [transactions.userId], references: [users.id] }),
   category: one(categories, { fields: [transactions.categoryId], references: [categories.id] }),
+  outlet: one(outlets, { fields: [transactions.outletId], references: [outlets.id] }),
+  vendor: one(vendors, { fields: [transactions.vendorId], references: [vendors.id] }),
 }));
 
 export const categoriesRelations = relations(categories, ({ one, many }) => ({

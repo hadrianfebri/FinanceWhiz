@@ -65,7 +65,8 @@ export default function Transactions() {
         endDate: filters.endDate || undefined,
         categoryId: filters.categoryId && filters.categoryId !== 'all' ? parseInt(filters.categoryId) : undefined,
         type: filters.type && filters.type !== 'all' ? filters.type : undefined,
-        search: filters.search || undefined
+        search: filters.search || undefined,
+        outlet: filters.outletId || undefined
       };
       return api.getTransactions(apiFilters);
     },
@@ -443,6 +444,9 @@ export default function Transactions() {
                       Kategori
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Outlet
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Jenis
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -473,6 +477,16 @@ export default function Transactions() {
                         <Badge className={getCategoryColor(transaction.category?.name || 'Lainnya')}>
                           {transaction.category?.name || 'Tidak Dikategorikan'}
                         </Badge>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        {transaction.outlet ? (
+                          <div className="flex items-center space-x-1">
+                            <Building2 className="h-3 w-3 text-gray-400" />
+                            <span className="text-sm text-gray-600">{transaction.outlet.name}</span>
+                          </div>
+                        ) : (
+                          <span className="text-sm text-gray-400">Pusat</span>
+                        )}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <Badge className={getTypeColor(transaction.type)}>
