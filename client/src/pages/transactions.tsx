@@ -40,10 +40,13 @@ export default function Transactions() {
     queryFn: () => {
       // Transform filters for API compatibility
       const apiFilters = {
-        ...filters,
-        categoryId: typeof filters.categoryId === 'string' && filters.categoryId !== '' 
-          ? parseInt(filters.categoryId) 
-          : undefined
+        page: filters.page,
+        limit: filters.limit,
+        startDate: filters.startDate || undefined,
+        endDate: filters.endDate || undefined,
+        categoryId: filters.categoryId && filters.categoryId !== 'all' ? parseInt(filters.categoryId) : undefined,
+        type: filters.type && filters.type !== 'all' ? filters.type : undefined,
+        search: filters.search || undefined
       };
       return api.getTransactions(apiFilters);
     },
@@ -76,14 +79,9 @@ export default function Transactions() {
   const handleFilterChange = (key: keyof TransactionFilters, value: string | number) => {
     let processedValue = value;
     
-    // Convert 'all' back to empty string for API calls
+    // Convert 'all' back to empty string for storage
     if (typeof value === 'string' && value === 'all') {
       processedValue = '';
-    }
-    
-    // Convert categoryId to number for API compatibility
-    if (key === 'categoryId' && processedValue !== '') {
-      processedValue = parseInt(processedValue as string);
     }
     
     setFilters(prev => ({
@@ -186,7 +184,7 @@ export default function Transactions() {
                 Jenis
               </label>
               <Select
-                value={filters.type}
+                value={filters.type === '' ? 'all' : filters.type}
                 onValueChange={(value) => handleFilterChange('type', value)}
               >
                 <SelectTrigger>

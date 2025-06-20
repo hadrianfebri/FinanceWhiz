@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -23,6 +23,7 @@ type LoginForm = z.infer<typeof loginSchema>;
 export default function Login() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
+  const queryClient = useQueryClient();
 
   const form = useForm<LoginForm>({
     resolver: zodResolver(loginSchema),
@@ -39,7 +40,12 @@ export default function Login() {
         title: "Login berhasil",
         description: "Selamat datang kembali!",
       });
-      setLocation("/");
+      // Invalidate auth query to trigger refetch
+      queryClient.invalidateQueries({ queryKey: ["/api/auth/me"] });
+      // Small delay to allow auth state to update
+      setTimeout(() => {
+        setLocation("/");
+      }, 100);
     },
     onError: (error: Error) => {
       toast({
