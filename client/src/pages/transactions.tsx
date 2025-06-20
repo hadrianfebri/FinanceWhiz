@@ -10,6 +10,7 @@ import { api } from "@/lib/api";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import { Plus, Search, Download, Edit, Trash2, ChevronLeft, ChevronRight, Upload, FileSpreadsheet, Camera, Receipt, Filter } from "lucide-react";
 import AddTransactionModal from "@/components/modals/add-transaction-modal";
+import ImportTransactionModal from "@/components/modals/import-transaction-modal";
 
 interface TransactionFilters {
   startDate: string;
@@ -300,6 +301,44 @@ export default function Transactions() {
         </Card>
       )}
 
+      {/* Transaction Summary for UMKM */}
+      {transactionsData?.transactions?.length > 0 && (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="card-base text-center">
+            <div className="text-2xl font-bold text-green-600 font-league">
+              {formatCurrency(
+                transactionsData.transactions
+                  .filter((t: any) => t.type === 'income')
+                  .reduce((sum: number, t: any) => sum + parseFloat(t.amount), 0)
+              )}
+            </div>
+            <p className="text-sm text-gray-600 font-league">Total Pemasukan</p>
+          </div>
+          
+          <div className="card-base text-center">
+            <div className="text-2xl font-bold text-red-600 font-league">
+              {formatCurrency(
+                transactionsData.transactions
+                  .filter((t: any) => t.type === 'expense')
+                  .reduce((sum: number, t: any) => sum + parseFloat(t.amount), 0)
+              )}
+            </div>
+            <p className="text-sm text-gray-600 font-league">Total Pengeluaran</p>
+          </div>
+          
+          <div className="card-base text-center">
+            <div className="text-2xl font-bold text-[#04474f] font-league">
+              {formatCurrency(
+                transactionsData.transactions.reduce((sum: number, t: any) => {
+                  return sum + (t.type === 'income' ? parseFloat(t.amount) : -parseFloat(t.amount));
+                }, 0)
+              )}
+            </div>
+            <p className="text-sm text-gray-600 font-league">Saldo Bersih</p>
+          </div>
+        </div>
+      )}
+
       {/* Transactions Table */}
       <Card>
         <CardContent className="p-0">
@@ -436,12 +475,10 @@ export default function Transactions() {
       />
 
       {/* Import Modal */}
-      {showImportModal && (
-        <ImportTransactionModal 
-          open={showImportModal} 
-          onClose={() => setShowImportModal(false)} 
-        />
-      )}
+      <ImportTransactionModal 
+        open={showImportModal} 
+        onClose={() => setShowImportModal(false)} 
+      />
     </div>
   );
 }
