@@ -431,13 +431,13 @@ export default function Outlets() {
                   <div>
                     <p className="text-xs text-gray-500 font-league">Omzet Bulan Ini</p>
                     <p className="font-semibold text-green-600 font-league">
-                      {formatCurrency(outlet.monthlyRevenue || 0)}
+                      {formatCurrency(outlet.currentMonthSales || 0)}
                     </p>
                   </div>
                   <div>
                     <p className="text-xs text-gray-500 font-league">Transaksi</p>
                     <p className="font-semibold text-gray-900 font-league">
-                      {outlet.monthlyTransactions || 0}
+                      {outlet.totalTransactions || 0}
                     </p>
                   </div>
                 </div>
@@ -556,7 +556,7 @@ export default function Outlets() {
                   <div className="p-4 bg-purple-50 rounded-lg">
                     <p className="text-sm text-purple-600 font-league">Transaksi Bulan Ini</p>
                     <p className="text-lg font-bold text-purple-700">
-                      {selectedOutlet.monthlyTransactions || 0}
+                      {selectedOutlet.totalTransactions || 0}
                     </p>
                   </div>
                   <div className="p-4 bg-orange-50 rounded-lg">

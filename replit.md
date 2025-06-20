@@ -161,3 +161,10 @@ Changelog:
   - Enhanced outlet management "Lihat Detail" button with comprehensive outlet information display
   - Implemented outlet "Transaksi" button navigation to filtered transactions page
   - Application now running stable with all interactive features functional
+- June 20, 2025. Critical data synchronization fixes across all application pages:
+  - Fixed API outlets endpoint to use real database data instead of mock/hardcoded values
+  - Synchronized dashboard calculations to match actual transaction data from database
+  - Corrected outlet data mapping issues (currentMonthSales vs monthlyRevenue, totalTransactions vs monthlyTransactions)
+  - Fixed date formatting error in dashboard preventing proper display of recent transactions
+  - All pages now display consistent data: Dashboard (Rp 94.950.000 saldo), Transactions, Reports, and Outlets
+  - Verified real outlet performance: Cabang Utama (25 transaksi, Rp 56jt), Cabang Bandung (21 transaksi, Rp 33.2jt), Cabang Surabaya (21 transaksi, Rp 30.3jt)
