@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useLocation } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -28,6 +29,7 @@ import {
 export default function Outlets() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const [, setLocation] = useLocation();
   const [showAddOutlet, setShowAddOutlet] = useState(false);
   const [editingOutlet, setEditingOutlet] = useState<any>(null);
   const [formData, setFormData] = useState({
@@ -157,19 +159,39 @@ export default function Outlets() {
   };
 
   const handleViewDetail = (outlet: any) => {
+    // Create a detailed view modal or navigate to detail page
     toast({
       title: "Detail Outlet",
-      description: `Menampilkan detail untuk ${outlet.name}`,
+      description: `Membuka detail untuk ${outlet.name}`,
     });
-    console.log('View detail for outlet:', outlet);
+    
+    // For now, show detailed information in console and toast
+    // In a full implementation, this would open a detail modal or navigate to a detail page
+    const detailInfo = `
+      Nama: ${outlet.name}
+      Alamat: ${outlet.address || 'Tidak ada'}
+      Telepon: ${outlet.phone || 'Tidak ada'}
+      Manager: ${outlet.managerName || 'Belum ada manager'}
+      Status: ${outlet.isActive ? 'Aktif' : 'Tidak Aktif'}
+      Omzet Bulan Ini: ${formatCurrency(outlet.currentMonthSales || 0)}
+      Target Bulanan: ${formatCurrency(outlet.monthlyTarget || 0)}
+    `;
+    
+    console.log('Detail Outlet:', detailInfo);
+    
+    // You can expand this to show a proper detail modal
+    alert(`Detail ${outlet.name}:\n\n${detailInfo}`);
   };
 
   const handleViewTransactions = (outlet: any) => {
+    // Navigate to transactions page with outlet filter
     toast({
       title: "Transaksi Outlet",
-      description: `Menampilkan transaksi untuk ${outlet.name}`,
+      description: `Membuka transaksi untuk ${outlet.name}`,
     });
-    console.log('View transactions for outlet:', outlet);
+    
+    // Navigate to transactions page with outlet ID as filter
+    setLocation(`/transactions?outlet=${outlet.id}&outletName=${encodeURIComponent(outlet.name)}`);
   };
 
   if (isLoading) {
