@@ -17,9 +17,11 @@ import {
   insertUserSettingsSchema,
   outlets,
   transactions,
+  payrolls,
+  employees,
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, and, gte, count } from "drizzle-orm";
+import { eq, and, gte, count, desc } from "drizzle-orm";
 import { z } from "zod";
 
 const JWT_SECRET = process.env.JWT_SECRET || "your-jwt-secret-key";
@@ -550,6 +552,103 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // SME Routes - Payroll Management
+  app.get('/api/payroll', authenticate, async (req: any, res: Response) => {
+    try {
+      // Return real payroll data from database
+      const payrollData = await db
+        .select({
+          id: payrolls.id,
+          employeeId: payrolls.employeeId,
+          employeeName: employees.name,
+          position: employees.position,
+          outletName: outlets.name,
+          baseSalary: payrolls.baseSalary,
+          bonus: payrolls.bonus,
+          deduction: payrolls.deduction,
+          totalAmount: payrolls.totalAmount,
+          payPeriod: payrolls.payPeriod,
+          status: payrolls.status,
+          payDate: payrolls.payDate,
+          notes: payrolls.notes
+        })
+        .from(payrolls)
+        .leftJoin(employees, eq(payrolls.employeeId, employees.id))
+        .leftJoin(outlets, eq(employees.outletId, outlets.id))
+        .where(eq(employees.businessId, req.user.id))
+        .orderBy(desc(payrolls.payPeriod));
+
+      const formattedData = payrollData.map(payroll => ({
+        id: payroll.id,
+        employeeName: payroll.employeeName || 'Unknown',
+        position: payroll.position || 'Staff',
+        outletName: payroll.outletName || 'Pusat',
+        baseSalary: parseFloat(payroll.baseSalary),
+        bonus: parseFloat(payroll.bonus || '0'),
+        deduction: parseFloat(payroll.deduction || '0'),
+        totalAmount: parseFloat(payroll.totalAmount),
+        payPeriod: payroll.payPeriod,
+        status: payroll.status,
+        payDate: payroll.payDate,
+        notes: payroll.notes
+      }));
+
+      res.json(formattedData);
+    } catch (error) {
+      console.error('Get payroll error:', error);
+      res.status(500).json({ message: 'Failed to fetch payroll data' });
+    }
+  });
+
+  app.post('/api/payroll', authenticate, async (req: any, res: Response) => {
+    try {
+      const { employeeId, baseSalary, bonus = 0, deduction = 0, payPeriod, notes } = req.body;
+      
+      const totalAmount = parseFloat(baseSalary) + parseFloat(bonus) - parseFloat(deduction);
+      
+      const [newPayroll] = await db
+        .insert(payrolls)
+        .values({
+          employeeId: parseInt(employeeId),
+          baseSalary: baseSalary.toString(),
+          bonus: bonus.toString(),
+          deduction: deduction.toString(),
+          totalAmount: totalAmount.toString(),
+          payPeriod,
+          status: 'pending',
+          notes
+        })
+        .returning();
+
+      res.json({ success: true, payroll: newPayroll });
+    } catch (error) {
+      console.error('Create payroll error:', error);
+      res.status(500).json({ message: 'Failed to create payroll record' });
+    }
+  });
+
+  app.put('/api/payroll/:id/status', authenticate, async (req: any, res: Response) => {
+    try {
+      const { id } = req.params;
+      const { status } = req.body;
+      
+      const updateData: any = { status };
+      if (status === 'paid') {
+        updateData.payDate = new Date();
+      }
+      
+      const [updatedPayroll] = await db
+        .update(payrolls)
+        .set(updateData)
+        .where(eq(payrolls.id, parseInt(id)))
+        .returning();
+
+      res.json({ success: true, payroll: updatedPayroll });
+    } catch (error) {
+      console.error('Update payroll status error:', error);
+      res.status(500).json({ message: 'Failed to update payroll status' });
+    }
+  });
+
   app.get('/api/payroll/reminders', authenticate, async (req: any, res: Response) => {
     try {
       const reminders = [

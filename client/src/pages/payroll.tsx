@@ -3,62 +3,140 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Plus, Calendar, DollarSign, Users, Download } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Plus, Calendar, DollarSign, Users, Download, Edit, Trash2, Eye } from 'lucide-react';
 import { formatCurrency, formatDate } from '@/lib/utils';
 import { api } from '@/lib/api';
+import { useToast } from '@/hooks/use-toast';
 
 export default function Payroll() {
   const [selectedPeriod, setSelectedPeriod] = useState('2024-06');
+  const [showAddPayroll, setShowAddPayroll] = useState(false);
+  const [showDetailModal, setShowDetailModal] = useState(false);
+  const [selectedPayroll, setSelectedPayroll] = useState(null);
+  const [formData, setFormData] = useState({
+    employeeId: '',
+    baseSalary: '',
+    bonus: '',
+    deduction: '',
+    payPeriod: selectedPeriod,
+    notes: ''
+  });
+  
   const queryClient = useQueryClient();
+  const { toast } = useToast();
 
-  // Mock data for payroll records
-  const payrollData = [
-    {
-      id: 1,
-      employeeName: 'Ahmad Rizki',
-      position: 'Kasir',
-      outletName: 'Cabang Utama',
-      baseSalary: 3500000,
-      bonus: 200000,
-      deduction: 150000,
-      totalAmount: 3550000,
-      payPeriod: '2024-06',
-      status: 'paid',
-      payDate: '2024-06-30'
-    },
-    {
-      id: 2,
-      employeeName: 'Siti Nurhaliza',
-      position: 'Manager',
-      outletName: 'Cabang Mall',
-      baseSalary: 6000000,
-      bonus: 500000,
-      deduction: 300000,
-      totalAmount: 6200000,
-      payPeriod: '2024-06',
-      status: 'pending',
-      payDate: null
-    },
-    {
-      id: 3,
-      employeeName: 'Budi Santoso',
-      position: 'Staff Gudang',
-      outletName: 'Cabang Utama',
-      baseSalary: 3000000,
-      bonus: 100000,
-      deduction: 100000,
-      totalAmount: 3000000,
-      payPeriod: '2024-06',
-      status: 'paid',
-      payDate: '2024-06-30'
-    }
-  ];
+  // Get payroll data from API
+  const { data: payrollData = [], isLoading: isLoadingPayroll } = useQuery({
+    queryKey: ['/api/payroll', selectedPeriod],
+    queryFn: () => fetch(`/api/payroll?period=${selectedPeriod}`).then(res => res.json())
+  });
 
+  // Get employees for dropdown
+  const { data: employees = [] } = useQuery({
+    queryKey: ['/api/employees'],
+    queryFn: () => fetch('/api/employees').then(res => res.json())
+  });
+
+  // Get outlets for reference
+  const { data: outlets = [] } = useQuery({
+    queryKey: ['/api/outlets'],
+    queryFn: () => fetch('/api/outlets').then(res => res.json())
+  });
+
+  // Calculate payroll summary from real data
   const payrollSummary = {
-    totalEmployees: 15,
-    totalPayroll: 52750000,
-    pendingPayments: 3,
-    paidPayments: 12
+    totalEmployees: employees.length || 0,
+    totalPayroll: payrollData.reduce((sum: number, p: any) => sum + (parseFloat(p.totalAmount) || 0), 0),
+    pendingPayments: payrollData.filter((p: any) => p.status === 'pending').length,
+    paidPayments: payrollData.filter((p: any) => p.status === 'paid').length
+  };
+
+  // Create payroll mutation
+  const createPayrollMutation = useMutation({
+    mutationFn: (data: any) => fetch('/api/payroll', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    }).then(res => res.json()),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/payroll'] });
+      setShowAddPayroll(false);
+      setFormData({
+        employeeId: '',
+        baseSalary: '',
+        bonus: '',
+        deduction: '',
+        payPeriod: selectedPeriod,
+        notes: ''
+      });
+      toast({
+        title: "Berhasil",
+        description: "Data payroll berhasil ditambahkan"
+      });
+    }
+  });
+
+  // Update payroll status mutation
+  const updateStatusMutation = useMutation({
+    mutationFn: ({ id, status }: { id: number, status: string }) => 
+      fetch(`/api/payroll/${id}/status`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status })
+      }).then(res => res.json()),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/payroll'] });
+      toast({
+        title: "Berhasil",
+        description: "Status payroll berhasil diupdate"
+      });
+    }
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.employeeId || !formData.baseSalary) {
+      toast({
+        title: "Error",
+        description: "Mohon lengkapi data yang diperlukan",
+        variant: "destructive"
+      });
+      return;
+    }
+    createPayrollMutation.mutate(formData);
+  };
+
+  const handleStatusUpdate = (payrollId: number, newStatus: string) => {
+    updateStatusMutation.mutate({ id: payrollId, status: newStatus });
+  };
+
+  const exportPayrollData = () => {
+    const csvContent = [
+      ['Nama Karyawan', 'Posisi', 'Outlet', 'Gaji Pokok', 'Bonus', 'Potongan', 'Total', 'Status', 'Tanggal Bayar'],
+      ...payrollData.map((payroll: any) => [
+        payroll.employeeName,
+        payroll.position,
+        payroll.outletName,
+        payroll.baseSalary,
+        payroll.bonus,
+        payroll.deduction,
+        payroll.totalAmount,
+        payroll.status,
+        payroll.payDate || '-'
+      ])
+    ].map(row => row.join(',')).join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `payroll-${selectedPeriod}.csv`;
+    link.click();
+    URL.revokeObjectURL(url);
   };
 
   const getStatusBadge = (status: string) => {
