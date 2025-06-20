@@ -133,9 +133,6 @@ export class DatabaseStorage implements IStorage {
     limit?: number;
     offset?: number;
   } = {}): Promise<{ transactions: Transaction[]; total: number }> {
-    let query = db.select().from(transactions).where(eq(transactions.userId, userId));
-    let countQuery = db.select({ count: count() }).from(transactions).where(eq(transactions.userId, userId));
-
     const conditions = [eq(transactions.userId, userId)];
 
     if (filters.startDate) {
@@ -154,8 +151,12 @@ export class DatabaseStorage implements IStorage {
       conditions.push(sql`${transactions.description} ILIKE ${'%' + filters.search + '%'}`);
     }
 
-    query = query.where(and(...conditions)).orderBy(desc(transactions.date));
-    countQuery = countQuery.where(and(...conditions));
+    let query = db.select().from(transactions)
+      .where(and(...conditions))
+      .orderBy(desc(transactions.date));
+
+    const countQuery = db.select({ count: count() }).from(transactions)
+      .where(and(...conditions));
 
     if (filters.limit) {
       query = query.limit(filters.limit);

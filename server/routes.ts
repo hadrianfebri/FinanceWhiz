@@ -5,6 +5,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import multer from "multer";
 import path from "path";
+import fs from "fs";
+import express from "express";
 import {
   loginSchema,
   registerSchema,
@@ -82,7 +84,6 @@ function validateRequest(schema: z.ZodSchema) {
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Create uploads directory if it doesn't exist
-  const fs = require('fs');
   if (!fs.existsSync('uploads/receipts')) {
     fs.mkdirSync('uploads/receipts', { recursive: true });
   }
@@ -355,7 +356,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Static file serving for uploads
-  app.use('/uploads', require('express').static('uploads'));
+  app.use('/uploads', express.static('uploads'));
 
   // AI Mock endpoints for receipt processing and insights
   app.post('/api/ai/process-receipt', authenticate, upload.single('receipt'), async (req: any, res: Response) => {
