@@ -151,7 +151,7 @@ export default function AddTransactionModal({ open, onClose, transaction }: AddT
     formData.append('type', data.type);
     formData.append('description', data.description);
     formData.append('amount', data.amount);
-    formData.append('categoryId', data.categoryId);
+    formData.append('categoryId', parseInt(data.categoryId).toString());
     formData.append('date', data.date);
     if (data.notes) {
       formData.append('notes', data.notes);

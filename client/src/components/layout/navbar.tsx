@@ -8,9 +8,24 @@ import financewhizLogo from "@/assets/FINANCEWHIZ_COLOR.svg";
 
 export default function Navbar() {
   const { user } = useAuth();
-  const [, setLocation] = useLocation();
+  const [location, setLocation] = useLocation();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+
+  const getPageTitle = () => {
+    switch (location) {
+      case '/':
+        return 'Dashboard';
+      case '/transactions':
+        return 'Transaksi';
+      case '/reports':
+        return 'Laporan';
+      case '/profile':
+        return 'Profil';
+      default:
+        return 'Dashboard';
+    }
+  };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -38,17 +53,9 @@ export default function Navbar() {
     <nav className="bg-white shadow-sm border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-10">
         <div className="flex justify-between items-center h-16">
-          {/* Logo Header */}
-          <div className="flex items-center space-x-3">
-            <img 
-              src={financewhizLogo} 
-              alt="FinanceWhiz.AI Logo" 
-              className="w-8 h-8"
-            />
-            <div>
-              <span className="text-xl font-bold text-gray-900 font-league">FinanceWhiz.AI</span>
-              <div className="text-xs text-gray-500 font-league">Manajemen Keuangan UMKM</div>
-            </div>
+          {/* Page Title */}
+          <div className="flex items-center">
+            <h1 className="text-lg font-semibold text-gray-900 font-league">{getPageTitle()}</h1>
           </div>
 
           {/* Quick Actions Panel & Profile */}
