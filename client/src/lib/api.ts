@@ -32,7 +32,7 @@ export interface FinancialReport {
 class ApiClient {
   private getAuthHeaders() {
     const token = localStorage.getItem('auth_token');
-    return token ? { Authorization: `Bearer ${token}` } : {};
+    return token ? { Authorization: `Bearer ${token}` } : { Authorization: '' };
   }
 
   async login(email: string, password: string) {
@@ -288,6 +288,133 @@ class ApiClient {
       throw new Error('Failed to get AI insights');
     }
 
+    return response.json();
+  }
+
+  // SME-specific API methods
+  async getOutlets() {
+    const response = await fetch('/api/outlets', {
+      headers: this.getAuthHeaders(),
+    });
+    if (!response.ok) throw new Error('Failed to fetch outlets');
+    return response.json();
+  }
+
+  async createOutlet(data: any) {
+    const response = await fetch('/api/outlets', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...this.getAuthHeaders(),
+      },
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) throw new Error('Failed to create outlet');
+    return response.json();
+  }
+
+  async updateOutlet(id: number, data: any) {
+    const response = await fetch(`/api/outlets/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        ...this.getAuthHeaders(),
+      },
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) throw new Error('Failed to update outlet');
+    return response.json();
+  }
+
+  async deleteOutlet(id: number) {
+    const response = await fetch(`/api/outlets/${id}`, {
+      method: 'DELETE',
+      headers: this.getAuthHeaders(),
+    });
+    if (!response.ok) throw new Error('Failed to delete outlet');
+    return response.json();
+  }
+
+  async getManagers() {
+    const response = await fetch('/api/users/managers', {
+      headers: this.getAuthHeaders(),
+    });
+    if (!response.ok) throw new Error('Failed to fetch managers');
+    return response.json();
+  }
+
+  async getNotifications() {
+    const response = await fetch('/api/notifications', {
+      headers: this.getAuthHeaders(),
+    });
+    if (!response.ok) throw new Error('Failed to fetch notifications');
+    return response.json();
+  }
+
+  async getTaxSummary() {
+    const response = await fetch('/api/tax/summary', {
+      headers: this.getAuthHeaders(),
+    });
+    if (!response.ok) throw new Error('Failed to fetch tax summary');
+    return response.json();
+  }
+
+  async getPendingInvoices() {
+    const response = await fetch('/api/invoices/pending', {
+      headers: this.getAuthHeaders(),
+    });
+    if (!response.ok) throw new Error('Failed to fetch pending invoices');
+    return response.json();
+  }
+
+  async getPayrollReminders() {
+    const response = await fetch('/api/payroll/reminders', {
+      headers: this.getAuthHeaders(),
+    });
+    if (!response.ok) throw new Error('Failed to fetch payroll reminders');
+    return response.json();
+  }
+
+  async getEmployees(outletId?: number) {
+    const url = outletId ? `/api/employees?outletId=${outletId}` : '/api/employees';
+    const response = await fetch(url, {
+      headers: this.getAuthHeaders(),
+    });
+    if (!response.ok) throw new Error('Failed to fetch employees');
+    return response.json();
+  }
+
+  async createEmployee(data: any) {
+    const response = await fetch('/api/employees', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...this.getAuthHeaders(),
+      },
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) throw new Error('Failed to create employee');
+    return response.json();
+  }
+
+  async getVendors() {
+    const response = await fetch('/api/vendors', {
+      headers: this.getAuthHeaders(),
+    });
+    if (!response.ok) throw new Error('Failed to fetch vendors');
+    return response.json();
+  }
+
+  async createVendor(data: any) {
+    const response = await fetch('/api/vendors', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...this.getAuthHeaders(),
+      },
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) throw new Error('Failed to create vendor');
     return response.json();
   }
 

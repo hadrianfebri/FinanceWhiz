@@ -11,6 +11,11 @@ import Dashboard from "@/pages/dashboard";
 import Transactions from "@/pages/transactions";
 import Reports from "@/pages/reports";
 import Profile from "@/pages/profile";
+import Outlets from "@/pages/outlets";
+import Payroll from "@/pages/payroll";
+import Vendors from "@/pages/vendors";
+import TaxManagement from "@/pages/tax-management";
+import PosSync from "@/pages/pos-sync";
 import NotFound from "@/pages/not-found";
 import Navbar from "@/components/layout/navbar";
 import Sidebar from "@/components/layout/sidebar";
@@ -48,6 +53,11 @@ function AppContent() {
             <Route path="/transactions" component={Transactions} />
             <Route path="/reports" component={Reports} />
             <Route path="/profile" component={Profile} />
+            <Route path="/outlets" component={Outlets} />
+            <Route path="/payroll" component={Payroll} />
+            <Route path="/vendors" component={Vendors} />
+            <Route path="/tax" component={TaxManagement} />
+            <Route path="/pos-sync" component={PosSync} />
             <Route component={NotFound} />
           </Switch>
         </main>
