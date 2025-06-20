@@ -4,7 +4,7 @@ import { Home, List, BarChart3, Settings, User, LogOut } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { api } from "@/lib/api";
-import financewhizLogo from "@/assets/financewhiz-logo.svg";
+import financewhizLogo from "@/assets/FINANCEWHIZ_COLOR.svg";
 
 const navigation = [
   { name: 'Dashboard', href: '/', icon: Home },

@@ -4,7 +4,7 @@ import { ChevronDown, User, LogOut, Bell, Send, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/use-auth";
 import { api } from "@/lib/api";
-import financewhizLogo from "@/assets/financewhiz-logo.svg";
+import financewhizLogo from "@/assets/FINANCEWHIZ_COLOR.svg";
 
 export default function Navbar() {
   const { user } = useAuth();
