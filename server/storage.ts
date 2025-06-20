@@ -14,7 +14,7 @@ import {
   type UpdateProfileData,
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, and, desc, asc, sum, count, gte, lte, sql } from "drizzle-orm";
+import { eq, and, desc, asc, sum, count, gte, lte, sql, isNull } from "drizzle-orm";
 import bcrypt from "bcrypt";
 
 export interface IStorage {
@@ -57,7 +57,7 @@ export interface IStorage {
   }>;
 
   // Reports
-  getFinancialReport(userId: number, startDate: Date, endDate: Date): Promise<{
+  getFinancialReport(userId: number, startDate: Date, endDate: Date, outletId?: number): Promise<{
     totalIncome: number;
     totalExpenses: number;
     netProfit: number;
@@ -327,7 +327,23 @@ export class DatabaseStorage implements IStorage {
     };
   }
 
-  async getFinancialReport(userId: number, startDate: Date, endDate: Date) {
+  async getFinancialReport(userId: number, startDate: Date, endDate: Date, outletId?: number) {
+    const conditions = [
+      eq(transactions.userId, userId),
+      gte(transactions.date, startDate),
+      lte(transactions.date, endDate)
+    ];
+
+    // Add outlet filter conditions
+    if (outletId === 0) {
+      // Filter for "pusat" transactions (null outletId)
+      conditions.push(sql`${transactions.outletId} IS NULL`);
+    } else if (outletId && outletId > 0) {
+      // Filter for specific outlet
+      conditions.push(eq(transactions.outletId, outletId));
+    }
+    // If outletId is undefined, show all transactions (no additional filter)
+
     const reportTransactions = await db
       .select({
         transaction: transactions,
@@ -335,11 +351,7 @@ export class DatabaseStorage implements IStorage {
       })
       .from(transactions)
       .leftJoin(categories, eq(transactions.categoryId, categories.id))
-      .where(and(
-        eq(transactions.userId, userId),
-        gte(transactions.date, startDate),
-        lte(transactions.date, endDate)
-      ));
+      .where(and(...conditions));
 
     let totalIncome = 0;
     let totalExpenses = 0;

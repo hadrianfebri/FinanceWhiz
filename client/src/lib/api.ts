@@ -184,8 +184,21 @@ class ApiClient {
     return response.json();
   }
 
-  async getFinancialReport(startDate: string, endDate: string): Promise<FinancialReport> {
-    const response = await fetch(`/api/reports/financial?startDate=${startDate}&endDate=${endDate}`, {
+  async getFinancialReport(startDate: string, endDate: string, outletId?: string): Promise<FinancialReport> {
+    const queryParams = new URLSearchParams({
+      startDate,
+      endDate,
+    });
+    
+    if (outletId && outletId !== "all") {
+      if (outletId === "pusat") {
+        queryParams.append('outlet', '0');
+      } else {
+        queryParams.append('outlet', outletId);
+      }
+    }
+
+    const response = await fetch(`/api/reports/financial?${queryParams}`, {
       headers: this.getAuthHeaders(),
     });
 
