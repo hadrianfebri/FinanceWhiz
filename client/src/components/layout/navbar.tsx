@@ -51,7 +51,7 @@ export default function Navbar() {
 
   return (
     <nav className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-10">
+      <div className="px-6">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center space-x-3">
@@ -66,23 +66,18 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* Page Title */}
-          <div className="flex-1 text-center">
-            <h1 className="text-lg font-semibold text-gray-900 font-league">{getPageTitle()}</h1>
-          </div>
-
-          {/* Quick Actions Panel & Profile */}
+          {/* Right Side Actions */}
           <div className="flex items-center space-x-4">
             {/* Quick Action Icons */}
             <div className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-white rounded-xl shadow-sm border border-gray-200 flex items-center justify-center hover:shadow-md transition-all cursor-pointer" title="Send Money">
-                <Send className="h-5 w-5 text-[#f29716]" />
+              <div className="w-9 h-9 bg-white rounded-lg shadow-sm border border-gray-200 flex items-center justify-center hover:shadow-md transition-all cursor-pointer" title="Send Money">
+                <Send className="h-4 w-4 text-[#f29716]" />
               </div>
-              <div className="w-10 h-10 bg-white rounded-xl shadow-sm border border-gray-200 flex items-center justify-center hover:shadow-md transition-all cursor-pointer" title="Security">
-                <Lock className="h-5 w-5 text-[#04474f]" />
+              <div className="w-9 h-9 bg-white rounded-lg shadow-sm border border-gray-200 flex items-center justify-center hover:shadow-md transition-all cursor-pointer" title="Security">
+                <Lock className="h-4 w-4 text-[#04474f]" />
               </div>
-              <div className="w-10 h-10 bg-white rounded-xl shadow-sm border border-gray-200 flex items-center justify-center hover:shadow-md transition-all cursor-pointer" title="Notifications">
-                <Bell className="h-5 w-5 text-gray-600" />
+              <div className="w-9 h-9 bg-white rounded-lg shadow-sm border border-gray-200 flex items-center justify-center hover:shadow-md transition-all cursor-pointer" title="Notifications">
+                <Bell className="h-4 w-4 text-gray-600" />
               </div>
             </div>
 
@@ -90,13 +85,13 @@ export default function Navbar() {
             <div className="relative" ref={menuRef}>
               <Button
                 variant="ghost"
-                className="flex items-center space-x-2 hover:bg-gray-50 font-league"
+                className="flex items-center space-x-2 hover:bg-gray-50 font-league p-2"
                 onClick={() => setShowProfileMenu(!showProfileMenu)}
               >
                 <div className="w-8 h-8 bg-[#04474f] rounded-full flex items-center justify-center">
                   <User size={16} className="text-white" />
                 </div>
-                <span className="text-gray-700">{user?.businessName}</span>
+                <span className="text-gray-700 font-medium">{user?.businessName}</span>
                 <ChevronDown className="h-4 w-4 text-gray-500" />
               </Button>
 
