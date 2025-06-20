@@ -374,7 +374,7 @@ export default function EnhancedDashboard() {
                     }`}>
                       {transaction.type === 'income' ? '+' : '-'}{formatCurrency(transaction.amount)}
                     </p>
-                    <p className="text-sm text-gray-500">{formatDateTime(transaction.createdAt)}</p>
+                    <p className="text-sm text-gray-500">{formatDateTime(transaction.date)}</p>
                   </div>
                 </div>
               ))}

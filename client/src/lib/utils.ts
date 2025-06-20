@@ -25,6 +25,12 @@ export function formatDate(date: Date | string): string {
 
 export function formatDateTime(date: Date | string): string {
   const d = new Date(date);
+  
+  // Check if date is invalid
+  if (isNaN(d.getTime())) {
+    return 'Invalid Date';
+  }
+  
   return new Intl.DateTimeFormat('id-ID', {
     day: 'numeric',
     month: 'short',
