@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { api } from "@/lib/api";
 import { formatCurrency, formatDate } from "@/lib/utils";
-import { Plus, Search, Download, Edit, Trash2, ChevronLeft, ChevronRight, Upload, FileSpreadsheet, Camera, Receipt, Filter } from "lucide-react";
+import { Plus, Search, Download, Edit, Trash2, ChevronLeft, ChevronRight, Upload, FileSpreadsheet, Camera, Receipt, Filter, Building2, X } from "lucide-react";
 import AddTransactionModal from "@/components/modals/add-transaction-modal";
 import ImportTransactionModal from "@/components/modals/import-transaction-modal";
 
@@ -20,6 +20,7 @@ interface TransactionFilters {
   search: string;
   page: number;
   limit: number;
+  outletId?: string;
 }
 
 export default function Transactions() {
@@ -29,6 +30,7 @@ export default function Transactions() {
   const [showImportModal, setShowImportModal] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   const [editingTransaction, setEditingTransaction] = useState<any>(null);
+  const [outletFilter, setOutletFilter] = useState<{id: string, name: string} | null>(null);
   const [filters, setFilters] = useState<TransactionFilters>({
     startDate: "",
     endDate: "",
@@ -37,7 +39,20 @@ export default function Transactions() {
     search: "",
     page: 1,
     limit: 10,
+    outletId: "",
   });
+
+  // Check URL parameters for outlet filter
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const outletId = params.get('outlet');
+    const outletName = params.get('outletName');
+    
+    if (outletId && outletName) {
+      setOutletFilter({ id: outletId, name: decodeURIComponent(outletName) });
+      setFilters(prev => ({ ...prev, outletId }));
+    }
+  }, []);
 
   const { data: transactionsData, isLoading } = useQuery({
     queryKey: ["/api/transactions", filters],
@@ -168,6 +183,28 @@ export default function Transactions() {
           <div>
             <h2 className="text-lg font-semibold text-gray-900 font-league mb-1">Manajemen Transaksi</h2>
             <p className="text-gray-600 font-league">Kelola semua transaksi keuangan usaha Anda dengan mudah</p>
+            
+            {/* Outlet Filter Indicator */}
+            {outletFilter && (
+              <div className="flex items-center space-x-2 mt-2">
+                <Badge variant="outline" className="bg-[#f29716]/10 border-[#f29716] text-[#f29716]">
+                  <Building2 className="h-3 w-3 mr-1" />
+                  {outletFilter.name}
+                </Badge>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => {
+                    setOutletFilter(null);
+                    setFilters(prev => ({ ...prev, outletId: "" }));
+                    window.history.replaceState({}, '', '/transactions');
+                  }}
+                  className="h-6 w-6 p-0 text-gray-400 hover:text-gray-600"
+                >
+                  <X className="h-3 w-3" />
+                </Button>
+              </div>
+            )}
           </div>
           
           {/* Action Buttons */}

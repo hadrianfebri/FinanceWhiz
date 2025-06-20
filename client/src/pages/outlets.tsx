@@ -31,12 +31,20 @@ export default function Outlets() {
   const queryClient = useQueryClient();
   const [, setLocation] = useLocation();
   const [showAddOutlet, setShowAddOutlet] = useState(false);
+  const [showDetailModal, setShowDetailModal] = useState(false);
+  const [showAddManager, setShowAddManager] = useState(false);
+  const [selectedOutlet, setSelectedOutlet] = useState<any>(null);
   const [editingOutlet, setEditingOutlet] = useState<any>(null);
   const [formData, setFormData] = useState({
     name: "",
     address: "",
     phone: "",
     managerId: "0",
+  });
+  const [managerData, setManagerData] = useState({
+    name: "",
+    email: "",
+    phone: "",
   });
 
   const { data: outlets, isLoading } = useQuery({
@@ -159,32 +167,11 @@ export default function Outlets() {
   };
 
   const handleViewDetail = (outlet: any) => {
-    // Create a detailed view modal or navigate to detail page
-    toast({
-      title: "Detail Outlet",
-      description: `Membuka detail untuk ${outlet.name}`,
-    });
-    
-    // For now, show detailed information in console and toast
-    // In a full implementation, this would open a detail modal or navigate to a detail page
-    const detailInfo = `
-      Nama: ${outlet.name}
-      Alamat: ${outlet.address || 'Tidak ada'}
-      Telepon: ${outlet.phone || 'Tidak ada'}
-      Manager: ${outlet.managerName || 'Belum ada manager'}
-      Status: ${outlet.isActive ? 'Aktif' : 'Tidak Aktif'}
-      Omzet Bulan Ini: ${formatCurrency(outlet.currentMonthSales || 0)}
-      Target Bulanan: ${formatCurrency(outlet.monthlyTarget || 0)}
-    `;
-    
-    console.log('Detail Outlet:', detailInfo);
-    
-    // You can expand this to show a proper detail modal
-    alert(`Detail ${outlet.name}:\n\n${detailInfo}`);
+    setSelectedOutlet(outlet);
+    setShowDetailModal(true);
   };
 
   const handleViewTransactions = (outlet: any) => {
-    // Navigate to transactions page with outlet filter
     toast({
       title: "Transaksi Outlet",
       description: `Membuka transaksi untuk ${outlet.name}`,
@@ -426,6 +413,127 @@ export default function Outlets() {
           </div>
         )}
       </div>
+
+      {/* Detail Modal */}
+      <Dialog open={showDetailModal} onOpenChange={setShowDetailModal}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle className="font-league flex items-center space-x-2">
+              <Building2 className="h-5 w-5 text-[#f29716]" />
+              <span>Detail Outlet - {selectedOutlet?.name}</span>
+            </DialogTitle>
+          </DialogHeader>
+          
+          {selectedOutlet && (
+            <div className="space-y-6">
+              {/* Basic Info */}
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label className="font-league text-gray-600">Nama Outlet</Label>
+                  <p className="font-semibold">{selectedOutlet.name}</p>
+                </div>
+                <div>
+                  <Label className="font-league text-gray-600">Status</Label>
+                  <div>
+                    <Badge variant={selectedOutlet.isActive ? "default" : "secondary"}>
+                      {selectedOutlet.isActive ? "Aktif" : "Tidak Aktif"}
+                    </Badge>
+                  </div>
+                </div>
+              </div>
+
+              {/* Contact Info */}
+              <div className="space-y-3">
+                <div className="flex items-start space-x-3">
+                  <MapPin className="h-4 w-4 text-gray-500 mt-1" />
+                  <div className="flex-1">
+                    <Label className="font-league text-gray-600">Alamat</Label>
+                    <p className="text-sm">{selectedOutlet.address || 'Belum ada alamat'}</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-center space-x-3">
+                  <Phone className="h-4 w-4 text-gray-500" />
+                  <div className="flex-1">
+                    <Label className="font-league text-gray-600">Telepon</Label>
+                    <p className="text-sm">{selectedOutlet.phone || 'Belum ada nomor telepon'}</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center space-x-3">
+                  <User className="h-4 w-4 text-gray-500" />
+                  <div className="flex-1">
+                    <Label className="font-league text-gray-600">Manager</Label>
+                    <p className="text-sm">{selectedOutlet.managerName || 'Belum ada manager'}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Performance Metrics */}
+              <div className="border-t pt-4">
+                <Label className="font-league text-gray-600 mb-3 block">Performa Outlet</Label>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="p-4 bg-green-50 rounded-lg">
+                    <p className="text-sm text-green-600 font-league">Omzet Bulan Ini</p>
+                    <p className="text-lg font-bold text-green-700">
+                      {formatCurrency(selectedOutlet.currentMonthSales || 0)}
+                    </p>
+                  </div>
+                  <div className="p-4 bg-blue-50 rounded-lg">
+                    <p className="text-sm text-blue-600 font-league">Target Bulanan</p>
+                    <p className="text-lg font-bold text-blue-700">
+                      {formatCurrency(selectedOutlet.monthlyTarget || 0)}
+                    </p>
+                  </div>
+                  <div className="p-4 bg-purple-50 rounded-lg">
+                    <p className="text-sm text-purple-600 font-league">Transaksi Bulan Ini</p>
+                    <p className="text-lg font-bold text-purple-700">
+                      {selectedOutlet.monthlyTransactions || 0}
+                    </p>
+                  </div>
+                  <div className="p-4 bg-orange-50 rounded-lg">
+                    <p className="text-sm text-orange-600 font-league">Pencapaian Target</p>
+                    <p className="text-lg font-bold text-orange-700">
+                      {selectedOutlet.monthlyTarget ? Math.round(((selectedOutlet.currentMonthSales || 0) / selectedOutlet.monthlyTarget) * 100) : 0}%
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex justify-end space-x-3 pt-4 border-t">
+                <Button 
+                  variant="outline" 
+                  onClick={() => setShowDetailModal(false)}
+                  className="font-league"
+                >
+                  Tutup
+                </Button>
+                <Button 
+                  className="btn-orange font-league"
+                  onClick={() => {
+                    setShowDetailModal(false);
+                    handleEdit(selectedOutlet);
+                  }}
+                >
+                  <Edit className="h-4 w-4 mr-2" />
+                  Edit Outlet
+                </Button>
+                <Button 
+                  variant="outline"
+                  className="font-league"
+                  onClick={() => {
+                    setShowDetailModal(false);
+                    handleViewTransactions(selectedOutlet);
+                  }}
+                >
+                  Lihat Transaksi
+                </Button>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
