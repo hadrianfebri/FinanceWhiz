@@ -32,36 +32,78 @@ export default function Payroll() {
   // Get payroll data from API
   const { data: payrollData = [], isLoading: isLoadingPayroll } = useQuery({
     queryKey: ['/api/payroll', selectedPeriod],
-    queryFn: () => fetch(`/api/payroll?period=${selectedPeriod}`).then(res => res.json())
+    queryFn: async () => {
+      const token = localStorage.getItem('auth_token');
+      const response = await fetch(`/api/payroll?period=${selectedPeriod}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      if (!response.ok) {
+        throw new Error('Failed to fetch payroll data');
+      }
+      return response.json();
+    }
   });
 
   // Get employees for dropdown
   const { data: employees = [] } = useQuery({
     queryKey: ['/api/employees'],
-    queryFn: () => fetch('/api/employees').then(res => res.json())
+    queryFn: async () => {
+      const token = localStorage.getItem('auth_token');
+      const response = await fetch('/api/employees', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      if (!response.ok) {
+        throw new Error('Failed to fetch employees');
+      }
+      return response.json();
+    }
   });
 
   // Get outlets for reference
   const { data: outlets = [] } = useQuery({
     queryKey: ['/api/outlets'],
-    queryFn: () => fetch('/api/outlets').then(res => res.json())
+    queryFn: async () => {
+      const token = localStorage.getItem('auth_token');
+      const response = await fetch('/api/outlets', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      if (!response.ok) {
+        throw new Error('Failed to fetch outlets');
+      }
+      return response.json();
+    }
   });
 
   // Calculate payroll summary from real data
   const payrollSummary = {
     totalEmployees: employees.length || 0,
-    totalPayroll: payrollData.reduce((sum: number, p: any) => sum + (parseFloat(p.totalAmount) || 0), 0),
-    pendingPayments: payrollData.filter((p: any) => p.status === 'pending').length,
-    paidPayments: payrollData.filter((p: any) => p.status === 'paid').length
+    totalPayroll: Array.isArray(payrollData) ? payrollData.reduce((sum: number, p: any) => sum + (parseFloat(p.totalAmount) || 0), 0) : 0,
+    pendingPayments: Array.isArray(payrollData) ? payrollData.filter((p: any) => p.status === 'pending').length : 0,
+    paidPayments: Array.isArray(payrollData) ? payrollData.filter((p: any) => p.status === 'paid').length : 0
   };
 
   // Create payroll mutation
   const createPayrollMutation = useMutation({
-    mutationFn: (data: any) => fetch('/api/payroll', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    }).then(res => res.json()),
+    mutationFn: (data: any) => {
+      const token = localStorage.getItem('auth_token');
+      return fetch('/api/payroll', {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(data)
+      }).then(res => res.json());
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/payroll'] });
       setShowAddPayroll(false);
@@ -82,12 +124,17 @@ export default function Payroll() {
 
   // Update payroll status mutation
   const updateStatusMutation = useMutation({
-    mutationFn: ({ id, status }: { id: number, status: string }) => 
-      fetch(`/api/payroll/${id}/status`, {
+    mutationFn: ({ id, status }: { id: number, status: string }) => {
+      const token = localStorage.getItem('auth_token');
+      return fetch(`/api/payroll/${id}/status`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
         body: JSON.stringify({ status })
-      }).then(res => res.json()),
+      }).then(res => res.json());
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/payroll'] });
       toast({
