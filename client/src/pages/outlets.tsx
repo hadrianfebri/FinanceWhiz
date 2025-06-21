@@ -117,26 +117,20 @@ export default function Outlets() {
   });
 
   const createManagerMutation = useMutation({
-    mutationFn: (data: any) => {
-      // Mock API call for creating manager
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve({
-            id: Date.now(),
-            name: data.name,
-            email: data.email,
-            phone: data.phone,
-            role: 'Manager'
-          });
-        }, 1000);
-      });
-    },
+    mutationFn: (data: any) => api.createEmployee({
+      ...data,
+      position: 'Manager',
+      role: 'manager',
+      isActive: true,
+      baseSalary: 5000000 // Default manager salary
+    }),
     onSuccess: () => {
       toast({
         title: "Manager Berhasil Ditambahkan",
         description: "Manager baru telah berhasil didaftarkan",
       });
       queryClient.invalidateQueries({ queryKey: ["/api/users/managers"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/employees"] });
       setShowAddManager(false);
       resetManagerForm();
     },
