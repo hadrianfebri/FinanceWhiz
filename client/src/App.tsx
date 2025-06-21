@@ -12,6 +12,10 @@ import Transactions from "@/pages/transactions";
 import Reports from "@/pages/reports";
 import Profile from "@/pages/profile";
 import Outlets from "@/pages/outlets";
+import Payroll from "@/pages/payroll";
+import Vendors from "@/pages/vendors";
+import TaxManagement from "@/pages/tax-management";
+import POSSync from "@/pages/pos-sync";
 import AIAnalytics from "@/pages/ai-analytics";
 import NotFound from "@/pages/not-found";
 import Navbar from "@/components/layout/navbar";
@@ -52,6 +56,10 @@ function AppContent() {
             <Route path="/ai-analytics" component={AIAnalytics} />
             <Route path="/profile" component={Profile} />
             <Route path="/outlets" component={Outlets} />
+            <Route path="/payroll" component={Payroll} />
+            <Route path="/vendors" component={Vendors} />
+            <Route path="/tax" component={TaxManagement} />
+            <Route path="/pos-sync" component={POSSync} />
             <Route component={NotFound} />
           </Switch>
         </main>
