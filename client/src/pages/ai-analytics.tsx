@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { api } from '@/lib/api';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -32,14 +33,7 @@ export default function AIAnalytics() {
   const { data: transactionData = [] } = useQuery({
     queryKey: ['/api/transactions'],
     queryFn: async () => {
-      const response = await fetch('/api/transactions?limit=1000', {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-      });
-      if (!response.ok) throw new Error('Failed to fetch transactions');
-      const data = await response.json();
-      return data.transactions;
+      return api.getTransactions({ limit: 1000 });
     }
   });
 
@@ -47,13 +41,7 @@ export default function AIAnalytics() {
   const { data: dashboardStats } = useQuery({
     queryKey: ['/api/dashboard/stats'],
     queryFn: async () => {
-      const response = await fetch('/api/dashboard/stats', {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-      });
-      if (!response.ok) throw new Error('Failed to fetch dashboard stats');
-      return response.json();
+      return api.getDashboardStats();
     }
   });
 
@@ -61,13 +49,7 @@ export default function AIAnalytics() {
   const { data: aiInsights, refetch: refetchInsights } = useQuery({
     queryKey: ['/api/ai/insights'],
     queryFn: async () => {
-      const response = await fetch('/api/ai/insights', {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-      });
-      if (!response.ok) throw new Error('Failed to fetch AI insights');
-      return response.json();
+      return api.getAIInsights();
     }
   });
 

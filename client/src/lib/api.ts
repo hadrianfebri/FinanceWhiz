@@ -304,6 +304,60 @@ class ApiClient {
     return response.json();
   }
 
+  async generateAIInsights(data: any) {
+    const response = await fetch('/api/ai/generate-insights', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...this.getAuthHeaders(),
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to generate AI insights');
+    }
+
+    return response.json();
+  }
+
+  async detectFraud(data: any) {
+    const response = await fetch('/api/ai/detect-fraud', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...this.getAuthHeaders(),
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to detect fraud');
+    }
+
+    return response.json();
+  }
+
+  async updateAlertStatus(alertId: number, status: string) {
+    const response = await fetch(`/api/ai/alerts/${alertId}/status`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        ...this.getAuthHeaders(),
+      },
+      body: JSON.stringify({ status }),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to update alert status');
+    }
+
+    return response.json();
+  }
+
   // SME-specific API methods
   async getOutlets() {
     const response = await fetch('/api/outlets', {
