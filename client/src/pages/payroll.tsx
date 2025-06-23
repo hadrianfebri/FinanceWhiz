@@ -625,24 +625,24 @@ export default function Payroll() {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          payrollId: payroll.id,
-          employeeEmail: payroll.employeeEmail || 'karyawan@example.com',
-          employeeName: payroll.employeeName
+          payrollId: payroll.id
         })
       });
 
       if (response.ok) {
+        const result = await response.json();
         toast({
           title: "Berhasil",
-          description: `Slip gaji berhasil dikirim ke ${payroll.employeeName}`
+          description: result.message || `Slip gaji berhasil dikirim ke ${payroll.employeeName}`
         });
       } else {
-        throw new Error('Failed to send payslip');
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to send payslip');
       }
-    } catch (error) {
+    } catch (error: any) {
       toast({
         title: "Error",
-        description: "Gagal mengirim slip gaji. Pastikan email karyawan sudah benar.",
+        description: error.message || "Gagal mengirim slip gaji. Pastikan email karyawan sudah benar.",
         variant: "destructive"
       });
     }

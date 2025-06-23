@@ -887,7 +887,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Send payslip via email
   app.post('/api/payroll/send-payslip', authenticate, async (req: any, res: Response) => {
     try {
-      const { payrollId, employeeEmail, employeeName } = req.body;
+      const { payrollId } = req.body;
       
       if (!process.env.MAILGUN_API_KEY || !process.env.MAILGUN_DOMAIN) {
         return res.status(500).json({ 
@@ -895,9 +895,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      // Get payroll details
-      const payrollData = await db.select()
+      // Get payroll details with employee information
+      const payrollData = await db.select({
+        payrollId: payrolls.id,
+        payPeriod: payrolls.payPeriod,
+        baseSalary: payrolls.baseSalary,
+        bonus: payrolls.bonus,
+        deduction: payrolls.deduction,
+        totalAmount: payrolls.totalAmount,
+        status: payrolls.status,
+        payDate: payrolls.payDate,
+        notes: payrolls.notes,
+        employeeId: payrolls.employeeId,
+        employeeName: employees.name,
+        employeeEmail: employees.email,
+        employeePosition: employees.position
+      })
         .from(payrolls)
+        .innerJoin(employees, eq(payrolls.employeeId, employees.id))
         .where(eq(payrolls.id, payrollId))
         .limit(1);
 
@@ -906,6 +921,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const payroll = payrollData[0];
+      const employeeEmail = payroll.employeeEmail;
+      const employeeName = payroll.employeeName;
+
+      if (!employeeEmail) {
+        return res.status(400).json({ 
+          message: 'Email karyawan tidak tersedia. Harap lengkapi data email karyawan terlebih dahulu.' 
+        });
+      }
 
       // Generate payslip HTML
       const payslipHtml = `
