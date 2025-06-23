@@ -27,6 +27,7 @@ export default function Payroll() {
   const [isEditingEmployee, setIsEditingEmployee] = useState(false);
   const [employeeSearchTerm, setEmployeeSearchTerm] = useState('');
   const [employeeFilterPosition, setEmployeeFilterPosition] = useState('');
+  const [showAddNewEmployee, setShowAddNewEmployee] = useState(false);
   const [employeeFormData, setEmployeeFormData] = useState({
     name: '',
     position: '',
@@ -180,7 +181,9 @@ export default function Payroll() {
       });
       queryClient.invalidateQueries({ queryKey: ['/api/employees'] });
       setShowAddEmployee(false);
+      setShowAddNewEmployee(false);
       resetEmployeeForm();
+      resetNewEmployeeForm();
     },
     onError: (error: Error) => {
       toast({
@@ -229,6 +232,41 @@ export default function Payroll() {
       baseSalary: '',
       outletId: ''
     });
+  };
+
+  const resetNewEmployeeForm = () => {
+    setEmployeeFormData({
+      name: '',
+      position: '',
+      email: '',
+      phone: '',
+      baseSalary: '',
+      outletId: 'all'
+    });
+  };
+
+  const handleAddNewEmployee = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!employeeFormData.name.trim() || !employeeFormData.email.trim()) {
+      toast({
+        title: "Error",
+        description: "Nama dan email karyawan wajib diisi",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const newEmployeeData = {
+      name: employeeFormData.name,
+      position: employeeFormData.position,
+      email: employeeFormData.email,
+      phone: employeeFormData.phone,
+      baseSalary: parseFloat(employeeFormData.baseSalary) || 0,
+      outletId: employeeFormData.outletId && employeeFormData.outletId !== 'all' ? parseInt(employeeFormData.outletId) : null
+    };
+
+    createEmployeeMutation.mutate(newEmployeeData);
   };
 
   const handleAddEmployee = (e: React.FormEvent) => {
@@ -329,7 +367,7 @@ export default function Payroll() {
       employee.name?.toLowerCase().includes(employeeSearchTerm.toLowerCase()) ||
       employee.email?.toLowerCase().includes(employeeSearchTerm.toLowerCase());
     
-    const matchesPosition = !employeeFilterPosition || employee.position === employeeFilterPosition;
+    const matchesPosition = !employeeFilterPosition || employeeFilterPosition === 'all_positions' || employee.position === employeeFilterPosition;
     
     return matchesSearch && matchesPosition;
   }) || [];
@@ -1480,11 +1518,128 @@ export default function Payroll() {
               <div className="text-sm text-gray-600">
                 Menampilkan {filteredEmployees.length} dari {employees?.length || 0} karyawan
               </div>
-              <Button variant="outline" onClick={() => setShowAddEmployee(false)}>
-                Tutup
-              </Button>
+              <div className="flex gap-3">
+                <Button 
+                  onClick={() => setShowAddNewEmployee(true)}
+                  className="bg-[#f29716] hover:bg-[#d4820a]"
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  Tambah Karyawan
+                </Button>
+                <Button variant="outline" onClick={() => setShowAddEmployee(false)}>
+                  Tutup
+                </Button>
+              </div>
             </div>
           </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Add New Employee Modal */}
+      <Dialog open={showAddNewEmployee} onOpenChange={setShowAddNewEmployee}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Tambah Karyawan Baru</DialogTitle>
+          </DialogHeader>
+          
+          <form onSubmit={handleAddNewEmployee} className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="new-emp-name">Nama Lengkap *</Label>
+                <Input
+                  id="new-emp-name"
+                  value={employeeFormData.name}
+                  onChange={(e) => setEmployeeFormData(prev => ({...prev, name: e.target.value}))}
+                  placeholder="Masukkan nama lengkap"
+                  required
+                />
+              </div>
+              <div>
+                <Label htmlFor="new-emp-position">Jabatan</Label>
+                <Input
+                  id="new-emp-position"
+                  value={employeeFormData.position}
+                  onChange={(e) => setEmployeeFormData(prev => ({...prev, position: e.target.value}))}
+                  placeholder="Contoh: Manager, Staff, Kasir"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="new-emp-email">Email *</Label>
+                <Input
+                  id="new-emp-email"
+                  type="email"
+                  value={employeeFormData.email}
+                  onChange={(e) => setEmployeeFormData(prev => ({...prev, email: e.target.value}))}
+                  placeholder="nama@example.com"
+                  required
+                />
+              </div>
+              <div>
+                <Label htmlFor="new-emp-phone">No. Telepon</Label>
+                <Input
+                  id="new-emp-phone"
+                  value={employeeFormData.phone}
+                  onChange={(e) => setEmployeeFormData(prev => ({...prev, phone: e.target.value}))}
+                  placeholder="08123456789"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="new-emp-salary">Gaji Pokok</Label>
+                <Input
+                  id="new-emp-salary"
+                  type="number"
+                  value={employeeFormData.baseSalary}
+                  onChange={(e) => setEmployeeFormData(prev => ({...prev, baseSalary: e.target.value}))}
+                  placeholder="3500000"
+                />
+              </div>
+              <div>
+                <Label htmlFor="new-emp-outlet">Outlet</Label>
+                <Select 
+                  value={employeeFormData.outletId} 
+                  onValueChange={(value) => setEmployeeFormData(prev => ({...prev, outletId: value}))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Pilih outlet" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Semua Outlet</SelectItem>
+                    {outlets?.map((outlet: any) => (
+                      <SelectItem key={outlet.id} value={outlet.id.toString()}>
+                        {outlet.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-3 pt-4">
+              <Button 
+                type="button" 
+                variant="outline" 
+                onClick={() => {
+                  setShowAddNewEmployee(false);
+                  resetNewEmployeeForm();
+                }}
+              >
+                Batal
+              </Button>
+              <Button 
+                type="submit" 
+                className="bg-[#f29716] hover:bg-[#d4820a]"
+                disabled={createEmployeeMutation.isPending}
+              >
+                {createEmployeeMutation.isPending ? 'Menyimpan...' : 'Tambah Karyawan'}
+              </Button>
+            </div>
+          </form>
         </DialogContent>
       </Dialog>
     </div>
