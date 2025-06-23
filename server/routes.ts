@@ -474,16 +474,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post('/api/outlets', authenticate, async (req: any, res: Response) => {
     try {
-      const outletData = { 
-        ...req.body, 
-        businessId: req.user.id,
-        id: Date.now(),
-        isActive: true,
-        monthlyTarget: req.body.monthlyTarget || 50000000,
-        currentMonthSales: 0,
-        managerName: req.body.managerName || 'Belum Ditentukan'
-      };
-      res.json(outletData);
+      const { name, address, phone, managerId } = req.body;
+      
+      // Insert new outlet into database
+      const [newOutlet] = await db
+        .insert(outlets)
+        .values({
+          businessId: req.user.id,
+          name,
+          address: address || '',
+          phone: phone || '',
+          managerId: managerId && managerId !== "0" ? parseInt(managerId) : null,
+          isActive: true
+        })
+        .returning();
+
+      res.json({ success: true, outlet: newOutlet });
     } catch (error) {
       console.error('Create outlet error:', error);
       res.status(500).json({ message: 'Failed to create outlet' });
@@ -493,13 +499,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.put('/api/outlets/:id', authenticate, async (req: any, res: Response) => {
     try {
       const outletId = parseInt(req.params.id);
-      const updateData = { 
-        ...req.body, 
-        id: outletId,
-        businessId: req.user.id,
-        updatedAt: new Date()
-      };
-      res.json(updateData);
+      const { name, address, phone, managerId } = req.body;
+      
+      // Update outlet in database
+      const [updatedOutlet] = await db
+        .update(outlets)
+        .set({
+          name,
+          address: address || '',
+          phone: phone || '',
+          managerId: managerId && managerId !== "0" ? parseInt(managerId) : null,
+        })
+        .where(and(
+          eq(outlets.id, outletId),
+          eq(outlets.businessId, req.user.id)
+        ))
+        .returning();
+
+      if (!updatedOutlet) {
+        return res.status(404).json({ message: 'Outlet not found' });
+      }
+
+      res.json({ success: true, outlet: updatedOutlet });
     } catch (error) {
       console.error('Update outlet error:', error);
       res.status(500).json({ message: 'Failed to update outlet' });
@@ -787,12 +808,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Filter for manager positions and format response
       const managers = managersData
-        .filter(emp => emp.position.toLowerCase().includes('manager'))
+        .filter(emp => emp.position?.toLowerCase().includes('manager'))
         .map(manager => ({
           id: manager.id,
           name: manager.name,
           email: manager.email,
-          position: manager.position,
+          position: manager.position || 'Manager',
           outletName: manager.outlet?.name || 'Tidak ada outlet'
         }));
 
