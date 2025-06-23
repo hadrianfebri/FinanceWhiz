@@ -292,7 +292,7 @@ export default function AIChat() {
                       )}
                     </div>
                     
-                    <div className={`rounded-lg p-3 max-h-96 overflow-y-auto ${
+                    <div className={`rounded-lg p-3 max-h-80 overflow-y-auto break-words ${
                       message.type === 'user'
                         ? 'bg-orange-500 text-white'
                         : 'bg-gray-100 text-gray-900'
@@ -306,13 +306,14 @@ export default function AIChat() {
                         <div>
                           {message.type === 'ai' ? (
                             <div 
-                              className="prose prose-sm max-w-none"
+                              className="prose prose-sm max-w-none overflow-hidden break-words"
+                              style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}
                               dangerouslySetInnerHTML={{ 
-                                __html: `<p class="mb-2">${formatMarkdown(message.content)}</p>` 
+                                __html: `<div class="mb-2 break-words">${formatMarkdown(message.content)}</div>` 
                               }}
                             />
                           ) : (
-                            <p className="whitespace-pre-wrap">{message.content}</p>
+                            <p className="whitespace-pre-wrap break-words">{message.content}</p>
                           )}
                           <div className="flex items-center justify-between mt-2 pt-2 border-t border-gray-200 dark:border-gray-600">
                             <span className={`text-xs ${
