@@ -7,7 +7,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Plus, Calendar, DollarSign, Users, Download, Edit, Trash2, Eye } from 'lucide-react';
+import { Plus, Calendar, DollarSign, Users, Download, Edit, Trash2, Eye, FileText, Send, Mail } from 'lucide-react';
 import { formatCurrency, formatDate } from '@/lib/utils';
 import { api } from '@/lib/api';
 import { useToast } from '@/hooks/use-toast';
@@ -20,6 +20,8 @@ export default function Payroll() {
   const [selectedPayroll, setSelectedPayroll] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterPosition, setFilterPosition] = useState('');
+  const [showPayslipModal, setShowPayslipModal] = useState(false);
+  const [selectedPayslipData, setSelectedPayslipData] = useState(null);
   const [formData, setFormData] = useState({
     employeeId: '',
     baseSalary: '',
@@ -305,6 +307,259 @@ export default function Payroll() {
   // Get unique positions for filter dropdown
   const uniquePositions = Array.from(new Set(payrollData?.map((p: any) => p.position).filter(Boolean))) || [];
 
+  // Generate professional payslip PDF
+  const generatePayslip = (payroll: any) => {
+    const payslipHtml = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="UTF-8">
+        <title>Slip Gaji - ${payroll.employeeName}</title>
+        <style>
+          @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+          * { margin: 0; padding: 0; box-sizing: border-box; }
+          body { 
+            font-family: 'Inter', Arial, sans-serif; 
+            background: #f8fafc; 
+            padding: 20px; 
+            color: #1e293b;
+          }
+          .payslip { 
+            max-width: 800px; 
+            margin: 0 auto; 
+            background: white; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+          }
+          .header { 
+            background: linear-gradient(135deg, #f29716 0%, #d4820a 100%); 
+            color: white; 
+            padding: 30px; 
+            text-align: center; 
+          }
+          .company-name { 
+            font-size: 24px; 
+            font-weight: 700; 
+            margin-bottom: 8px; 
+          }
+          .document-title { 
+            font-size: 18px; 
+            font-weight: 500; 
+            opacity: 0.9; 
+          }
+          .content { 
+            padding: 30px; 
+          }
+          .employee-info { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 20px; 
+            margin-bottom: 30px; 
+            padding: 20px; 
+            background: #f8fafc; 
+            border-radius: 8px; 
+          }
+          .info-group h4 { 
+            color: #475569; 
+            font-size: 12px; 
+            font-weight: 600; 
+            text-transform: uppercase; 
+            letter-spacing: 0.5px; 
+            margin-bottom: 6px; 
+          }
+          .info-group p { 
+            font-size: 16px; 
+            font-weight: 500; 
+            color: #1e293b; 
+          }
+          .salary-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-bottom: 30px; 
+          }
+          .salary-table th { 
+            background: #f1f5f9; 
+            padding: 16px; 
+            text-align: left; 
+            font-weight: 600; 
+            color: #475569; 
+            font-size: 14px; 
+            border-bottom: 2px solid #e2e8f0; 
+          }
+          .salary-table td { 
+            padding: 16px; 
+            border-bottom: 1px solid #e2e8f0; 
+            font-size: 15px; 
+          }
+          .amount { 
+            font-weight: 600; 
+            text-align: right; 
+          }
+          .total-row { 
+            background: #f8fafc; 
+            font-weight: 700; 
+            font-size: 16px; 
+          }
+          .total-row .amount { 
+            color: #059669; 
+          }
+          .footer { 
+            text-align: center; 
+            padding: 20px; 
+            background: #f8fafc; 
+            border-top: 1px solid #e2e8f0; 
+            color: #64748b; 
+            font-size: 12px; 
+          }
+          .signature-section { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 40px; 
+            margin: 30px 0; 
+            text-align: center; 
+          }
+          .signature-box { 
+            padding: 20px; 
+          }
+          .signature-line { 
+            border-top: 1px solid #cbd5e1; 
+            margin-top: 50px; 
+            padding-top: 8px; 
+            font-weight: 500; 
+          }
+          @media print {
+            body { background: white; padding: 0; }
+            .payslip { box-shadow: none; }
+          }
+        </style>
+      </head>
+      <body>
+        <div class="payslip">
+          <div class="header">
+            <div class="company-name">FinanceWhiz.AI</div>
+            <div class="document-title">Slip Gaji Karyawan</div>
+          </div>
+          
+          <div class="content">
+            <div class="employee-info">
+              <div class="info-group">
+                <h4>Nama Karyawan</h4>
+                <p>${payroll.employeeName}</p>
+              </div>
+              <div class="info-group">
+                <h4>Jabatan</h4>
+                <p>${payroll.position || 'Staff'}</p>
+              </div>
+              <div class="info-group">
+                <h4>Periode Gaji</h4>
+                <p>${payroll.payPeriod}</p>
+              </div>
+              <div class="info-group">
+                <h4>Tanggal Pembayaran</h4>
+                <p>${payroll.payDate ? new Date(payroll.payDate).toLocaleDateString('id-ID') : 'Belum dibayar'}</p>
+              </div>
+            </div>
+
+            <table class="salary-table">
+              <thead>
+                <tr>
+                  <th>Komponen Gaji</th>
+                  <th class="amount">Jumlah</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Gaji Pokok</td>
+                  <td class="amount">${formatCurrency(payroll.baseSalary)}</td>
+                </tr>
+                <tr>
+                  <td>Tunjangan & Bonus</td>
+                  <td class="amount">${formatCurrency(payroll.bonus || 0)}</td>
+                </tr>
+                <tr>
+                  <td>Potongan</td>
+                  <td class="amount">-${formatCurrency(payroll.deduction || 0)}</td>
+                </tr>
+                <tr class="total-row">
+                  <td><strong>Total Gaji Bersih</strong></td>
+                  <td class="amount">${formatCurrency(payroll.totalAmount)}</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="signature-section">
+              <div class="signature-box">
+                <div class="signature-line">
+                  HRD / Finance
+                </div>
+              </div>
+              <div class="signature-box">
+                <div class="signature-line">
+                  ${payroll.employeeName}
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="footer">
+            <p>Dokumen ini dibuat secara otomatis oleh sistem FinanceWhiz.AI</p>
+            <p>Tanggal cetak: ${new Date().toLocaleDateString('id-ID', { 
+              year: 'numeric', 
+              month: 'long', 
+              day: 'numeric' 
+            })}</p>
+          </div>
+        </div>
+      </body>
+      </html>
+    `;
+
+    const printWindow = window.open('', '_blank');
+    if (printWindow) {
+      printWindow.document.write(payslipHtml);
+      printWindow.document.close();
+      printWindow.focus();
+      setTimeout(() => {
+        printWindow.print();
+      }, 250);
+    }
+  };
+
+  // Send payslip via email
+  const sendPayslipEmail = async (payroll: any) => {
+    try {
+      const token = localStorage.getItem('auth_token');
+      const response = await fetch('/api/payroll/send-payslip', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          payrollId: payroll.id,
+          employeeEmail: payroll.employeeEmail || 'karyawan@example.com',
+          employeeName: payroll.employeeName
+        })
+      });
+
+      if (response.ok) {
+        toast({
+          title: "Berhasil",
+          description: `Slip gaji berhasil dikirim ke ${payroll.employeeName}`
+        });
+      } else {
+        throw new Error('Failed to send payslip');
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Gagal mengirim slip gaji. Pastikan email karyawan sudah benar.",
+        variant: "destructive"
+      });
+    }
+  };
+
   return (
     <div className="p-6 space-y-6">
       {/* Header */}
@@ -514,6 +769,24 @@ export default function Payroll() {
                             }}
                           >
                             <Eye className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="bg-blue-50 text-blue-600 border-blue-200 hover:bg-blue-100"
+                            onClick={() => generatePayslip(payroll)}
+                            title="Cetak Slip Gaji"
+                          >
+                            <FileText className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="bg-orange-50 text-orange-600 border-orange-200 hover:bg-orange-100"
+                            onClick={() => sendPayslipEmail(payroll)}
+                            title="Kirim Slip Gaji via Email"
+                          >
+                            <Mail className="h-4 w-4" />
                           </Button>
                         </div>
                       </td>
