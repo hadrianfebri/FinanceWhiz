@@ -996,15 +996,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Log untuk debugging
       console.log('Mailgun config:', {
         domain: process.env.MAILGUN_DOMAIN,
-        hasApiKey: !!process.env.MAILGUN_API_KEY,
-        apiKeyPrefix: process.env.MAILGUN_API_KEY?.substring(0, 8),
-        to: employeeEmail
+        hasSecret: !!process.env.MAILGUN_SECRET,
+        secretPrefix: process.env.MAILGUN_SECRET?.substring(0, 8),
+        to: employeeEmail,
+        endpoint: 'api.eu.mailgun.net'
       });
 
-      const response = await fetch(`https://api.mailgun.net/v3/${process.env.MAILGUN_DOMAIN}/messages`, {
+      const response = await fetch(`https://api.eu.mailgun.net/v3/${process.env.MAILGUN_DOMAIN}/messages`, {
         method: 'POST',
         headers: {
-          'Authorization': `Basic ${Buffer.from(`api:${process.env.MAILGUN_API_KEY}`).toString('base64')}`,
+          'Authorization': `Basic ${Buffer.from(`api:${process.env.MAILGUN_SECRET}`).toString('base64')}`,
           'Content-Type': 'application/x-www-form-urlencoded'
         },
         body: formData
