@@ -1321,7 +1321,7 @@ export default function Payroll() {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="">Semua Outlet</SelectItem>
-                      {outletsData?.map((outlet: any) => (
+                      {outlets?.map((outlet: any) => (
                         <SelectItem key={outlet.id} value={outlet.id.toString()}>
                           {outlet.name}
                         </SelectItem>
@@ -1378,7 +1378,7 @@ export default function Payroll() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
-                  {employeesData?.map((employee: any) => (
+                  {employees?.map((employee: any) => (
                     <tr key={employee.id} className="hover:bg-gray-50">
                       <td className="px-4 py-3 text-sm text-gray-900">{employee.name}</td>
                       <td className="px-4 py-3 text-sm text-gray-600">{employee.position}</td>
