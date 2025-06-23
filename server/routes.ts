@@ -24,6 +24,7 @@ import {
   users,
   vendors,
   posDevices,
+  aiInsights,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, gte, count, desc } from "drizzle-orm";
@@ -1324,6 +1325,272 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Error fetching sync logs:', error);
       res.status(500).json({ message: 'Failed to fetch sync logs' });
+    }
+  });
+
+  // AI Analytics & Fraud Detection Endpoints
+  app.get('/api/ai/insights', authenticate, async (req: any, res: Response) => {
+    try {
+      // Get stored AI insights from database
+      const insights = await db
+        .select()
+        .from(aiInsights)
+        .where(eq(aiInsights.businessId, req.user.id))
+        .orderBy(desc(aiInsights.generatedAt))
+        .limit(10);
+
+      res.json({
+        insights: insights.map(insight => ({
+          id: insight.id,
+          type: insight.type,
+          title: insight.title,
+          description: insight.description,
+          severity: insight.severity,
+          actionRequired: insight.actionRequired,
+          metadata: insight.metadata ? JSON.parse(insight.metadata) : null,
+          generatedAt: insight.generatedAt
+        }))
+      });
+    } catch (error: any) {
+      console.error('Get AI insights error:', error);
+      res.status(500).json({ message: 'Failed to fetch AI insights' });
+    }
+  });
+
+  app.post('/api/ai/generate-insights', authenticate, async (req: any, res: Response) => {
+    try {
+      const { transactionData, dashboardStats } = req.body;
+
+      if (!process.env.OPENAI_API_KEY && !process.env.DEEPSEEK_API_KEY) {
+        return res.status(400).json({ 
+          message: 'AI API key not configured. Please add OPENAI_API_KEY or DEEPSEEK_API_KEY to environment variables.' 
+        });
+      }
+
+      // Analyze transaction patterns using OpenAI
+      const analysisPrompt = `
+        Analyze the following financial data for a small business and provide actionable insights:
+        
+        Dashboard Stats:
+        - Cash Balance: ${dashboardStats?.cashBalance || 0}
+        - Weekly Income: ${dashboardStats?.weeklyIncome || 0}
+        - Weekly Expenses: ${dashboardStats?.weeklyExpenses || 0}
+        - Weekly Profit: ${dashboardStats?.weeklyProfit || 0}
+        
+        Recent Transactions (${transactionData?.length || 0} transactions):
+        ${transactionData?.slice(0, 10).map((t: any) => 
+          `- ${t.type}: ${t.amount} (${t.description || 'No description'})`
+        ).join('\n') || 'No recent transactions'}
+        
+        Provide business insights in JSON format with this structure:
+        {
+          "cashFlowAnalysis": "detailed analysis",
+          "profitabilityInsights": "profit optimization suggestions",
+          "riskAssessment": "financial risk evaluation",
+          "recommendations": ["actionable recommendation 1", "recommendation 2"],
+          "anomalies": ["any unusual patterns detected"],
+          "forecast": "short-term financial forecast"
+        }
+      `;
+
+      // Determine API configuration
+      const isDeepSeek = !!process.env.DEEPSEEK_API_KEY;
+      const apiKey = process.env.DEEPSEEK_API_KEY || process.env.OPENAI_API_KEY;
+      const apiUrl = isDeepSeek ? 'https://api.deepseek.com/v1/chat/completions' : 'https://api.openai.com/v1/chat/completions';
+      const model = isDeepSeek ? 'deepseek-chat' : 'gpt-4o';
+
+      const openaiResponse = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${apiKey}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          model: model,
+          messages: [
+            {
+              role: 'system',
+              content: 'You are a financial analyst expert specializing in small business financial optimization and fraud detection. Analyze data and provide actionable insights in JSON format.'
+            },
+            {
+              role: 'user',
+              content: analysisPrompt
+            }
+          ],
+          response_format: { type: 'json_object' },
+          max_tokens: 1500,
+          temperature: 0.3
+        })
+      });
+
+      if (!openaiResponse.ok) {
+        throw new Error(`OpenAI API error: ${openaiResponse.statusText}`);
+      }
+
+      const aiResult = await openaiResponse.json();
+      const insights = JSON.parse(aiResult.choices[0].message.content);
+
+      // Store insights in database
+      const [newInsight] = await db
+        .insert(aiInsights)
+        .values({
+          businessId: req.user.id,
+          type: 'financial_analysis',
+          title: 'AI Financial Analysis',
+          description: insights.cashFlowAnalysis || 'Comprehensive financial analysis completed',
+          severity: 'medium',
+          actionRequired: true,
+          metadata: JSON.stringify(insights)
+        })
+        .returning();
+
+      res.json({
+        success: true,
+        insights,
+        insightId: newInsight.id
+      });
+
+    } catch (error: any) {
+      console.error('Generate AI insights error:', error);
+      res.status(500).json({ 
+        message: 'Failed to generate AI insights',
+        error: error.message 
+      });
+    }
+  });
+
+  app.post('/api/ai/detect-fraud', authenticate, async (req: any, res: Response) => {
+    try {
+      const { transactions } = req.body;
+
+      if (!process.env.OPENAI_API_KEY) {
+        return res.status(400).json({ 
+          message: 'OpenAI API key not configured for fraud detection.' 
+        });
+      }
+
+      // Fraud detection using OpenAI
+      const fraudPrompt = `
+        Analyze these financial transactions for potential fraud or anomalies:
+        
+        ${transactions?.slice(0, 20).map((t: any, i: number) => 
+          `${i+1}. ${t.type}: ${t.amount} IDR - ${t.description} (${t.date})`
+        ).join('\n') || 'No transactions provided'}
+        
+        Detect potential fraud patterns and return JSON:
+        {
+          "riskScore": "1-100 integer",
+          "alertLevel": "low|medium|high",
+          "detectedAnomalies": [
+            {
+              "type": "anomaly_type",
+              "description": "detailed description",
+              "severity": "low|medium|high",
+              "affectedTransactions": ["transaction indices"],
+              "recommendation": "action to take"
+            }
+          ],
+          "summary": "overall fraud risk assessment"
+        }
+      `;
+
+      const openaiResponse = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          model: 'gpt-4o',
+          messages: [
+            {
+              role: 'system',
+              content: 'You are a fraud detection expert for financial transactions. Analyze patterns and identify potential fraudulent activities with high accuracy.'
+            },
+            {
+              role: 'user',
+              content: fraudPrompt
+            }
+          ],
+          response_format: { type: 'json_object' },
+          max_tokens: 1000,
+          temperature: 0.1
+        })
+      });
+
+      if (!openaiResponse.ok) {
+        throw new Error(`OpenAI API error: ${openaiResponse.statusText}`);
+      }
+
+      const aiResult = await openaiResponse.json();
+      const fraudAnalysis = JSON.parse(aiResult.choices[0].message.content);
+
+      // Store fraud alerts if high risk detected
+      if (fraudAnalysis.alertLevel === 'high' && fraudAnalysis.detectedAnomalies?.length > 0) {
+        for (const anomaly of fraudAnalysis.detectedAnomalies) {
+          await db
+            .insert(aiInsights)
+            .values({
+              businessId: req.user.id,
+              type: 'fraud_alert',
+              title: `Fraud Alert: ${anomaly.type}`,
+              description: anomaly.description,
+              confidence: fraudAnalysis.riskScore,
+              priority: anomaly.severity,
+              data: JSON.stringify({
+                anomaly,
+                affectedTransactions: anomaly.affectedTransactions,
+                recommendation: anomaly.recommendation
+              })
+            });
+        }
+      }
+
+      res.json({
+        success: true,
+        fraudAnalysis,
+        alertsGenerated: fraudAnalysis.alertLevel === 'high' ? fraudAnalysis.detectedAnomalies?.length : 0
+      });
+
+    } catch (error: any) {
+      console.error('Fraud detection error:', error);
+      res.status(500).json({ 
+        message: 'Failed to perform fraud detection',
+        error: error.message 
+      });
+    }
+  });
+
+  app.put('/api/ai/alerts/:id/status', authenticate, async (req: any, res: Response) => {
+    try {
+      const { id } = req.params;
+      const { status } = req.body;
+
+      // Update alert status in database
+      const [updatedAlert] = await db
+        .update(aiInsights)
+        .set({ 
+          priority: status === 'resolved' ? 'low' : 'high',
+          updatedAt: new Date()
+        })
+        .where(and(
+          eq(aiInsights.id, parseInt(id)),
+          eq(aiInsights.businessId, req.user.id)
+        ))
+        .returning();
+
+      if (!updatedAlert) {
+        return res.status(404).json({ message: 'Alert not found' });
+      }
+
+      res.json({
+        success: true,
+        alert: updatedAlert
+      });
+
+    } catch (error: any) {
+      console.error('Update alert status error:', error);
+      res.status(500).json({ message: 'Failed to update alert status' });
     }
   });
 
