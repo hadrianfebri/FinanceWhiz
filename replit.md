@@ -177,4 +177,12 @@ Changelog:
   - Enabled automated payslip distribution for all industries with customizable templates
   - Added employee management functionality with view and edit capabilities in payroll interface
   - Created backend API endpoints for updating employee data (PUT /api/employees/:id)
-  - Mailgun configuration requires only MAILGUN_API_KEY and MAILGUN_DOMAIN environment variables
+  - Configured Mailgun EU endpoint with MAILGUN_SECRET for successful email delivery
+- June 23, 2025. Enhanced employee management with search and filter capabilities:
+  - Added search functionality to "Kelola Karyawan" modal for finding employees by name or email
+  - Implemented position-based filtering with dropdown selection of unique job positions
+  - Added reset filter button to clear all search and filter criteria
+  - Enhanced modal UI with proper scrolling, sticky headers, and responsive design
+  - Fixed Select component validation errors by replacing empty string values with "all"
+  - Added employee counter showing filtered results vs total employees
+  - Improved user experience with real-time search and filter functionality

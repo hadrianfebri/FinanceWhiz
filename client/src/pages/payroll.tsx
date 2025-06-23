@@ -25,6 +25,8 @@ export default function Payroll() {
   const [showEmployeeModal, setShowEmployeeModal] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [isEditingEmployee, setIsEditingEmployee] = useState(false);
+  const [employeeSearchTerm, setEmployeeSearchTerm] = useState('');
+  const [employeeFilterPosition, setEmployeeFilterPosition] = useState('');
   const [employeeFormData, setEmployeeFormData] = useState({
     name: '',
     position: '',
@@ -317,6 +319,20 @@ export default function Payroll() {
 
   // Get unique positions for filter dropdown
   const uniquePositions = Array.from(new Set(payrollData?.map((p: any) => p.position).filter(Boolean))) || [];
+
+  // Get unique employee positions for employee filter
+  const uniqueEmployeePositions = Array.from(new Set(employees?.map((emp: any) => emp.position).filter(Boolean))) || [];
+
+  // Filter employees based on search and position
+  const filteredEmployees = employees?.filter((employee: any) => {
+    const matchesSearch = !employeeSearchTerm || 
+      employee.name?.toLowerCase().includes(employeeSearchTerm.toLowerCase()) ||
+      employee.email?.toLowerCase().includes(employeeSearchTerm.toLowerCase());
+    
+    const matchesPosition = !employeeFilterPosition || employee.position === employeeFilterPosition;
+    
+    return matchesSearch && matchesPosition;
+  }) || [];
 
   // Generate professional payslip PDF
   const generatePayslip = (payroll: any) => {
@@ -1366,6 +1382,49 @@ export default function Payroll() {
           </DialogHeader>
           
           <div className="flex-1 space-y-4 overflow-hidden">
+            {/* Search and Filter Controls */}
+            <div className="flex gap-4 p-4 bg-gray-50 rounded-lg">
+              <div className="flex-1">
+                <Input
+                  placeholder="Cari nama atau email karyawan..."
+                  value={employeeSearchTerm}
+                  onChange={(e) => setEmployeeSearchTerm(e.target.value)}
+                  className="w-full"
+                />
+              </div>
+              <div className="w-48">
+                <Select 
+                  value={employeeFilterPosition} 
+                  onValueChange={setEmployeeFilterPosition}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Filter Jabatan" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all_positions">Semua Jabatan</SelectItem>
+                    {uniqueEmployeePositions.map((position: string) => (
+                      <SelectItem key={position} value={position}>
+                        {position}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              {(employeeSearchTerm || employeeFilterPosition) && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    setEmployeeSearchTerm('');
+                    setEmployeeFilterPosition('');
+                  }}
+                  className="whitespace-nowrap"
+                >
+                  Reset Filter
+                </Button>
+              )}
+            </div>
+
             <div className="border rounded-lg overflow-hidden flex-1 flex flex-col">
               <div className="overflow-y-auto max-h-[50vh]">
                 <table className="w-full">
@@ -1379,35 +1438,48 @@ export default function Payroll() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200">
-                    {employees?.map((employee: any) => (
-                      <tr key={employee.id} className="hover:bg-gray-50">
-                        <td className="px-4 py-3 text-sm text-gray-900">{employee.name}</td>
-                        <td className="px-4 py-3 text-sm text-gray-600">{employee.position}</td>
-                        <td className="px-4 py-3 text-sm text-gray-600">{employee.email || '-'}</td>
-                        <td className="px-4 py-3 text-sm text-gray-900">
-                          {formatCurrency(employee.baseSalary || 0)}
-                        </td>
-                        <td className="px-4 py-3 text-center">
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => {
-                              viewEmployeeDetails(employee);
-                              setShowAddEmployee(false);
-                            }}
-                            className="mr-2"
-                          >
-                            <Eye className="w-4 h-4" />
-                          </Button>
+                    {filteredEmployees.length === 0 ? (
+                      <tr>
+                        <td colSpan={5} className="px-4 py-8 text-center text-gray-500">
+                          {employeeSearchTerm || employeeFilterPosition 
+                            ? "Tidak ada karyawan yang sesuai dengan filter" 
+                            : "Belum ada data karyawan"}
                         </td>
                       </tr>
-                    ))}
+                    ) : (
+                      filteredEmployees.map((employee: any) => (
+                        <tr key={employee.id} className="hover:bg-gray-50">
+                          <td className="px-4 py-3 text-sm text-gray-900">{employee.name}</td>
+                          <td className="px-4 py-3 text-sm text-gray-600">{employee.position}</td>
+                          <td className="px-4 py-3 text-sm text-gray-600">{employee.email || '-'}</td>
+                          <td className="px-4 py-3 text-sm text-gray-900">
+                            {formatCurrency(employee.baseSalary || 0)}
+                          </td>
+                          <td className="px-4 py-3 text-center">
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => {
+                                viewEmployeeDetails(employee);
+                                setShowAddEmployee(false);
+                              }}
+                              className="mr-2"
+                            >
+                              <Eye className="w-4 h-4" />
+                            </Button>
+                          </td>
+                        </tr>
+                      ))
+                    )}
                   </tbody>
                 </table>
               </div>
             </div>
             
-            <div className="flex justify-end pt-4 border-t">
+            <div className="flex justify-between items-center pt-4 border-t">
+              <div className="text-sm text-gray-600">
+                Menampilkan {filteredEmployees.length} dari {employees?.length || 0} karyawan
+              </div>
               <Button variant="outline" onClick={() => setShowAddEmployee(false)}>
                 Tutup
               </Button>
