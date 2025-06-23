@@ -77,13 +77,13 @@ export default function AIAnalytics() {
     
     const alerts = [];
     const now = new Date();
-    const recentTransactions = transactionData.filter(t => 
+    const recentTransactions = transactionData.filter((t: any) => 
       new Date(t.date) > new Date(now.getTime() - 24 * 60 * 60 * 1000)
     );
 
     // Detect unusual transaction patterns
-    const expenseTransactions = recentTransactions.filter(t => t.type === 'expense');
-    const largeExpenses = expenseTransactions.filter(t => 
+    const expenseTransactions = recentTransactions.filter((t: any) => t.type === 'expense');
+    const largeExpenses = expenseTransactions.filter((t: any) => 
       parseFloat(t.amount) > 5000000 // Above 5 million
     );
 
@@ -96,13 +96,13 @@ export default function AIAnalytics() {
         description: `${largeExpenses.length} transaksi pengeluaran besar (>Rp 5jt) dalam 24 jam terakhir`,
         timestamp: now.toISOString(),
         outlet: 'Multiple Outlets',
-        amount: largeExpenses.reduce((sum, t) => sum + parseFloat(t.amount), 0),
+        amount: largeExpenses.reduce((sum: any, t: any) => sum + parseFloat(t.amount), 0),
         status: 'investigating'
       });
     }
 
     // Detect rapid sequential transactions
-    const sortedTransactions = recentTransactions.sort((a, b) => 
+    const sortedTransactions = recentTransactions.sort((a: any, b: any) => 
       new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
     );
 
@@ -188,12 +188,31 @@ export default function AIAnalytics() {
     }
   });
 
-  // Real-time fraud alerts from real data
-  const realTimeFraudAlerts = generateFraudAlerts();
+  // Mock advanced analytics data (fallback)
+  const defaultCashFlowForecast = {
+    next30Days: {
+      projectedIncome: 125000000,
+      projectedExpenses: 98000000,
+      netCashFlow: 27000000,
+      confidence: 85
+    },
+    next60Days: {
+      projectedIncome: 245000000,
+      projectedExpenses: 190000000,
+      netCashFlow: 55000000,
+      confidence: 78
+    },
+    next90Days: {
+      projectedIncome: 365000000,
+      projectedExpenses: 285000000,
+      netCashFlow: 80000000,
+      confidence: 72
+    }
+  };
 
   // Enhanced cash flow forecasting with real data
   const generateCashFlowForecast = () => {
-    if (!dashboardStats) return cashFlowForecast;
+    if (!dashboardStats) return defaultCashFlowForecast;
 
     const currentBalance = dashboardStats.cashBalance || 0;
     const weeklyIncome = dashboardStats.weeklyIncome || 0;
@@ -226,6 +245,9 @@ export default function AIAnalytics() {
   };
 
   const realCashFlowForecast = generateCashFlowForecast();
+  
+  // Real-time fraud alerts from real data
+  const realTimeFraudAlerts = generateFraudAlerts();
 
   // Mock advanced analytics data
   const cashFlowForecast = {
@@ -483,21 +505,21 @@ export default function AIAnalytics() {
                 <div className="space-y-3">
                   <div>
                     <p className="text-sm text-gray-600">Projected Income</p>
-                    <p className="text-xl font-bold text-green-600">{formatCurrency(cashFlowForecast.next30Days.projectedIncome)}</p>
+                    <p className="text-xl font-bold text-green-600">{formatCurrency(realCashFlowForecast.next30Days.projectedIncome)}</p>
                   </div>
                   <div>
                     <p className="text-sm text-gray-600">Projected Expenses</p>
-                    <p className="text-xl font-bold text-red-600">{formatCurrency(cashFlowForecast.next30Days.projectedExpenses)}</p>
+                    <p className="text-xl font-bold text-red-600">{formatCurrency(realCashFlowForecast.next30Days.projectedExpenses)}</p>
                   </div>
                   <div className="pt-2 border-t">
                     <p className="text-sm text-gray-600">Net Cash Flow</p>
-                    <p className="text-2xl font-bold text-[#f29716]">{formatCurrency(cashFlowForecast.next30Days.netCashFlow)}</p>
+                    <p className="text-2xl font-bold text-[#f29716]">{formatCurrency(realCashFlowForecast.next30Days.netCashFlow)}</p>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-full bg-gray-200 rounded-full h-2">
-                      <div className="bg-blue-600 h-2 rounded-full" style={{width: `${cashFlowForecast.next30Days.confidence}%`}}></div>
+                      <div className="bg-blue-600 h-2 rounded-full" style={{width: `${realCashFlowForecast.next30Days.confidence}%`}}></div>
                     </div>
-                    <span className="text-sm font-medium">{cashFlowForecast.next30Days.confidence}%</span>
+                    <span className="text-sm font-medium">{realCashFlowForecast.next30Days.confidence}%</span>
                   </div>
                 </div>
               </CardContent>
@@ -514,21 +536,21 @@ export default function AIAnalytics() {
                 <div className="space-y-3">
                   <div>
                     <p className="text-sm text-gray-600">Projected Income</p>
-                    <p className="text-xl font-bold text-green-600">{formatCurrency(cashFlowForecast.next60Days.projectedIncome)}</p>
+                    <p className="text-xl font-bold text-green-600">{formatCurrency(realCashFlowForecast.next60Days.projectedIncome)}</p>
                   </div>
                   <div>
                     <p className="text-sm text-gray-600">Projected Expenses</p>
-                    <p className="text-xl font-bold text-red-600">{formatCurrency(cashFlowForecast.next60Days.projectedExpenses)}</p>
+                    <p className="text-xl font-bold text-red-600">{formatCurrency(realCashFlowForecast.next60Days.projectedExpenses)}</p>
                   </div>
                   <div className="pt-2 border-t">
                     <p className="text-sm text-gray-600">Net Cash Flow</p>
-                    <p className="text-2xl font-bold text-[#f29716]">{formatCurrency(cashFlowForecast.next60Days.netCashFlow)}</p>
+                    <p className="text-2xl font-bold text-[#f29716]">{formatCurrency(realCashFlowForecast.next60Days.netCashFlow)}</p>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-full bg-gray-200 rounded-full h-2">
-                      <div className="bg-green-600 h-2 rounded-full" style={{width: `${cashFlowForecast.next60Days.confidence}%`}}></div>
+                      <div className="bg-green-600 h-2 rounded-full" style={{width: `${realCashFlowForecast.next60Days.confidence}%`}}></div>
                     </div>
-                    <span className="text-sm font-medium">{cashFlowForecast.next60Days.confidence}%</span>
+                    <span className="text-sm font-medium">{realCashFlowForecast.next60Days.confidence}%</span>
                   </div>
                 </div>
               </CardContent>
@@ -545,21 +567,21 @@ export default function AIAnalytics() {
                 <div className="space-y-3">
                   <div>
                     <p className="text-sm text-gray-600">Projected Income</p>
-                    <p className="text-xl font-bold text-green-600">{formatCurrency(cashFlowForecast.next90Days.projectedIncome)}</p>
+                    <p className="text-xl font-bold text-green-600">{formatCurrency(realCashFlowForecast.next90Days.projectedIncome)}</p>
                   </div>
                   <div>
                     <p className="text-sm text-gray-600">Projected Expenses</p>
-                    <p className="text-xl font-bold text-red-600">{formatCurrency(cashFlowForecast.next90Days.projectedExpenses)}</p>
+                    <p className="text-xl font-bold text-red-600">{formatCurrency(realCashFlowForecast.next90Days.projectedExpenses)}</p>
                   </div>
                   <div className="pt-2 border-t">
                     <p className="text-sm text-gray-600">Net Cash Flow</p>
-                    <p className="text-2xl font-bold text-[#f29716]">{formatCurrency(cashFlowForecast.next90Days.netCashFlow)}</p>
+                    <p className="text-2xl font-bold text-[#f29716]">{formatCurrency(realCashFlowForecast.next90Days.netCashFlow)}</p>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-full bg-gray-200 rounded-full h-2">
-                      <div className="bg-orange-600 h-2 rounded-full" style={{width: `${cashFlowForecast.next90Days.confidence}%`}}></div>
+                      <div className="bg-orange-600 h-2 rounded-full" style={{width: `${realCashFlowForecast.next90Days.confidence}%`}}></div>
                     </div>
-                    <span className="text-sm font-medium">{cashFlowForecast.next90Days.confidence}%</span>
+                    <span className="text-sm font-medium">{realCashFlowForecast.next90Days.confidence}%</span>
                   </div>
                 </div>
               </CardContent>
