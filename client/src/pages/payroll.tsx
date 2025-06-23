@@ -593,6 +593,8 @@ export default function Payroll() {
 
   // Save employee changes
   const saveEmployeeChanges = async () => {
+    if (!selectedEmployee) return;
+    
     try {
       const token = localStorage.getItem('auth_token');
       const response = await fetch(`/api/employees/${selectedEmployee.id}`, {
@@ -633,6 +635,8 @@ export default function Payroll() {
 
   // Cancel employee edit
   const cancelEmployeeEdit = () => {
+    if (!selectedEmployee) return;
+    
     setEmployeeFormData({
       name: selectedEmployee.name || '',
       position: selectedEmployee.position || '',
