@@ -204,6 +204,35 @@ export const notifications = pgTable("notifications", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+// POS Devices Management
+export const posDevices = pgTable("pos_devices", {
+  id: serial("id").primaryKey(),
+  businessId: integer("business_id").notNull(),
+  outletId: integer("outlet_id").references(() => outlets.id).notNull(),
+  name: text("name").notNull(),
+  type: varchar("type", { length: 20 }).notNull(), // moka, custom, cashier, self-service, mobile
+  location: text("location").notNull(),
+  apiUrl: text("api_url"),
+  apiKey: text("api_key"), // encrypted
+  status: varchar("status", { length: 20 }).notNull().default("disconnected"), // connected, disconnected, syncing
+  lastSync: timestamp("last_sync"),
+  todayTransactions: integer("today_transactions").notNull().default(0),
+  isActive: boolean("is_active").notNull().default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// POS Sync Logs
+export const posSyncLogs = pgTable("pos_sync_logs", {
+  id: serial("id").primaryKey(),
+  posDeviceId: integer("pos_device_id").references(() => posDevices.id).notNull(),
+  syncType: varchar("sync_type", { length: 20 }).notNull(), // manual, automatic
+  status: varchar("status", { length: 20 }).notNull(), // success, failed, in_progress
+  transactionCount: integer("transaction_count").notNull().default(0),
+  errorMessage: text("error_message"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 // Relations
 export const usersRelations = relations(users, ({ many, one }) => ({
   transactions: many(transactions),
@@ -225,6 +254,16 @@ export const outletsRelations = relations(outlets, ({ one, many }) => ({
   payrolls: many(payrolls),
   invoices: many(invoices),
   posTransactions: many(posTransactions),
+  posDevices: many(posDevices),
+}));
+
+export const posDevicesRelations = relations(posDevices, ({ one, many }) => ({
+  outlet: one(outlets, { fields: [posDevices.outletId], references: [outlets.id] }),
+  syncLogs: many(posSyncLogs),
+}));
+
+export const posSyncLogsRelations = relations(posSyncLogs, ({ one }) => ({
+  device: one(posDevices, { fields: [posSyncLogs.posDeviceId], references: [posDevices.id] }),
 }));
 
 export const employeesRelations = relations(employees, ({ one, many }) => ({
@@ -359,6 +398,28 @@ export const changePasswordSchema = z.object({
   currentPassword: z.string(),
   newPassword: z.string().min(8),
 });
+
+// POS Device schemas
+export const insertPosDeviceSchema = createInsertSchema(posDevices).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const selectPosDeviceSchema = createSelectSchema(posDevices);
+
+export const insertPosSyncLogSchema = createInsertSchema(posSyncLogs).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const selectPosSyncLogSchema = createSelectSchema(posSyncLogs);
+
+// POS Device types
+export type PosDevice = typeof posDevices.$inferSelect;
+export type InsertPosDevice = z.infer<typeof insertPosDeviceSchema>;
+export type PosSyncLog = typeof posSyncLogs.$inferSelect;
+export type InsertPosSyncLog = z.infer<typeof insertPosSyncLogSchema>;
 
 export type LoginData = z.infer<typeof loginSchema>;
 export type RegisterData = z.infer<typeof registerSchema>;

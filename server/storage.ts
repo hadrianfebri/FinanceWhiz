@@ -3,6 +3,9 @@ import {
   transactions,
   categories,
   userSettings,
+  posDevices,
+  posSyncLogs,
+  outlets,
   type User,
   type InsertUser,
   type Transaction,
@@ -12,6 +15,10 @@ import {
   type UserSettings,
   type InsertUserSettings,
   type UpdateProfileData,
+  type PosDevice,
+  type InsertPosDevice,
+  type PosSyncLog,
+  type InsertPosSyncLog,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, desc, asc, sum, count, gte, lte, sql, isNull } from "drizzle-orm";
@@ -69,6 +76,18 @@ export interface IStorage {
   // User settings
   getUserSettings(userId: number): Promise<UserSettings | undefined>;
   updateUserSettings(userId: number, settings: Partial<InsertUserSettings>): Promise<UserSettings>;
+
+  // POS Device operations
+  getPosDevices(businessId: number): Promise<PosDevice[]>;
+  getPosDeviceById(id: number, businessId: number): Promise<PosDevice | undefined>;
+  createPosDevice(device: InsertPosDevice): Promise<PosDevice>;
+  updatePosDevice(id: number, businessId: number, data: Partial<InsertPosDevice>): Promise<PosDevice>;
+  deletePosDevice(id: number, businessId: number): Promise<void>;
+  updatePosDeviceStatus(id: number, status: string, lastSync?: Date, todayTransactions?: number): Promise<void>;
+
+  // POS Sync operations
+  createSyncLog(log: InsertPosSyncLog): Promise<PosSyncLog>;
+  getSyncLogs(posDeviceId: number, limit?: number): Promise<PosSyncLog[]>;
 }
 
 export class DatabaseStorage implements IStorage {
