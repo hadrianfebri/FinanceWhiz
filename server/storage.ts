@@ -468,6 +468,120 @@ export class DatabaseStorage implements IStorage {
       .returning();
     return settings;
   }
+
+  // POS Device operations
+  async getPosDevices(businessId: number): Promise<PosDevice[]> {
+    const result = await db
+      .select({
+        id: posDevices.id,
+        businessId: posDevices.businessId,
+        outletId: posDevices.outletId,
+        name: posDevices.name,
+        type: posDevices.type,
+        location: posDevices.location,
+        apiUrl: posDevices.apiUrl,
+        apiKey: posDevices.apiKey,
+        status: posDevices.status,
+        lastSync: posDevices.lastSync,
+        todayTransactions: posDevices.todayTransactions,
+        isActive: posDevices.isActive,
+        createdAt: posDevices.createdAt,
+        updatedAt: posDevices.updatedAt,
+        outletName: outlets.name,
+      })
+      .from(posDevices)
+      .leftJoin(outlets, eq(posDevices.outletId, outlets.id))
+      .where(and(
+        eq(posDevices.businessId, businessId),
+        eq(posDevices.isActive, true)
+      ))
+      .orderBy(desc(posDevices.createdAt));
+    
+    return result as PosDevice[];
+  }
+
+  async getPosDeviceById(id: number, businessId: number): Promise<PosDevice | undefined> {
+    const [device] = await db
+      .select()
+      .from(posDevices)
+      .where(and(
+        eq(posDevices.id, id),
+        eq(posDevices.businessId, businessId),
+        eq(posDevices.isActive, true)
+      ));
+    return device || undefined;
+  }
+
+  async createPosDevice(deviceData: InsertPosDevice): Promise<PosDevice> {
+    const [device] = await db
+      .insert(posDevices)
+      .values({
+        ...deviceData,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      })
+      .returning();
+    return device;
+  }
+
+  async updatePosDevice(id: number, businessId: number, data: Partial<InsertPosDevice>): Promise<PosDevice> {
+    const [device] = await db
+      .update(posDevices)
+      .set({ ...data, updatedAt: new Date() })
+      .where(and(
+        eq(posDevices.id, id),
+        eq(posDevices.businessId, businessId)
+      ))
+      .returning();
+
+    if (!device) {
+      throw new Error("POS device not found");
+    }
+
+    return device;
+  }
+
+  async deletePosDevice(id: number, businessId: number): Promise<void> {
+    await db
+      .update(posDevices)
+      .set({ isActive: false, updatedAt: new Date() })
+      .where(and(
+        eq(posDevices.id, id),
+        eq(posDevices.businessId, businessId)
+      ));
+  }
+
+  async updatePosDeviceStatus(id: number, status: string, lastSync?: Date, todayTransactions?: number): Promise<void> {
+    const updateData: any = { status, updatedAt: new Date() };
+    if (lastSync) updateData.lastSync = lastSync;
+    if (todayTransactions !== undefined) updateData.todayTransactions = todayTransactions;
+
+    await db
+      .update(posDevices)
+      .set(updateData)
+      .where(eq(posDevices.id, id));
+  }
+
+  // POS Sync operations
+  async createSyncLog(logData: InsertPosSyncLog): Promise<PosSyncLog> {
+    const [log] = await db
+      .insert(posSyncLogs)
+      .values({
+        ...logData,
+        createdAt: new Date(),
+      })
+      .returning();
+    return log;
+  }
+
+  async getSyncLogs(posDeviceId: number, limit: number = 10): Promise<PosSyncLog[]> {
+    return await db
+      .select()
+      .from(posSyncLogs)
+      .where(eq(posSyncLogs.posDeviceId, posDeviceId))
+      .orderBy(desc(posSyncLogs.createdAt))
+      .limit(limit);
+  }
 }
 
 export const storage = new DatabaseStorage();

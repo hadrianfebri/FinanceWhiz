@@ -27,42 +27,85 @@ export default function POSSync() {
     apiUrl: ''
   });
 
-  // Mock POS devices data - in real app this would come from backend
-  const [posDevices] = useState([
-    {
-      id: 1,
-      name: 'Kasir Utama',
-      type: 'cashier',
-      location: 'Cabang Utama - Counter 1',
-      outletId: 1,
-      status: 'connected',
-      lastSync: new Date(),
-      todayTransactions: 156,
-      apiUrl: 'https://pos1.tokoberkah.com/api'
-    },
-    {
-      id: 2,
-      name: 'Self-Service Kiosk',
-      type: 'self-service',
-      location: 'Cabang Utama - Area Depan',
-      outletId: 1,
-      status: 'connected',
-      lastSync: new Date(Date.now() - 300000), // 5 minutes ago
-      todayTransactions: 42,
-      apiUrl: 'https://kiosk1.tokoberkah.com/api'
-    },
-    {
-      id: 3,
-      name: 'Mobile POS',
-      type: 'mobile',
-      location: 'Cabang Bandung - Staff',
-      outletId: 2,
-      status: 'disconnected',
-      lastSync: new Date(Date.now() - 3600000), // 1 hour ago
-      todayTransactions: 0,
-      apiUrl: 'https://mobile1.tokoberkah.com/api'
+  // Fetch POS devices from database
+  const { data: posDevices = [], refetch: refetchDevices } = useQuery({
+    queryKey: ['/api/pos-devices'],
+    queryFn: async () => {
+      const response = await fetch('/api/pos-devices', {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      if (!response.ok) throw new Error('Failed to fetch POS devices');
+      return response.json();
     }
-  ]);
+  });
+
+  const createDeviceMutation = useMutation({
+    mutationFn: async (deviceData: any) => {
+      const response = await fetch('/api/pos-devices', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify(deviceData)
+      });
+      if (!response.ok) throw new Error('Failed to create POS device');
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/pos-devices'] });
+      setShowAddPOSModal(false);
+      toast({
+        title: "POS Berhasil Didaftarkan",
+        description: "Perangkat POS telah berhasil ditambahkan ke sistem"
+      });
+    }
+  });
+
+  const updateDeviceMutation = useMutation({
+    mutationFn: async ({ id, data }: { id: number; data: any }) => {
+      const response = await fetch(`/api/pos-devices/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify(data)
+      });
+      if (!response.ok) throw new Error('Failed to update POS device');
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/pos-devices'] });
+      setShowEditPOSModal(false);
+      toast({
+        title: "POS Berhasil Diperbarui",
+        description: "Konfigurasi POS telah berhasil disimpan"
+      });
+    }
+  });
+
+  const syncDeviceMutation = useMutation({
+    mutationFn: async (deviceId: number) => {
+      const response = await fetch(`/api/pos-devices/${deviceId}/sync`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      if (!response.ok) throw new Error('Failed to sync POS device');
+      return response.json();
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['/api/pos-devices'] });
+      toast({
+        title: data.success ? "Sinkronisasi Berhasil" : "Sinkronisasi Gagal",
+        description: data.message
+      });
+    }
+  });
 
   const handleSync = async () => {
     setSyncing(true);
