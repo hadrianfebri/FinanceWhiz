@@ -100,14 +100,35 @@ Tanggal: ${new Date().toLocaleDateString('id-ID')}
         </Button>
       </div>
 
+      {/* Information Banner */}
+      <Card className="border-blue-200 bg-blue-50">
+        <CardContent className="p-6">
+          <div className="flex items-start space-x-3">
+            <AlertCircle className="h-5 w-5 text-blue-600 mt-0.5" />
+            <div>
+              <h3 className="font-semibold text-blue-900 font-league">Cara Kerja Perhitungan Pajak UMKM</h3>
+              <p className="text-blue-800 mt-1 font-league">
+                Sistem menghitung pajak PPh Final 0.5% secara otomatis berdasarkan <strong>data omzet dari menu Laporan</strong>. 
+                Omzet kotor dikali 0.5% = Pajak yang harus dibayar. Contoh: Omzet Rp 100 juta × 0.5% = Rp 500.000 pajak per bulan.
+              </p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600 font-league">Pajak Kuartal Ini</p>
+                <p className="text-sm font-medium text-gray-600 font-league">
+                  Pajak {taxSummary.quarter || 'Kuartal Ini'}
+                </p>
                 <p className="text-2xl font-bold text-gray-900 font-league">
                   {formatCurrency(taxSummary.currentQuarterTax || 0)}
+                </p>
+                <p className="text-xs text-gray-500 font-league">
+                  Dari omzet: {formatCurrency(taxSummary.quarterlyIncome || 0)}
                 </p>
               </div>
               <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
@@ -121,9 +142,12 @@ Tanggal: ${new Date().toLocaleDateString('id-ID')}
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600 font-league">Total Tahun Ini</p>
+                <p className="text-sm font-medium text-gray-600 font-league">Total Pajak Tahun Ini</p>
                 <p className="text-2xl font-bold text-gray-900 font-league">
                   {formatCurrency(taxSummary.yearToDateTax || 0)}
+                </p>
+                <p className="text-xs text-gray-500 font-league">
+                  Dari omzet: {formatCurrency(taxSummary.yearlyIncome || 0)}
                 </p>
               </div>
               <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
@@ -137,9 +161,13 @@ Tanggal: ${new Date().toLocaleDateString('id-ID')}
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600 font-league">Tarif PPh Final</p>
-                <p className="text-2xl font-bold text-gray-900 font-league">0.5%</p>
-                <p className="text-sm text-gray-500 font-league">UMKM Rate</p>
+                <p className="text-sm font-medium text-gray-600 font-league">Tarif PPh Final UMKM</p>
+                <p className="text-2xl font-bold text-gray-900 font-league">
+                  {((taxSummary.taxRate || 0.005) * 100).toFixed(1)}%
+                </p>
+                <p className="text-xs text-gray-500 font-league">
+                  Jatuh tempo: {taxSummary.upcomingDeadline ? new Date(taxSummary.upcomingDeadline).toLocaleDateString('id-ID') : 'N/A'}
+                </p>
               </div>
               <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center">
                 <FileText className="h-6 w-6 text-yellow-600" />
