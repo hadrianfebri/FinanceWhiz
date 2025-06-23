@@ -187,9 +187,7 @@ export default function Payroll() {
     createPayrollMutation.mutate(formData);
   };
 
-  const handleStatusUpdate = (payrollId: number, newStatus: string) => {
-    updateStatusMutation.mutate({ id: payrollId, status: newStatus });
-  };
+
 
   const exportPayrollData = () => {
     const csvContent = [
