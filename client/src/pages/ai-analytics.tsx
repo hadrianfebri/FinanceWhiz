@@ -140,24 +140,63 @@ export default function AIAnalytics() {
 
   // Generate cash flow forecast
   const generateCashFlowForecast = () => {
-    if (!transactionData || transactionData.length === 0) return [];
+    if (!transactionData || transactionData.length === 0) {
+      // Use dashboard stats if no transaction data
+      if (dashboardStats) {
+        const dailyIncome = (dashboardStats.weeklyIncome || 0) / 7;
+        const dailyExpenses = (dashboardStats.weeklyExpenses || 0) / 7;
+        const dailyNetFlow = dailyIncome - dailyExpenses;
+        const currentBalance = dashboardStats.cashBalance || 0;
 
-    const last30Days = transactionData.filter(t => {
-      const transactionDate = new Date(t.createdAt);
-      const thirtyDaysAgo = new Date();
-      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-      return transactionDate >= thirtyDaysAgo;
-    });
+        const forecast = [];
+        let projectedBalance = currentBalance;
 
-    const dailyIncome = last30Days
-      .filter(t => t.type === 'income')
-      .reduce((sum, t) => sum + t.amount, 0) / 30;
+        for (let days = 1; days <= parseInt(selectedTimeframe); days++) {
+          let multiplier = 1;
+          if (selectedScenario === 'optimistic') multiplier = 1.2;
+          if (selectedScenario === 'pessimistic') multiplier = 0.8;
+          if (selectedScenario === 'realistic') multiplier = 1.0;
+
+          projectedBalance += dailyNetFlow * multiplier;
+          
+          forecast.push({
+            date: new Date(Date.now() + days * 24 * 60 * 60 * 1000),
+            balance: Math.max(0, projectedBalance),
+            income: dailyIncome * multiplier,
+            expenses: dailyExpenses * multiplier
+          });
+        }
+        return forecast;
+      }
+      return [];
+    }
+
+    // Calculate from all transaction data for better accuracy
+    const allIncome = transactionData
+      .filter((t: any) => t.type === 'income')
+      .reduce((sum: number, t: any) => sum + t.amount, 0);
       
-    const dailyExpenses = last30Days
-      .filter(t => t.type === 'expense')
-      .reduce((sum, t) => sum + t.amount, 0) / 30;
+    const allExpenses = transactionData
+      .filter((t: any) => t.type === 'expense')
+      .reduce((sum: number, t: any) => sum + t.amount, 0);
 
-    const dailyNetFlow = dailyIncome - dailyExpenses;
+    // Calculate daily averages from all available data
+    const totalDays = Math.max(30, transactionData.length > 0 ? 
+      Math.ceil((new Date().getTime() - new Date(transactionData[transactionData.length - 1]?.createdAt || new Date()).getTime()) / (1000 * 60 * 60 * 24)) 
+      : 30);
+    
+    const dailyIncome = allIncome / totalDays;
+    const dailyExpenses = allExpenses / totalDays;
+
+    // Use dashboard stats as additional validation/fallback
+    const dashboardDailyIncome = (dashboardStats?.weeklyIncome || 0) / 7;
+    const dashboardDailyExpenses = (dashboardStats?.weeklyExpenses || 0) / 7;
+
+    // Use whichever gives more realistic results
+    const finalDailyIncome = Math.max(dailyIncome, dashboardDailyIncome);
+    const finalDailyExpenses = Math.max(dailyExpenses, dashboardDailyExpenses);
+
+    const dailyNetFlow = finalDailyIncome - finalDailyExpenses;
     const currentBalance = dashboardStats?.cashBalance || 0;
 
     const forecast = [];
@@ -167,14 +206,15 @@ export default function AIAnalytics() {
       let multiplier = 1;
       if (selectedScenario === 'optimistic') multiplier = 1.2;
       if (selectedScenario === 'pessimistic') multiplier = 0.8;
+      if (selectedScenario === 'realistic') multiplier = 1.0;
 
       projectedBalance += dailyNetFlow * multiplier;
       
       forecast.push({
         date: new Date(Date.now() + days * 24 * 60 * 60 * 1000),
         balance: Math.max(0, projectedBalance),
-        income: dailyIncome * multiplier,
-        expenses: dailyExpenses * multiplier
+        income: finalDailyIncome * multiplier,
+        expenses: finalDailyExpenses * multiplier
       });
     }
 
