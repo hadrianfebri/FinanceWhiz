@@ -1,16 +1,72 @@
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { FileText, Calendar, DollarSign, Download } from 'lucide-react';
+import { FileText, Calendar, DollarSign, Download, Plus, Edit2, AlertCircle } from 'lucide-react';
 import { formatCurrency } from '@/lib/utils';
+import { useToast } from '@/hooks/use-toast';
 
 export default function TaxManagement() {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  
   const { data: taxSummary = {}, isLoading } = useQuery({
     queryKey: ['/api/tax/summary'],
-    queryFn: () => fetch('/api/tax/summary').then(res => res.json())
+    queryFn: async () => {
+      const token = localStorage.getItem('auth_token');
+      const response = await fetch('/api/tax/summary', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      if (!response.ok) throw new Error('Failed to fetch tax data');
+      return response.json();
+    }
   });
+
+  // Function to export tax report
+  const handleExportReport = () => {
+    if (!taxSummary.quarter) return;
+    
+    const reportData = `
+LAPORAN PAJAK PPh FINAL UMKM
+Periode: ${taxSummary.quarter}
+========================================
+
+DATA KEUANGAN:
+- Omzet ${taxSummary.quarter}: ${formatCurrency(taxSummary.quarterlyIncome || 0)}
+- Omzet Tahun Ini: ${formatCurrency(taxSummary.yearlyIncome || 0)}
+
+PERHITUNGAN PAJAK:
+- Tarif PPh Final UMKM: ${((taxSummary.taxRate || 0.005) * 100).toFixed(1)}%
+- Pajak ${taxSummary.quarter}: ${formatCurrency(taxSummary.currentQuarterTax || 0)}
+- Total Pajak Tahun Ini: ${formatCurrency(taxSummary.yearToDateTax || 0)}
+
+JADWAL PEMBAYARAN:
+- Batas Waktu Pembayaran: ${taxSummary.upcomingDeadline || 'N/A'}
+- Status Kepatuhan: ${taxSummary.complianceStatus === 'compliant' ? 'Patuh' : 'Belum Patuh'}
+
+Digenerate oleh: FinanceWhiz.AI - Toko Berkah
+Tanggal: ${new Date().toLocaleDateString('id-ID')}
+========================================
+`;
+
+    const blob = new Blob([reportData], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Laporan_Pajak_${taxSummary.quarter?.replace(' ', '_')}_${new Date().toISOString().split('T')[0]}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+    toast({
+      title: "Laporan Berhasil Diexport",
+      description: "File laporan pajak telah didownload"
+    });
+  };
 
   if (isLoading) {
     return (
@@ -34,7 +90,11 @@ export default function TaxManagement() {
           <h1 className="text-3xl font-bold text-gray-900 font-league">Manajemen Pajak</h1>
           <p className="text-gray-600 mt-1 font-league">Kelola kewajiban pajak dan laporan UMKM</p>
         </div>
-        <Button className="bg-[#f29716] hover:bg-[#d4820a] font-league">
+        <Button 
+          onClick={handleExportReport}
+          className="bg-[#f29716] hover:bg-[#d4820a] font-league"
+          disabled={!taxSummary.quarter}
+        >
           <Download className="h-4 w-4 mr-2" />
           Export Laporan
         </Button>

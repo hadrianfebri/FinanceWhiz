@@ -887,12 +887,45 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // SME Routes - Tax Management
   app.get('/api/tax/summary', authenticate, async (req: any, res: Response) => {
     try {
+      // Get current year and quarter for calculations
+      const currentYear = new Date().getFullYear();
+      const currentMonth = new Date().getMonth();
+      const currentQuarter = Math.ceil((currentMonth + 1) / 3);
+      
+      // Calculate quarter date range
+      const quarterStartMonth = (currentQuarter - 1) * 3;
+      const quarterStart = new Date(currentYear, quarterStartMonth, 1);
+      const quarterEnd = new Date(currentYear, quarterStartMonth + 3, 0);
+      
+      // Get year-to-date range
+      const yearStart = new Date(currentYear, 0, 1);
+      const yearEnd = new Date();
+      
+      // Get financial reports for tax calculation
+      const quarterlyReport = await storage.getFinancialReport(req.user.id, quarterStart, quarterEnd);
+      const yearlyReport = await storage.getFinancialReport(req.user.id, yearStart, yearEnd);
+      
+      // Calculate PPh Final 0.5% for UMKM based on gross income
+      const taxRate = 0.005; // 0.5% PPh Final UMKM
+      const currentQuarterTax = Math.round(quarterlyReport.totalIncome * taxRate);
+      const yearToDateTax = Math.round(yearlyReport.totalIncome * taxRate);
+      
+      // Calculate next payment deadline (quarterly)
+      const nextQuarter = currentQuarter === 4 ? 1 : currentQuarter + 1;
+      const nextYear = currentQuarter === 4 ? currentYear + 1 : currentYear;
+      const nextDeadline = new Date(nextYear, (nextQuarter - 1) * 3 + 3, 20); // 20th of month after quarter end
+      
       const taxSummary = {
-        currentQuarterTax: 600000,
-        yearToDateTax: 1075000,
-        upcomingDeadline: '2024-10-31',
-        complianceStatus: 'compliant'
+        currentQuarterTax,
+        yearToDateTax,
+        quarterlyIncome: quarterlyReport.totalIncome,
+        yearlyIncome: yearlyReport.totalIncome,
+        taxRate,
+        upcomingDeadline: nextDeadline.toISOString().split('T')[0],
+        complianceStatus: 'compliant',
+        quarter: `Q${currentQuarter} ${currentYear}`
       };
+      
       res.json(taxSummary);
     } catch (error) {
       console.error('Get tax summary error:', error);
