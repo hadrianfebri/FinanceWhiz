@@ -18,6 +18,8 @@ export default function Payroll() {
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [showAddEmployee, setShowAddEmployee] = useState(false);
   const [selectedPayroll, setSelectedPayroll] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterPosition, setFilterPosition] = useState('');
   const [formData, setFormData] = useState({
     employeeId: '',
     baseSalary: '',

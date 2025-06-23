@@ -647,15 +647,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { employeeId, baseSalary, bonus = 0, deduction = 0, payPeriod, notes } = req.body;
       
-      const totalAmount = parseFloat(baseSalary) + parseFloat(bonus) - parseFloat(deduction);
+      // Validate and parse numeric values
+      const parsedBaseSalary = parseFloat(baseSalary) || 0;
+      const parsedBonus = parseFloat(bonus) || 0;
+      const parsedDeduction = parseFloat(deduction) || 0;
+      const totalAmount = parsedBaseSalary + parsedBonus - parsedDeduction;
       
       const [newPayroll] = await db
         .insert(payrolls)
         .values({
           employeeId: parseInt(employeeId),
-          baseSalary: baseSalary.toString(),
-          bonus: bonus.toString(),
-          deduction: deduction.toString(),
+          baseSalary: parsedBaseSalary.toString(),
+          bonus: parsedBonus.toString(),
+          deduction: parsedDeduction.toString(),
           totalAmount: totalAmount.toString(),
           payPeriod,
           status: 'pending',
