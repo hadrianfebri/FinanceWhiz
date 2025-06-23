@@ -7,8 +7,7 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 import express from "express";
-import Mailgun from "mailgun.js";
-import formData from "form-data";
+
 import {
   loginSchema,
   registerSchema,
@@ -987,18 +986,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
         </html>
       `;
 
-      // Send email using Mailgun
-      const mg = mailgun({
-        apiKey: process.env.MAILGUN_API_KEY,
-        domain: process.env.MAILGUN_DOMAIN
-      });
-
-      const mailData = {
-        from: `Toko Berkah <noreply@${process.env.MAILGUN_DOMAIN}>`,
-        to: employeeEmail,
-        subject: `Slip Gaji ${payroll.payPeriod} - ${employeeName}`,
-        html: payslipHtml
-      };
+      // Send email using Mailgun REST API
+      const formData = new URLSearchParams();
+      formData.append('from', `Toko Berkah <noreply@${process.env.MAILGUN_DOMAIN}>`);
+      formData.append('to', employeeEmail);
+      formData.append('subject', `Slip Gaji ${payroll.payPeriod} - ${employeeName}`);
+      formData.append('html', payslipHtml);
 
       // Log untuk debugging
       console.log('Mailgun config:', {
@@ -1008,7 +1001,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
         to: employeeEmail
       });
 
-      await mg.messages().send(mailData);
+      const response = await fetch(`https://api.mailgun.net/v3/${process.env.MAILGUN_DOMAIN}/messages`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Basic ${Buffer.from(`api:${process.env.MAILGUN_API_KEY}`).toString('base64')}`,
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: formData
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Mailgun API error: ${response.status} - ${errorText}`);
+      }
 
       res.json({ 
         success: true, 
