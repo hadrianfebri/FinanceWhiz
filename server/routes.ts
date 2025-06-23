@@ -596,6 +596,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.put('/api/employees/:id', authenticate, async (req: any, res: Response) => {
+    try {
+      const { id } = req.params;
+      const { name, position, email, phone, baseSalary, outletId } = req.body;
+      
+      const [updatedEmployee] = await db
+        .update(employees)
+        .set({
+          name,
+          position,
+          email: email || null,
+          phone: phone || null,
+          baseSalary: baseSalary || 0,
+          outletId: outletId ? parseInt(outletId) : null
+        })
+        .where(and(
+          eq(employees.id, parseInt(id)),
+          eq(employees.businessId, req.user.id)
+        ))
+        .returning();
+
+      if (!updatedEmployee) {
+        return res.status(404).json({ message: 'Employee not found' });
+      }
+
+      res.json({ success: true, employee: updatedEmployee });
+    } catch (error) {
+      console.error('Update employee error:', error);
+      res.status(500).json({ message: 'Failed to update employee' });
+    }
+  });
+
   // SME Routes - Payroll Management
   app.get('/api/payroll', authenticate, async (req: any, res: Response) => {
     try {

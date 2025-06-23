@@ -22,6 +22,17 @@ export default function Payroll() {
   const [filterPosition, setFilterPosition] = useState('');
   const [showPayslipModal, setShowPayslipModal] = useState(false);
   const [selectedPayslipData, setSelectedPayslipData] = useState(null);
+  const [showEmployeeModal, setShowEmployeeModal] = useState(false);
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const [isEditingEmployee, setIsEditingEmployee] = useState(false);
+  const [employeeFormData, setEmployeeFormData] = useState({
+    name: '',
+    position: '',
+    email: '',
+    phone: '',
+    baseSalary: '',
+    outletId: ''
+  });
   const [formData, setFormData] = useState({
     employeeId: '',
     baseSalary: '',
@@ -560,6 +571,79 @@ export default function Payroll() {
     }
   };
 
+  // View employee details
+  const viewEmployeeDetails = (employee: any) => {
+    setSelectedEmployee(employee);
+    setEmployeeFormData({
+      name: employee.name || '',
+      position: employee.position || '',
+      email: employee.email || '',
+      phone: employee.phone || '',
+      baseSalary: employee.baseSalary?.toString() || '',
+      outletId: employee.outletId?.toString() || ''
+    });
+    setIsEditingEmployee(false);
+    setShowEmployeeModal(true);
+  };
+
+  // Edit employee
+  const editEmployee = () => {
+    setIsEditingEmployee(true);
+  };
+
+  // Save employee changes
+  const saveEmployeeChanges = async () => {
+    try {
+      const token = localStorage.getItem('auth_token');
+      const response = await fetch(`/api/employees/${selectedEmployee.id}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: employeeFormData.name,
+          position: employeeFormData.position,
+          email: employeeFormData.email,
+          phone: employeeFormData.phone,
+          baseSalary: parseFloat(employeeFormData.baseSalary) || 0,
+          outletId: employeeFormData.outletId ? parseInt(employeeFormData.outletId) : null
+        })
+      });
+
+      if (response.ok) {
+        toast({
+          title: "Berhasil",
+          description: "Data karyawan berhasil diperbarui"
+        });
+        setIsEditingEmployee(false);
+        setShowEmployeeModal(false);
+        queryClient.invalidateQueries({ queryKey: ['/api/employees'] });
+      } else {
+        throw new Error('Failed to update employee');
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Gagal memperbarui data karyawan",
+        variant: "destructive"
+      });
+    }
+  };
+
+  // Cancel employee edit
+  const cancelEmployeeEdit = () => {
+    setEmployeeFormData({
+      name: selectedEmployee.name || '',
+      position: selectedEmployee.position || '',
+      email: selectedEmployee.email || '',
+      phone: selectedEmployee.phone || '',
+      baseSalary: selectedEmployee.baseSalary?.toString() || '',
+      outletId: selectedEmployee.outletId?.toString() || ''
+    });
+    setIsEditingEmployee(false);
+  };
+
   return (
     <div className="p-6 space-y-6">
       {/* Header */}
@@ -576,6 +660,14 @@ export default function Payroll() {
           >
             <Download className="h-4 w-4" />
             Export Data
+          </Button>
+          <Button 
+            variant="outline"
+            className="bg-green-50 text-green-600 border-green-200 hover:bg-green-100 flex items-center gap-2"
+            onClick={() => setShowAddEmployee(true)}
+          >
+            <Users className="h-4 w-4" />
+            Kelola Karyawan
           </Button>
           <Button 
             className="bg-[#f29716] hover:bg-[#d4820a] flex items-center gap-2"
@@ -1146,6 +1238,175 @@ export default function Payroll() {
               </Button>
             </div>
           </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Employee Management Modal */}
+      <Dialog open={showEmployeeModal} onOpenChange={setShowEmployeeModal}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>
+              {isEditingEmployee ? 'Edit Karyawan' : 'Detail Karyawan'}
+            </DialogTitle>
+          </DialogHeader>
+          
+          {selectedEmployee && (
+            <div className="space-y-6">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="emp-name">Nama Karyawan</Label>
+                  <Input
+                    id="emp-name"
+                    value={employeeFormData.name}
+                    onChange={(e) => setEmployeeFormData(prev => ({...prev, name: e.target.value}))}
+                    disabled={!isEditingEmployee}
+                    className={!isEditingEmployee ? 'bg-gray-50' : ''}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="emp-position">Jabatan</Label>
+                  <Input
+                    id="emp-position"
+                    value={employeeFormData.position}
+                    onChange={(e) => setEmployeeFormData(prev => ({...prev, position: e.target.value}))}
+                    disabled={!isEditingEmployee}
+                    className={!isEditingEmployee ? 'bg-gray-50' : ''}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="emp-email">Email</Label>
+                  <Input
+                    id="emp-email"
+                    type="email"
+                    value={employeeFormData.email}
+                    onChange={(e) => setEmployeeFormData(prev => ({...prev, email: e.target.value}))}
+                    disabled={!isEditingEmployee}
+                    className={!isEditingEmployee ? 'bg-gray-50' : ''}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="emp-phone">Telepon</Label>
+                  <Input
+                    id="emp-phone"
+                    value={employeeFormData.phone}
+                    onChange={(e) => setEmployeeFormData(prev => ({...prev, phone: e.target.value}))}
+                    disabled={!isEditingEmployee}
+                    className={!isEditingEmployee ? 'bg-gray-50' : ''}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="emp-salary">Gaji Pokok</Label>
+                  <Input
+                    id="emp-salary"
+                    type="number"
+                    value={employeeFormData.baseSalary}
+                    onChange={(e) => setEmployeeFormData(prev => ({...prev, baseSalary: e.target.value}))}
+                    disabled={!isEditingEmployee}
+                    className={!isEditingEmployee ? 'bg-gray-50' : ''}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="emp-outlet">Outlet</Label>
+                  <Select 
+                    value={employeeFormData.outletId} 
+                    onValueChange={(value) => setEmployeeFormData(prev => ({...prev, outletId: value}))}
+                    disabled={!isEditingEmployee}
+                  >
+                    <SelectTrigger className={!isEditingEmployee ? 'bg-gray-50' : ''}>
+                      <SelectValue placeholder="Pilih outlet" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="">Semua Outlet</SelectItem>
+                      {outletsData?.map((outlet: any) => (
+                        <SelectItem key={outlet.id} value={outlet.id.toString()}>
+                          {outlet.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              <div className="flex justify-end gap-3">
+                {!isEditingEmployee ? (
+                  <>
+                    <Button variant="outline" onClick={() => setShowEmployeeModal(false)}>
+                      Tutup
+                    </Button>
+                    <Button onClick={editEmployee} className="bg-blue-600 hover:bg-blue-700">
+                      <Edit className="w-4 h-4 mr-2" />
+                      Edit
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button variant="outline" onClick={cancelEmployeeEdit}>
+                      Batal
+                    </Button>
+                    <Button onClick={saveEmployeeChanges} className="bg-green-600 hover:bg-green-700">
+                      Simpan
+                    </Button>
+                  </>
+                )}
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Employee List Modal */}
+      <Dialog open={showAddEmployee} onOpenChange={setShowAddEmployee}>
+        <DialogContent className="max-w-4xl">
+          <DialogHeader>
+            <DialogTitle>Kelola Karyawan</DialogTitle>
+          </DialogHeader>
+          
+          <div className="space-y-4">
+            <div className="border rounded-lg overflow-hidden">
+              <table className="w-full">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Nama</th>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Jabatan</th>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Email</th>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Gaji Pokok</th>
+                    <th className="px-4 py-3 text-center text-sm font-medium text-gray-700">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200">
+                  {employeesData?.map((employee: any) => (
+                    <tr key={employee.id} className="hover:bg-gray-50">
+                      <td className="px-4 py-3 text-sm text-gray-900">{employee.name}</td>
+                      <td className="px-4 py-3 text-sm text-gray-600">{employee.position}</td>
+                      <td className="px-4 py-3 text-sm text-gray-600">{employee.email || '-'}</td>
+                      <td className="px-4 py-3 text-sm text-gray-900">
+                        {formatCurrency(employee.baseSalary || 0)}
+                      </td>
+                      <td className="px-4 py-3 text-center">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => {
+                            viewEmployeeDetails(employee);
+                            setShowAddEmployee(false);
+                          }}
+                          className="mr-2"
+                        >
+                          <Eye className="w-4 h-4" />
+                        </Button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            
+            <div className="flex justify-end">
+              <Button variant="outline" onClick={() => setShowAddEmployee(false)}>
+                Tutup
+              </Button>
+            </div>
+          </div>
         </DialogContent>
       </Dialog>
     </div>
