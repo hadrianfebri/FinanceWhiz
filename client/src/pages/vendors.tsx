@@ -323,7 +323,7 @@ export default function Vendors() {
 
       {/* Add Vendor Modal */}
       <Dialog open={showAddModal} onOpenChange={setShowAddModal}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Tambah Vendor Baru</DialogTitle>
           </DialogHeader>
@@ -429,7 +429,7 @@ export default function Vendors() {
 
       {/* Edit Vendor Modal */}
       <Dialog open={showEditModal} onOpenChange={setShowEditModal}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Edit Vendor</DialogTitle>
           </DialogHeader>
