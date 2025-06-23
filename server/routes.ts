@@ -7,7 +7,8 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 import express from "express";
-import mailgun from "mailgun-js";
+import Mailgun from "mailgun.js";
+import formData from "form-data";
 import {
   loginSchema,
   registerSchema,
@@ -891,7 +892,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       if (!process.env.MAILGUN_API_KEY || !process.env.MAILGUN_DOMAIN) {
         return res.status(500).json({ 
-          message: 'Email service not configured. Please contact admin.' 
+          message: 'Mailgun tidak dikonfigurasi. Periksa MAILGUN_API_KEY dan MAILGUN_DOMAIN.' 
         });
       }
 
@@ -999,16 +1000,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
         html: payslipHtml
       };
 
+      // Log untuk debugging
+      console.log('Mailgun config:', {
+        domain: process.env.MAILGUN_DOMAIN,
+        hasApiKey: !!process.env.MAILGUN_API_KEY,
+        apiKeyPrefix: process.env.MAILGUN_API_KEY?.substring(0, 8),
+        to: employeeEmail
+      });
+
       await mg.messages().send(mailData);
 
       res.json({ 
         success: true, 
         message: `Slip gaji berhasil dikirim ke ${employeeEmail}` 
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error('Send payslip error:', error);
+      
+      let errorMessage = 'Gagal mengirim slip gaji.';
+      if (error.statusCode === 401) {
+        errorMessage = 'Mailgun API key tidak valid. Periksa konfigurasi MAILGUN_API_KEY.';
+      } else if (error.statusCode === 403) {
+        errorMessage = 'Domain Mailgun tidak terverifikasi atau tidak memiliki izin.';
+      } else if (error.message?.includes('Domain')) {
+        errorMessage = 'MAILGUN_DOMAIN tidak valid atau tidak ditemukan.';
+      }
+      
       res.status(500).json({ 
-        message: 'Gagal mengirim slip gaji. Pastikan email valid dan coba lagi.' 
+        message: errorMessage 
       });
     }
   });

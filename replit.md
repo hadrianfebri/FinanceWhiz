@@ -175,3 +175,6 @@ Changelog:
   - Updated company branding from "FinanceWhiz.AI" to actual business name "Toko Berkah"
   - Created responsive payslip design with proper styling for professional appearance
   - Enabled automated payslip distribution for all industries with customizable templates
+  - Added employee management functionality with view and edit capabilities in payroll interface
+  - Created backend API endpoints for updating employee data (PUT /api/employees/:id)
+  - Mailgun configuration requires only MAILGUN_API_KEY and MAILGUN_DOMAIN environment variables
