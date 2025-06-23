@@ -270,10 +270,10 @@ export default function AIChat() {
           </CardTitle>
         </CardHeader>
         
-        <CardContent className="flex-1 flex flex-col">
+        <CardContent className="flex-1 flex flex-col overflow-hidden">
           {/* Messages Area */}
-          <ScrollArea className="flex-1 pr-4 mb-4">
-            <div className="space-y-4">
+          <ScrollArea className="flex-1 pr-4 mb-4 max-h-[450px] overflow-y-auto">
+            <div className="space-y-4 h-full">
               {messages.map((message) => (
                 <div
                   key={message.id}
@@ -292,7 +292,7 @@ export default function AIChat() {
                       )}
                     </div>
                     
-                    <div className={`rounded-lg p-3 max-h-80 overflow-y-auto break-words ${
+                    <div className={`rounded-lg p-3 break-words ${
                       message.type === 'user'
                         ? 'bg-orange-500 text-white'
                         : 'bg-gray-100 text-gray-900'
