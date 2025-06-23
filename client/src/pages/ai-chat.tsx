@@ -131,7 +131,7 @@ export default function AIChat() {
       {
         id: '1',
         type: 'ai',
-        content: 'Halo! Saya asisten AI DeepSeek untuk analisis data bisnis Anda. Tanyakan apa saja tentang transaksi, penjualan, pengeluaran, atau insight bisnis lainnya.',
+        content: 'Halo! Saya asisten AI FinanceWhiz untuk analisis data bisnis Anda. Tanyakan apa saja tentang transaksi, penjualan, pengeluaran, atau insight bisnis lainnya.',
         timestamp: new Date()
       }
     ]);
@@ -143,6 +143,19 @@ export default function AIChat() {
       title: "Copied",
       description: "Message copied to clipboard",
     });
+  };
+
+  // Format markdown content to HTML
+  const formatMarkdown = (content: string) => {
+    return content
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')  // Bold
+      .replace(/\*(.*?)\*/g, '<em>$1</em>')              // Italic
+      .replace(/### (.*?)$/gm, '<h3 class="text-lg font-semibold mt-4 mb-2">$1</h3>')  // H3
+      .replace(/## (.*?)$/gm, '<h2 class="text-xl font-semibold mt-4 mb-2">$1</h2>')   // H2
+      .replace(/# (.*?)$/gm, '<h1 class="text-2xl font-bold mt-4 mb-2">$1</h1>')       // H1
+      .replace(/- (.*?)$/gm, '<li class="ml-4">• $1</li>')  // List items
+      .replace(/\n\n/g, '</p><p class="mb-2">')          // Paragraphs
+      .replace(/\n/g, '<br/>');                          // Line breaks
   };
 
   // Quick question suggestions
@@ -167,7 +180,7 @@ export default function AIChat() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">AI Chat Assistant</h1>
-          <p className="text-gray-600 mt-2">Tanyakan apa saja tentang data bisnis Anda kepada DeepSeek AI</p>
+          <p className="text-gray-600 mt-2">Tanyakan apa saja tentang data bisnis Anda kepada FinanceWhiz AI</p>
         </div>
         <Button 
           onClick={clearChat}
@@ -253,7 +266,7 @@ export default function AIChat() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <MessageCircle className="h-5 w-5 text-orange-500" />
-            Chat dengan DeepSeek AI
+            Chat dengan FinanceWhiz AI
           </CardTitle>
         </CardHeader>
         
@@ -291,7 +304,16 @@ export default function AIChat() {
                         </div>
                       ) : (
                         <div>
-                          <p className="whitespace-pre-wrap">{message.content}</p>
+                          {message.type === 'ai' ? (
+                            <div 
+                              className="prose prose-sm max-w-none"
+                              dangerouslySetInnerHTML={{ 
+                                __html: `<p class="mb-2">${formatMarkdown(message.content)}</p>` 
+                              }}
+                            />
+                          ) : (
+                            <p className="whitespace-pre-wrap">{message.content}</p>
+                          )}
                           <div className="flex items-center justify-between mt-2 pt-2 border-t border-gray-200 dark:border-gray-600">
                             <span className={`text-xs ${
                               message.type === 'user' ? 'text-orange-100' : 'text-gray-500'
