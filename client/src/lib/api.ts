@@ -322,6 +322,24 @@ class ApiClient {
     return response.json();
   }
 
+  async sendChatMessage(data: { message: string; context: any }) {
+    const response = await fetch('/api/ai/chat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...this.getAuthHeaders(),
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || 'Failed to send chat message');
+    }
+
+    return response.json();
+  }
+
   async detectFraud(data: any) {
     const response = await fetch('/api/ai/detect-fraud', {
       method: 'POST',

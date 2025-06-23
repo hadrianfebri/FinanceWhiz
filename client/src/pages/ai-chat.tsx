@@ -65,25 +65,15 @@ export default function AIChat() {
   // AI Chat mutation using DeepSeek API
   const sendMessageMutation = useMutation({
     mutationFn: async (userMessage: string) => {
-      const response = await fetch('/api/ai/chat', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('auth_token')}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          message: userMessage,
-          context: {
-            transactions: transactionData.slice(0, 50), // Recent transactions for context
-            dashboardStats: dashboardStats,
-            outlets: outletsData,
-            businessName: 'Toko Berkah'
-          }
-        })
+      return api.sendChatMessage({
+        message: userMessage,
+        context: {
+          transactions: transactionData.slice(0, 50), // Recent transactions for context
+          dashboardStats: dashboardStats,
+          outlets: outletsData,
+          businessName: 'Toko Berkah'
+        }
       });
-      
-      if (!response.ok) throw new Error('Failed to send message');
-      return response.json();
     },
     onSuccess: (data) => {
       setIsTyping(false);
