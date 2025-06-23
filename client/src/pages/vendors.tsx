@@ -9,7 +9,19 @@ import { formatCurrency } from '@/lib/utils';
 export default function Vendors() {
   const { data: vendors = [], isLoading } = useQuery({
     queryKey: ['/api/vendors'],
-    queryFn: () => fetch('/api/vendors').then(res => res.json())
+    queryFn: async () => {
+      const token = localStorage.getItem('auth_token');
+      const response = await fetch('/api/vendors', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      if (!response.ok) {
+        throw new Error('Failed to fetch vendors');
+      }
+      return response.json();
+    }
   });
 
   if (isLoading) {
@@ -41,7 +53,7 @@ export default function Vendors() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {vendors.map((vendor: any) => (
+        {Array.isArray(vendors) && vendors.length > 0 ? vendors.map((vendor: any) => (
           <Card key={vendor.id} className="hover:shadow-lg transition-shadow">
             <CardHeader>
               <div className="flex items-center justify-between">
@@ -74,7 +86,12 @@ export default function Vendors() {
               </div>
             </CardContent>
           </Card>
-        ))}
+        )) : (
+          <div className="col-span-full text-center py-12">
+            <Building2 className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+            <p className="text-gray-500 font-league">Belum ada vendor yang terdaftar</p>
+          </div>
+        )}
       </div>
     </div>
   );
