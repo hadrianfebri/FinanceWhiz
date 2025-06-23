@@ -1,6 +1,6 @@
 import { useLocation } from "wouter";
 import { cn } from "@/lib/utils";
-import { Home, List, BarChart3, Settings, User, LogOut, Store, Users, DollarSign, Building2, FileText, RotateCcw, Brain } from "lucide-react";
+import { Home, List, BarChart3, Settings, User, LogOut, Store, Users, DollarSign, Building2, FileText, RotateCcw, Brain, MessageCircle } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { api } from "@/lib/api";
@@ -11,6 +11,7 @@ const navigation = [
   { name: 'Transaksi', href: '/transactions', icon: List },
   { name: 'Laporan', href: '/reports', icon: BarChart3 },
   { name: 'AI Analytics', href: '/ai-analytics', icon: Brain },
+  { name: 'AI Chat', href: '/ai-chat', icon: MessageCircle },
   { name: 'Outlet', href: '/outlets', icon: Store },
   { name: 'Payroll', href: '/payroll', icon: DollarSign },
   { name: 'Vendor', href: '/vendors', icon: Building2 },

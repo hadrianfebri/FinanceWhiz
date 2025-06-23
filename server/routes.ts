@@ -1459,6 +1459,83 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // AI Chat endpoint
+  app.post('/api/ai/chat', authenticate, async (req: any, res: Response) => {
+    try {
+      const { message, context } = req.body;
+      
+      if (!process.env.DEEPSEEK_API_KEY) {
+        return res.status(500).json({ error: 'DEEPSEEK_API_KEY not configured' });
+      }
+
+      // Prepare context for AI
+      const { transactions = [], dashboardStats = {}, outlets = [], businessName = 'Toko Berkah' } = context;
+      
+      // Create comprehensive business context
+      const businessContext = `
+Business: ${businessName}
+Current Balance: Rp ${dashboardStats.cashBalance?.toLocaleString() || '0'}
+Weekly Income: Rp ${dashboardStats.weeklyIncome?.toLocaleString() || '0'}
+Weekly Expenses: Rp ${dashboardStats.weeklyExpenses?.toLocaleString() || '0'}
+Total Outlets: ${outlets.length}
+Recent Transactions: ${transactions.length} records
+
+Transaction Summary:
+${transactions.slice(0, 10).map((t: any) => 
+  `- ${t.type}: Rp ${t.amount?.toLocaleString()} (${t.description})`
+).join('\n')}
+
+Outlet Performance:
+${outlets.map((o: any) => 
+  `- ${o.name}: Revenue Rp ${o.monthlyRevenue?.toLocaleString() || '0'}, Transactions: ${o.monthlyTransactions || 0}`
+).join('\n')}
+      `;
+
+      const prompt = `Anda adalah asisten AI untuk analisis data bisnis ${businessName}. Berikan jawaban yang akurat, profesional, dan berdasarkan data real berikut:
+
+${businessContext}
+
+Pertanyaan user: ${message}
+
+Jawab dalam bahasa Indonesia dengan format yang jelas dan mudah dipahami. Gunakan data actual yang tersedia, berikan insight yang berguna, dan sertakan angka-angka spesifik jika relevan.`;
+
+      const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${process.env.DEEPSEEK_API_KEY}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          model: 'deepseek-chat',
+          messages: [
+            {
+              role: 'system',
+              content: 'Anda adalah asisten AI untuk analisis bisnis. Berikan jawaban yang akurat, profesional, dan berdasarkan data yang diberikan. Jawab dalam bahasa Indonesia.'
+            },
+            {
+              role: 'user',
+              content: prompt
+            }
+          ],
+          max_tokens: 1000,
+          temperature: 0.7
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`DeepSeek API error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      const aiResponse = data.choices?.[0]?.message?.content || 'Maaf, tidak dapat memproses pertanyaan saat ini.';
+
+      res.json({ response: aiResponse });
+    } catch (error) {
+      console.error('AI Chat error:', error);
+      res.status(500).json({ error: 'Failed to process chat message' });
+    }
+  });
+
   app.post('/api/ai/detect-fraud', authenticate, async (req: any, res: Response) => {
     try {
       const { transactions } = req.body;

@@ -17,6 +17,7 @@ import Vendors from "@/pages/vendors";
 import TaxManagement from "@/pages/tax-management";
 import POSSync from "@/pages/pos-sync";
 import AIAnalytics from "@/pages/ai-analytics";
+import AIChat from "@/pages/ai-chat";
 import NotFound from "@/pages/not-found";
 import Navbar from "@/components/layout/navbar";
 import Sidebar from "@/components/layout/sidebar";
@@ -54,6 +55,7 @@ function AppContent() {
             <Route path="/transactions" component={Transactions} />
             <Route path="/reports" component={Reports} />
             <Route path="/ai-analytics" component={AIAnalytics} />
+            <Route path="/ai-chat" component={AIChat} />
             <Route path="/profile" component={Profile} />
             <Route path="/outlets" component={Outlets} />
             <Route path="/payroll" component={Payroll} />
