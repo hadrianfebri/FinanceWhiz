@@ -110,10 +110,16 @@ export default function EnhancedDashboard() {
               <div>
                 <p className="text-sm font-medium text-gray-600">Saldo Kas Total</p>
                 <p className="text-2xl font-bold text-gray-900">{formatCurrency(dashboardStats?.cashBalance || 0)}</p>
-                <p className="text-sm text-green-600 mt-1">
-                  <TrendingUp className="h-4 w-4 inline mr-1" />
-                  +12.5% dari bulan lalu
-                </p>
+                {dashboardStats?.cashBalance > 0 ? (
+                  <p className="text-sm text-green-600 mt-1">
+                    <TrendingUp className="h-4 w-4 inline mr-1" />
+                    +12.5% dari bulan lalu
+                  </p>
+                ) : (
+                  <p className="text-sm text-gray-500 mt-1">
+                    Belum ada data perbandingan
+                  </p>
+                )}
               </div>
               <div className="w-12 h-12 bg-[#04474f] rounded-full flex items-center justify-center">
                 <Wallet className="h-6 w-6 text-white" />
@@ -146,10 +152,16 @@ export default function EnhancedDashboard() {
               <div>
                 <p className="text-sm font-medium text-gray-600">Pendapatan Minggu Ini</p>
                 <p className="text-2xl font-bold text-gray-900">{formatCurrency(dashboardStats?.weeklyIncome || 0)}</p>
-                <p className="text-sm text-green-600 mt-1">
-                  <ArrowUp className="h-4 w-4 inline mr-1" />
-                  +8.2% dari minggu lalu
-                </p>
+                {dashboardStats?.weeklyIncome > 0 ? (
+                  <p className="text-sm text-green-600 mt-1">
+                    <ArrowUp className="h-4 w-4 inline mr-1" />
+                    +8.2% dari minggu lalu
+                  </p>
+                ) : (
+                  <p className="text-sm text-gray-500 mt-1">
+                    Belum ada data mingguan
+                  </p>
+                )}
               </div>
               <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
                 <TrendingUp className="h-6 w-6 text-green-600" />

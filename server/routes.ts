@@ -27,7 +27,7 @@ import {
   aiInsights,
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, and, gte, count, desc } from "drizzle-orm";
+import { eq, and, gte, count, desc, sql } from "drizzle-orm";
 import { z } from "zod";
 
 const JWT_SECRET = process.env.JWT_SECRET || "your-jwt-secret-key";
@@ -959,6 +959,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // SME Routes - Notifications
   app.get('/api/notifications', authenticate, async (req: any, res: Response) => {
     try {
+      // Check if user has any transactions first
+      const userTransactions = await db
+        .select({ count: sql<number>`count(*)` })
+        .from(transactions)
+        .where(eq(transactions.userId, req.user.id));
+
+      const hasTransactions = userTransactions[0]?.count > 0;
+
+      if (!hasTransactions) {
+        // Return empty notifications for new accounts
+        return res.json([]);
+      }
+
+      // For existing users with transactions, show relevant notifications
       const notifications = [
         {
           id: 1,
@@ -1331,25 +1345,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // AI Analytics & Fraud Detection Endpoints
   app.get('/api/ai/insights', authenticate, async (req: any, res: Response) => {
     try {
+      // Check if user has any transactions first
+      const userTransactions = await db
+        .select({ count: sql<number>`count(*)` })
+        .from(transactions)
+        .where(eq(transactions.userId, req.user.id));
+
+      const hasTransactions = userTransactions[0]?.count > 0;
+
+      if (!hasTransactions) {
+        // Return empty insight for new accounts
+        return res.json({
+          insight: 'Mulai tambahkan transaksi untuk mendapatkan AI insights yang dipersonalisasi untuk bisnis Anda.'
+        });
+      }
+
       // Get stored AI insights from database
       const insights = await db
         .select()
         .from(aiInsights)
         .where(eq(aiInsights.businessId, req.user.id))
         .orderBy(desc(aiInsights.generatedAt))
-        .limit(10);
+        .limit(1);
 
+      if (insights.length === 0) {
+        return res.json({
+          insight: 'Buat insight AI pertama Anda dengan mengklik "Generate AI Insights" di halaman AI Analytics.'
+        });
+      }
+
+      // Return the most recent insight description
       res.json({
-        insights: insights.map(insight => ({
-          id: insight.id,
-          type: insight.type,
-          title: insight.title,
-          description: insight.description,
-          severity: insight.severity,
-          actionRequired: insight.actionRequired,
-          metadata: insight.metadata ? JSON.parse(insight.metadata) : null,
-          generatedAt: insight.generatedAt
-        }))
+        insight: insights[0].description
       });
     } catch (error: any) {
       console.error('Get AI insights error:', error);
