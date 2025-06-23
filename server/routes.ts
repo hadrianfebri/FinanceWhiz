@@ -752,23 +752,120 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // SME Routes - Vendors Management
   app.get('/api/vendors', authenticate, async (req: any, res: Response) => {
     try {
-      const vendors = [
-        {
-          id: 1,
-          businessId: req.user.id,
-          name: 'PT Sumber Rejeki',
-          contactPerson: 'Agus Setiawan',
-          phone: '081234567890',
-          email: 'agus@sumberrejeki.com',
-          address: 'Jl. Industri No. 45, Jakarta',
-          paymentTerms: 30,
-          isActive: true
-        }
-      ];
-      res.json(vendors);
+      const vendorsData = await db.select()
+        .from(vendors)
+        .where(and(
+          eq(vendors.businessId, req.user.id),
+          eq(vendors.isActive, true)
+        ))
+        .orderBy(vendors.name);
+      
+      res.json(vendorsData);
     } catch (error) {
       console.error('Get vendors error:', error);
       res.status(500).json({ message: 'Failed to fetch vendors' });
+    }
+  });
+
+  app.post('/api/vendors', authenticate, async (req: any, res: Response) => {
+    try {
+      const { name, contactPerson, phone, email, address, paymentTerms } = req.body;
+      
+      if (!name) {
+        return res.status(400).json({ message: 'Nama vendor wajib diisi' });
+      }
+
+      const [newVendor] = await db.insert(vendors)
+        .values({
+          businessId: req.user.id,
+          name,
+          contactPerson: contactPerson || null,
+          phone: phone || null,
+          email: email || null,
+          address: address || null,
+          paymentTerms: paymentTerms || 30,
+          isActive: true
+        })
+        .returning();
+
+      res.status(201).json({ success: true, vendor: newVendor });
+    } catch (error) {
+      console.error('Create vendor error:', error);
+      res.status(500).json({ message: 'Failed to create vendor' });
+    }
+  });
+
+  app.put('/api/vendors/:id', authenticate, async (req: any, res: Response) => {
+    try {
+      const vendorId = parseInt(req.params.id);
+      const { name, contactPerson, phone, email, address, paymentTerms } = req.body;
+      
+      if (!name) {
+        return res.status(400).json({ message: 'Nama vendor wajib diisi' });
+      }
+
+      // Check if vendor belongs to the user's business
+      const existingVendor = await db.select()
+        .from(vendors)
+        .where(and(
+          eq(vendors.id, vendorId),
+          eq(vendors.businessId, req.user.id)
+        ))
+        .limit(1);
+
+      if (!existingVendor.length) {
+        return res.status(404).json({ message: 'Vendor not found' });
+      }
+
+      const [updatedVendor] = await db.update(vendors)
+        .set({
+          name,
+          contactPerson: contactPerson || null,
+          phone: phone || null,
+          email: email || null,
+          address: address || null,
+          paymentTerms: paymentTerms || 30,
+          updatedAt: new Date()
+        })
+        .where(eq(vendors.id, vendorId))
+        .returning();
+
+      res.json({ success: true, vendor: updatedVendor });
+    } catch (error) {
+      console.error('Update vendor error:', error);
+      res.status(500).json({ message: 'Failed to update vendor' });
+    }
+  });
+
+  app.delete('/api/vendors/:id', authenticate, async (req: any, res: Response) => {
+    try {
+      const vendorId = parseInt(req.params.id);
+
+      // Check if vendor belongs to the user's business
+      const existingVendor = await db.select()
+        .from(vendors)
+        .where(and(
+          eq(vendors.id, vendorId),
+          eq(vendors.businessId, req.user.id)
+        ))
+        .limit(1);
+
+      if (!existingVendor.length) {
+        return res.status(404).json({ message: 'Vendor not found' });
+      }
+
+      // Instead of hard delete, deactivate the vendor
+      await db.update(vendors)
+        .set({
+          isActive: false,
+          updatedAt: new Date()
+        })
+        .where(eq(vendors.id, vendorId));
+
+      res.json({ success: true, message: 'Vendor berhasil dihapus' });
+    } catch (error) {
+      console.error('Delete vendor error:', error);
+      res.status(500).json({ message: 'Failed to delete vendor' });
     }
   });
 
