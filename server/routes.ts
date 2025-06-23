@@ -1497,7 +1497,7 @@ ${businessContext}
 
 Pertanyaan user: ${message}
 
-Jawab dalam bahasa Indonesia dengan format yang jelas dan mudah dipahami. Gunakan data actual yang tersedia, berikan insight yang berguna, dan sertakan angka-angka spesifik jika relevan.`;
+Jawab dalam bahasa Indonesia dengan format yang jelas dan mudah dipahami. Gunakan data actual yang tersedia, berikan insight yang berguna, dan sertakan angka-angka spesifik jika relevan. Jangan tambahkan catatan atau komentar tambahan, langsung berikan jawaban yang diminta.`;
 
       const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
         method: 'POST',
