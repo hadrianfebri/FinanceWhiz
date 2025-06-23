@@ -851,6 +851,136 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Send payslip via email
+  app.post('/api/payroll/send-payslip', authenticate, async (req: any, res: Response) => {
+    try {
+      const { payrollId, employeeEmail, employeeName } = req.body;
+      
+      if (!process.env.MAILGUN_API_KEY || !process.env.MAILGUN_DOMAIN) {
+        return res.status(500).json({ 
+          message: 'Email service not configured. Please contact admin.' 
+        });
+      }
+
+      // Get payroll details
+      const payrollData = await db.select()
+        .from(payrolls)
+        .where(eq(payrolls.id, payrollId))
+        .limit(1);
+
+      if (!payrollData.length) {
+        return res.status(404).json({ message: 'Payroll not found' });
+      }
+
+      const payroll = payrollData[0];
+
+      // Generate payslip HTML
+      const payslipHtml = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="UTF-8">
+          <title>Slip Gaji - ${employeeName}</title>
+          <style>
+            body { font-family: 'Inter', Arial, sans-serif; padding: 20px; color: #1e293b; background: #f8fafc; }
+            .payslip { max-width: 800px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); overflow: hidden; }
+            .header { background: linear-gradient(135deg, #f29716 0%, #d4820a 100%); color: white; padding: 30px; text-align: center; }
+            .company-name { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+            .document-title { font-size: 18px; font-weight: 500; opacity: 0.9; }
+            .content { padding: 30px; }
+            .employee-info { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px; padding: 20px; background: #f8fafc; border-radius: 8px; }
+            .info-group h4 { color: #475569; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+            .info-group p { font-size: 16px; font-weight: 500; color: #1e293b; }
+            .salary-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+            .salary-table th { background: #f1f5f9; padding: 16px; text-align: left; font-weight: 600; color: #475569; border-bottom: 2px solid #e2e8f0; }
+            .salary-table td { padding: 16px; border-bottom: 1px solid #e2e8f0; }
+            .amount { font-weight: 600; text-align: right; }
+            .total-row { background: #f8fafc; font-weight: 700; }
+            .total-row .amount { color: #059669; }
+            .footer { text-align: center; padding: 20px; background: #f8fafc; border-top: 1px solid #e2e8f0; color: #64748b; font-size: 12px; }
+          </style>
+        </head>
+        <body>
+          <div class="payslip">
+            <div class="header">
+              <div class="company-name">Toko Berkah</div>
+              <div class="document-title">Slip Gaji Karyawan</div>
+            </div>
+            <div class="content">
+              <div class="employee-info">
+                <div class="info-group">
+                  <h4>Nama Karyawan</h4>
+                  <p>${employeeName}</p>
+                </div>
+                <div class="info-group">
+                  <h4>Periode Gaji</h4>
+                  <p>${payroll.payPeriod}</p>
+                </div>
+              </div>
+              <table class="salary-table">
+                <thead>
+                  <tr>
+                    <th>Komponen Gaji</th>
+                    <th class="amount">Jumlah</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Gaji Pokok</td>
+                    <td class="amount">Rp ${(payroll.baseSalary || 0).toLocaleString('id-ID')}</td>
+                  </tr>
+                  <tr>
+                    <td>Tunjangan & Bonus</td>
+                    <td class="amount">Rp ${(payroll.bonus || 0).toLocaleString('id-ID')}</td>
+                  </tr>
+                  <tr>
+                    <td>Potongan</td>
+                    <td class="amount">-Rp ${(payroll.deduction || 0).toLocaleString('id-ID')}</td>
+                  </tr>
+                  <tr class="total-row">
+                    <td><strong>Total Gaji Bersih</strong></td>
+                    <td class="amount">Rp ${(payroll.totalAmount || 0).toLocaleString('id-ID')}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="footer">
+              <p>Dokumen ini dibuat secara otomatis oleh sistem Toko Berkah</p>
+              <p>Tanggal: ${new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+            </div>
+          </div>
+        </body>
+        </html>
+      `;
+
+      // Send email using Mailgun
+      const mailgun = require('mailgun-js');
+      const mg = mailgun({
+        apiKey: process.env.MAILGUN_API_KEY,
+        domain: process.env.MAILGUN_DOMAIN
+      });
+
+      const mailData = {
+        from: `Toko Berkah <noreply@${process.env.MAILGUN_DOMAIN}>`,
+        to: employeeEmail,
+        subject: `Slip Gaji ${payroll.payPeriod} - ${employeeName}`,
+        html: payslipHtml
+      };
+
+      await mg.messages().send(mailData);
+
+      res.json({ 
+        success: true, 
+        message: `Slip gaji berhasil dikirim ke ${employeeEmail}` 
+      });
+    } catch (error) {
+      console.error('Send payslip error:', error);
+      res.status(500).json({ 
+        message: 'Gagal mengirim slip gaji. Pastikan email valid dan coba lagi.' 
+      });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

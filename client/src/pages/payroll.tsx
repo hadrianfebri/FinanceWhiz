@@ -437,7 +437,7 @@ export default function Payroll() {
       <body>
         <div class="payslip">
           <div class="header">
-            <div class="company-name">FinanceWhiz.AI</div>
+            <div class="company-name">Toko Berkah</div>
             <div class="document-title">Slip Gaji Karyawan</div>
           </div>
           
@@ -503,7 +503,7 @@ export default function Payroll() {
           </div>
           
           <div class="footer">
-            <p>Dokumen ini dibuat secara otomatis oleh sistem FinanceWhiz.AI</p>
+            <p>Dokumen ini dibuat secara otomatis oleh sistem Toko Berkah</p>
             <p>Tanggal cetak: ${new Date().toLocaleDateString('id-ID', { 
               year: 'numeric', 
               month: 'long', 
