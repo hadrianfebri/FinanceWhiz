@@ -1360,52 +1360,54 @@ export default function Payroll() {
 
       {/* Employee List Modal */}
       <Dialog open={showAddEmployee} onOpenChange={setShowAddEmployee}>
-        <DialogContent className="max-w-4xl">
+        <DialogContent className="max-w-4xl max-h-[80vh] flex flex-col">
           <DialogHeader>
             <DialogTitle>Kelola Karyawan</DialogTitle>
           </DialogHeader>
           
-          <div className="space-y-4">
-            <div className="border rounded-lg overflow-hidden">
-              <table className="w-full">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Nama</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Jabatan</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Email</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Gaji Pokok</th>
-                    <th className="px-4 py-3 text-center text-sm font-medium text-gray-700">Aksi</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200">
-                  {employees?.map((employee: any) => (
-                    <tr key={employee.id} className="hover:bg-gray-50">
-                      <td className="px-4 py-3 text-sm text-gray-900">{employee.name}</td>
-                      <td className="px-4 py-3 text-sm text-gray-600">{employee.position}</td>
-                      <td className="px-4 py-3 text-sm text-gray-600">{employee.email || '-'}</td>
-                      <td className="px-4 py-3 text-sm text-gray-900">
-                        {formatCurrency(employee.baseSalary || 0)}
-                      </td>
-                      <td className="px-4 py-3 text-center">
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => {
-                            viewEmployeeDetails(employee);
-                            setShowAddEmployee(false);
-                          }}
-                          className="mr-2"
-                        >
-                          <Eye className="w-4 h-4" />
-                        </Button>
-                      </td>
+          <div className="flex-1 space-y-4 overflow-hidden">
+            <div className="border rounded-lg overflow-hidden flex-1 flex flex-col">
+              <div className="overflow-y-auto max-h-[50vh]">
+                <table className="w-full">
+                  <thead className="bg-gray-50 sticky top-0">
+                    <tr>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Nama</th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Jabatan</th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Email</th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Gaji Pokok</th>
+                      <th className="px-4 py-3 text-center text-sm font-medium text-gray-700">Aksi</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200">
+                    {employees?.map((employee: any) => (
+                      <tr key={employee.id} className="hover:bg-gray-50">
+                        <td className="px-4 py-3 text-sm text-gray-900">{employee.name}</td>
+                        <td className="px-4 py-3 text-sm text-gray-600">{employee.position}</td>
+                        <td className="px-4 py-3 text-sm text-gray-600">{employee.email || '-'}</td>
+                        <td className="px-4 py-3 text-sm text-gray-900">
+                          {formatCurrency(employee.baseSalary || 0)}
+                        </td>
+                        <td className="px-4 py-3 text-center">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => {
+                              viewEmployeeDetails(employee);
+                              setShowAddEmployee(false);
+                            }}
+                            className="mr-2"
+                          >
+                            <Eye className="w-4 h-4" />
+                          </Button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
             
-            <div className="flex justify-end">
+            <div className="flex justify-end pt-4 border-t">
               <Button variant="outline" onClick={() => setShowAddEmployee(false)}>
                 Tutup
               </Button>
