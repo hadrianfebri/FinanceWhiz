@@ -211,3 +211,12 @@ Changelog:
   - Added scrollable message containers to handle long AI responses without interface overflow
   - Configured AI to provide clean, direct answers without additional notes or commentary
   - Enhanced visual spacing and positioning relative to sidebar for optimal user experience
+- June 23, 2025. Fixed new account data integrity and created comprehensive local deployment documentation:
+  - Eliminated hardcoded AI insights and static percentage data for new accounts without transactions
+  - Fixed notifications system to show empty states instead of sample data for new users
+  - Updated dashboard growth indicators to only display when actual historical data exists
+  - Created comprehensive README.md with detailed local deployment instructions
+  - Added .env.example template with all required environment variables
+  - Created automated setup.sh script for streamlined local development setup
+  - Documented all API key requirements, database setup, and troubleshooting steps
+  - Enhanced project structure documentation for better developer onboarding
