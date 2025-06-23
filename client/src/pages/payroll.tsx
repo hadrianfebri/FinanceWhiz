@@ -580,7 +580,7 @@ export default function Payroll() {
       email: employee.email || '',
       phone: employee.phone || '',
       baseSalary: employee.baseSalary?.toString() || '',
-      outletId: employee.outletId?.toString() || ''
+      outletId: employee.outletId?.toString() || 'all'
     });
     setIsEditingEmployee(false);
     setShowEmployeeModal(true);
@@ -609,7 +609,7 @@ export default function Payroll() {
           email: employeeFormData.email,
           phone: employeeFormData.phone,
           baseSalary: parseFloat(employeeFormData.baseSalary) || 0,
-          outletId: employeeFormData.outletId ? parseInt(employeeFormData.outletId) : null
+          outletId: employeeFormData.outletId && employeeFormData.outletId !== 'all' ? parseInt(employeeFormData.outletId) : null
         })
       });
 
@@ -643,7 +643,7 @@ export default function Payroll() {
       email: selectedEmployee.email || '',
       phone: selectedEmployee.phone || '',
       baseSalary: selectedEmployee.baseSalary?.toString() || '',
-      outletId: selectedEmployee.outletId?.toString() || ''
+      outletId: selectedEmployee.outletId?.toString() || 'all'
     });
     setIsEditingEmployee(false);
   };
@@ -1320,7 +1320,7 @@ export default function Payroll() {
                       <SelectValue placeholder="Pilih outlet" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">Semua Outlet</SelectItem>
+                      <SelectItem value="all">Semua Outlet</SelectItem>
                       {outlets?.map((outlet: any) => (
                         <SelectItem key={outlet.id} value={outlet.id.toString()}>
                           {outlet.name}
