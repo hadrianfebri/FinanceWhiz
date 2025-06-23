@@ -768,12 +768,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/vendors', authenticate, async (req: any, res: Response) => {
+  app.post('/api/vendors', authenticate, upload.single('document'), async (req: any, res: Response) => {
     try {
-      const { name, contactPerson, phone, email, address, paymentTerms } = req.body;
+      const { name, contactPerson, phone, email, address, paymentTerms, contractAmount } = req.body;
       
       if (!name) {
         return res.status(400).json({ message: 'Nama vendor wajib diisi' });
+      }
+
+      let documentUrl = null;
+      if (req.file) {
+        documentUrl = `/uploads/${req.file.filename}`;
       }
 
       const [newVendor] = await db.insert(vendors)
@@ -784,7 +789,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
           phone: phone || null,
           email: email || null,
           address: address || null,
-          paymentTerms: paymentTerms || 30,
+          paymentTerms: parseInt(paymentTerms) || 30,
+          contractAmount: contractAmount ? parseFloat(contractAmount) : null,
+          documentUrl: documentUrl,
           isActive: true
         })
         .returning();

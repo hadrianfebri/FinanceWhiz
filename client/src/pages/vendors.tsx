@@ -21,7 +21,9 @@ export default function Vendors() {
     phone: '',
     email: '',
     address: '',
-    paymentTerms: '30'
+    paymentTerms: '30',
+    contractAmount: '',
+    documentFile: null as File | null
   });
 
   const { toast } = useToast();
@@ -48,13 +50,22 @@ export default function Vendors() {
   const createVendorMutation = useMutation({
     mutationFn: async (vendorData: any) => {
       const token = localStorage.getItem('auth_token');
+      
+      const formDataToSend = new FormData();
+      Object.keys(vendorData).forEach(key => {
+        if (key === 'documentFile' && vendorData[key]) {
+          formDataToSend.append('document', vendorData[key]);
+        } else if (vendorData[key] !== null && vendorData[key] !== '') {
+          formDataToSend.append(key, vendorData[key]);
+        }
+      });
+
       const response = await fetch('/api/vendors', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
+          'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify(vendorData)
+        body: formDataToSend
       });
       if (!response.ok) {
         throw new Error('Failed to create vendor');
@@ -153,7 +164,9 @@ export default function Vendors() {
       phone: '',
       email: '',
       address: '',
-      paymentTerms: '30'
+      paymentTerms: '30',
+      contractAmount: '',
+      documentFile: null
     });
     setSelectedVendor(null);
   };
@@ -171,7 +184,9 @@ export default function Vendors() {
       phone: vendor.phone || '',
       email: vendor.email || '',
       address: vendor.address || '',
-      paymentTerms: vendor.paymentTerms?.toString() || '30'
+      paymentTerms: vendor.paymentTerms?.toString() || '30',
+      contractAmount: vendor.contractAmount?.toString() || '',
+      documentFile: null
     });
     setShowEditModal(true);
   };
@@ -263,6 +278,11 @@ export default function Vendors() {
                 <Calendar className="h-4 w-4" />
                 <span className="font-league">Payment Terms: {vendor.paymentTerms} hari</span>
               </div>
+              {vendor.contractAmount && (
+                <div className="flex items-center space-x-2 text-sm text-gray-600">
+                  <span className="font-semibold text-green-600">Kontrak: {formatCurrency(Number(vendor.contractAmount))}</span>
+                </div>
+              )}
               
               <div className="flex justify-end space-x-2 pt-3 border-t">
                 <Button
@@ -361,6 +381,27 @@ export default function Vendors() {
                 min="1"
               />
             </div>
+            <div>
+              <Label htmlFor="contractAmount">Nominal Kontrak</Label>
+              <Input
+                id="contractAmount"
+                type="number"
+                value={formData.contractAmount}
+                onChange={(e) => setFormData({ ...formData, contractAmount: e.target.value })}
+                placeholder="Masukkan nilai kontrak"
+                min="0"
+              />
+            </div>
+            <div>
+              <Label htmlFor="document">Upload Dokumen (Opsional)</Label>
+              <Input
+                id="document"
+                type="file"
+                accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                onChange={(e) => setFormData({ ...formData, documentFile: e.target.files?.[0] || null })}
+              />
+              <p className="text-xs text-gray-500 mt-1">Format: PDF, DOC, DOCX, JPG, PNG (Max 5MB)</p>
+            </div>
             <div className="flex justify-end space-x-3 pt-4">
               <Button type="button" variant="outline" onClick={() => setShowAddModal(false)}>
                 Batal
@@ -445,6 +486,30 @@ export default function Vendors() {
                 placeholder="30"
                 min="1"
               />
+            </div>
+            <div>
+              <Label htmlFor="edit-contractAmount">Nominal Kontrak</Label>
+              <Input
+                id="edit-contractAmount"
+                type="number"
+                value={formData.contractAmount}
+                onChange={(e) => setFormData({ ...formData, contractAmount: e.target.value })}
+                placeholder="Masukkan nilai kontrak"
+                min="0"
+              />
+            </div>
+            <div>
+              <Label htmlFor="edit-document">Upload Dokumen Baru (Opsional)</Label>
+              <Input
+                id="edit-document"
+                type="file"
+                accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                onChange={(e) => setFormData({ ...formData, documentFile: e.target.files?.[0] || null })}
+              />
+              <p className="text-xs text-gray-500 mt-1">Format: PDF, DOC, DOCX, JPG, PNG (Max 5MB)</p>
+              {selectedVendor?.documentUrl && (
+                <p className="text-xs text-blue-600 mt-1">Dokumen saat ini: ada</p>
+              )}
             </div>
             <div className="flex justify-end space-x-3 pt-4">
               <Button type="button" variant="outline" onClick={() => setShowEditModal(false)}>

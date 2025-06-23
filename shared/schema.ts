@@ -117,6 +117,8 @@ export const vendors = pgTable("vendors", {
   email: text("email"),
   address: text("address"),
   paymentTerms: integer("payment_terms").default(30), // days
+  contractAmount: decimal("contract_amount", { precision: 15, scale: 2 }), // nominal kontrak
+  documentUrl: text("document_url"), // upload dokument path
   isActive: boolean("is_active").notNull().default(true),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
