@@ -397,18 +397,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get('/api/ai/insights', authenticate, async (req: any, res: Response) => {
     try {
-      const stats = await storage.getDashboardStats(req.user.id);
-      
-      // Mock AI insights based on financial data
-      const insights = [
-        "Pengeluaran Anda meningkat 15% dari minggu lalu, terutama di kategori bahan baku. Pertimbangkan untuk mencari supplier dengan harga lebih kompetitif.",
-        `Saldo kas Anda saat ini Rp ${stats.cashBalance.toLocaleString('id-ID')}. Pastikan untuk menjaga cadangan kas untuk operasional harian.`,
-        "Tren penjualan menunjukkan peningkatan pada hari Jumat dan Sabtu. Pertimbangkan untuk menambah stok pada hari-hari tersebut."
-      ];
+      // Check if user has any transactions first
+      const userTransactions = await db
+        .select({ count: sql<number>`count(*)` })
+        .from(transactions)
+        .where(eq(transactions.userId, req.user.id));
 
-      const randomInsight = insights[Math.floor(Math.random() * insights.length)];
+      const hasTransactions = userTransactions[0]?.count > 0;
+
+      if (!hasTransactions) {
+        // Return empty insight for new accounts
+        return res.json({
+          insight: 'Mulai tambahkan transaksi untuk mendapatkan AI insights yang dipersonalisasi untuk bisnis Anda.'
+        });
+      }
+
+      // Get stored AI insights from database for existing users
+      const insights = await db
+        .select()
+        .from(aiInsights)
+        .where(eq(aiInsights.businessId, req.user.id))
+        .orderBy(desc(aiInsights.generatedAt))
+        .limit(1);
+
+      const finalInsight = insights.length > 0 
+        ? insights[0].description 
+        : 'Buat insight AI pertama Anda dengan mengklik "Generate AI Insights" di halaman AI Analytics.';
       
-      res.json({ insight: randomInsight });
+      res.json({ insight: finalInsight });
     } catch (error) {
       console.error('AI insights error:', error);
       res.status(500).json({ message: 'Failed to generate insights' });
@@ -1343,46 +1359,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // AI Analytics & Fraud Detection Endpoints
-  app.get('/api/ai/insights', authenticate, async (req: any, res: Response) => {
-    try {
-      // Check if user has any transactions first
-      const userTransactions = await db
-        .select({ count: sql<number>`count(*)` })
-        .from(transactions)
-        .where(eq(transactions.userId, req.user.id));
-
-      const hasTransactions = userTransactions[0]?.count > 0;
-
-      if (!hasTransactions) {
-        // Return empty insight for new accounts
-        return res.json({
-          insight: 'Mulai tambahkan transaksi untuk mendapatkan AI insights yang dipersonalisasi untuk bisnis Anda.'
-        });
-      }
-
-      // Get stored AI insights from database
-      const insights = await db
-        .select()
-        .from(aiInsights)
-        .where(eq(aiInsights.businessId, req.user.id))
-        .orderBy(desc(aiInsights.generatedAt))
-        .limit(1);
-
-      if (insights.length === 0) {
-        return res.json({
-          insight: 'Buat insight AI pertama Anda dengan mengklik "Generate AI Insights" di halaman AI Analytics.'
-        });
-      }
-
-      // Return the most recent insight description
-      res.json({
-        insight: insights[0].description
-      });
-    } catch (error: any) {
-      console.error('Get AI insights error:', error);
-      res.status(500).json({ message: 'Failed to fetch AI insights' });
-    }
-  });
 
   app.post('/api/ai/generate-insights', authenticate, async (req: any, res: Response) => {
     try {
