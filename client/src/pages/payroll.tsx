@@ -296,7 +296,7 @@ export default function Payroll() {
       payroll.position?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       payroll.outletName?.toLowerCase().includes(searchTerm.toLowerCase());
     
-    const matchesPosition = !filterPosition || 
+    const matchesPosition = !filterPosition || filterPosition === 'all' || 
       payroll.position?.toLowerCase() === filterPosition.toLowerCase();
     
     return matchesSearch && matchesPosition;
@@ -347,7 +347,7 @@ export default function Payroll() {
             <SelectValue placeholder="Filter Jabatan" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">Semua Jabatan</SelectItem>
+            <SelectItem value="all">Semua Jabatan</SelectItem>
             {uniquePositions.map((position) => (
               <SelectItem key={position as string} value={position as string}>
                 {position as string}
@@ -355,12 +355,12 @@ export default function Payroll() {
             ))}
           </SelectContent>
         </Select>
-        {(searchTerm || filterPosition) && (
+        {(searchTerm || (filterPosition && filterPosition !== 'all')) && (
           <Button
             variant="outline"
             onClick={() => {
               setSearchTerm('');
-              setFilterPosition('');
+              setFilterPosition('all');
             }}
             className="w-full sm:w-auto"
           >
