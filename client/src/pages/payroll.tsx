@@ -16,6 +16,7 @@ export default function Payroll() {
   const [selectedPeriod, setSelectedPeriod] = useState('2024-06');
   const [showAddPayroll, setShowAddPayroll] = useState(false);
   const [showDetailModal, setShowDetailModal] = useState(false);
+  const [showAddEmployee, setShowAddEmployee] = useState(false);
   const [selectedPayroll, setSelectedPayroll] = useState(null);
   const [formData, setFormData] = useState({
     employeeId: '',
@@ -24,6 +25,14 @@ export default function Payroll() {
     deduction: '',
     payPeriod: selectedPeriod,
     notes: ''
+  });
+  const [employeeData, setEmployeeData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    position: '',
+    baseSalary: '',
+    outletId: ''
   });
   
   const queryClient = useQueryClient();
@@ -144,6 +153,27 @@ export default function Payroll() {
     }
   });
 
+  // Create employee mutation
+  const createEmployeeMutation = useMutation({
+    mutationFn: (data: any) => api.createEmployee(data),
+    onSuccess: () => {
+      toast({
+        title: "Karyawan Berhasil Ditambahkan",
+        description: "Data karyawan baru telah tersimpan"
+      });
+      queryClient.invalidateQueries({ queryKey: ['/api/employees'] });
+      setShowAddEmployee(false);
+      resetEmployeeForm();
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Gagal Menambahkan Karyawan",
+        description: error.message,
+        variant: "destructive"
+      });
+    }
+  });
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.employeeId || !formData.baseSalary) {
@@ -185,6 +215,40 @@ export default function Payroll() {
     link.click();
     URL.revokeObjectURL(url);
   };
+
+  const resetEmployeeForm = () => {
+    setEmployeeData({
+      name: '',
+      email: '',
+      phone: '',
+      position: '',
+      baseSalary: '',
+      outletId: ''
+    });
+  };
+
+  const handleAddEmployee = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!employeeData.name.trim() || !employeeData.email.trim()) {
+      toast({
+        title: "Error",
+        description: "Nama dan email karyawan wajib diisi",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    createEmployeeMutation.mutate({
+      ...employeeData,
+      baseSalary: parseFloat(employeeData.baseSalary) || 3500000,
+      outletId: employeeData.outletId ? parseInt(employeeData.outletId) : 1
+    });
+  };
+
+
+
+
 
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -420,21 +484,33 @@ export default function Payroll() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <Label htmlFor="employeeId" className="font-league">Karyawan</Label>
-              <Select 
-                value={formData.employeeId} 
-                onValueChange={(value) => setFormData(prev => ({ ...prev, employeeId: value }))}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Pilih karyawan" />
-                </SelectTrigger>
-                <SelectContent>
-                  {employees.map((emp: any) => (
-                    <SelectItem key={emp.id} value={emp.id.toString()}>
-                      {emp.name} - {emp.position}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <div className="space-y-2">
+                <Select 
+                  value={formData.employeeId} 
+                  onValueChange={(value) => setFormData(prev => ({ ...prev, employeeId: value }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Pilih karyawan" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {employees.map((emp: any) => (
+                      <SelectItem key={emp.id} value={emp.id.toString()}>
+                        {emp.name} - {emp.position}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowAddEmployee(true)}
+                  className="w-full text-[#f29716] border-[#f29716] hover:bg-[#f29716] hover:text-white"
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  Tambah Karyawan Baru
+                </Button>
+              </div>
             </div>
 
             <div>
@@ -604,6 +680,120 @@ export default function Payroll() {
               </div>
             </div>
           )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Add Employee Modal */}
+      <Dialog open={showAddEmployee} onOpenChange={setShowAddEmployee}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="font-league">Tambah Karyawan Baru</DialogTitle>
+          </DialogHeader>
+          <form onSubmit={handleAddEmployee} className="space-y-4">
+            <div>
+              <Label htmlFor="employeeName" className="font-league">Nama Karyawan</Label>
+              <Input
+                id="employeeName"
+                value={employeeData.name}
+                onChange={(e) => setEmployeeData(prev => ({ ...prev, name: e.target.value }))}
+                placeholder="Masukkan nama lengkap"
+                required
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="employeeEmail" className="font-league">Email</Label>
+              <Input
+                id="employeeEmail"
+                type="email"
+                value={employeeData.email}
+                onChange={(e) => setEmployeeData(prev => ({ ...prev, email: e.target.value }))}
+                placeholder="karyawan@example.com"
+                required
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="employeePhone" className="font-league">Nomor Telepon</Label>
+              <Input
+                id="employeePhone"
+                value={employeeData.phone}
+                onChange={(e) => setEmployeeData(prev => ({ ...prev, phone: e.target.value }))}
+                placeholder="081234567890"
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="employeePosition" className="font-league">Jabatan</Label>
+              <Select 
+                value={employeeData.position} 
+                onValueChange={(value) => setEmployeeData(prev => ({ ...prev, position: value }))}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Pilih jabatan" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Staff">Staff</SelectItem>
+                  <SelectItem value="Kasir">Kasir</SelectItem>
+                  <SelectItem value="Sales">Sales</SelectItem>
+                  <SelectItem value="Supervisor">Supervisor</SelectItem>
+                  <SelectItem value="Assistant Manager">Assistant Manager</SelectItem>
+                  <SelectItem value="Manager">Manager</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div>
+              <Label htmlFor="employeeBaseSalary" className="font-league">Gaji Pokok</Label>
+              <Input
+                id="employeeBaseSalary"
+                type="number"
+                value={employeeData.baseSalary}
+                onChange={(e) => setEmployeeData(prev => ({ ...prev, baseSalary: e.target.value }))}
+                placeholder="3500000"
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="employeeOutlet" className="font-league">Outlet</Label>
+              <Select 
+                value={employeeData.outletId} 
+                onValueChange={(value) => setEmployeeData(prev => ({ ...prev, outletId: value }))}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Pilih outlet" />
+                </SelectTrigger>
+                <SelectContent>
+                  {outlets?.map((outlet: any) => (
+                    <SelectItem key={outlet.id} value={outlet.id.toString()}>
+                      {outlet.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="flex justify-end space-x-3 pt-4">
+              <Button 
+                type="button" 
+                variant="outline" 
+                onClick={() => {
+                  setShowAddEmployee(false);
+                  resetEmployeeForm();
+                }}
+                className="font-league"
+              >
+                Batal
+              </Button>
+              <Button 
+                type="submit"
+                className="btn-orange font-league"
+                disabled={createEmployeeMutation.isPending}
+              >
+                {createEmployeeMutation.isPending ? 'Menambahkan...' : 'Tambah Karyawan'}
+              </Button>
+            </div>
+          </form>
         </DialogContent>
       </Dialog>
     </div>
