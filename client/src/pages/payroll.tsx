@@ -174,18 +174,7 @@ export default function Payroll() {
     }
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.employeeId || !formData.baseSalary) {
-      toast({
-        title: "Error",
-        description: "Mohon lengkapi data yang diperlukan",
-        variant: "destructive"
-      });
-      return;
-    }
-    createPayrollMutation.mutate(formData);
-  };
+
 
 
 
@@ -242,6 +231,28 @@ export default function Payroll() {
       baseSalary: parseFloat(employeeData.baseSalary) || 3500000,
       outletId: employeeData.outletId ? parseInt(employeeData.outletId) : 1
     });
+  };
+
+  // Handler untuk auto-fill gaji pokok ketika karyawan dipilih
+  const handleEmployeeSelect = (employeeId: string) => {
+    setFormData(prev => ({ ...prev, employeeId }));
+    
+    // Cari data karyawan yang dipilih
+    const selectedEmployee = employees.find((emp: any) => emp.id.toString() === employeeId);
+    if (selectedEmployee && selectedEmployee.baseSalary) {
+      // Auto-fill gaji pokok dari data karyawan
+      setFormData(prev => ({ 
+        ...prev, 
+        employeeId,
+        baseSalary: selectedEmployee.baseSalary.toString()
+      }));
+    }
+  };
+
+
+
+  const handleStatusUpdate = (id: number, status: string) => {
+    updateStatusMutation.mutate({ id, status });
   };
 
 
@@ -485,7 +496,7 @@ export default function Payroll() {
               <div className="space-y-2">
                 <Select 
                   value={formData.employeeId} 
-                  onValueChange={(value) => setFormData(prev => ({ ...prev, employeeId: value }))}
+                  onValueChange={handleEmployeeSelect}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Pilih karyawan" />
