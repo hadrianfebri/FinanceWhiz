@@ -186,3 +186,19 @@ Changelog:
   - Fixed Select component validation errors by replacing empty string values with "all"
   - Added employee counter showing filtered results vs total employees
   - Improved user experience with real-time search and filter functionality
+- June 23, 2025. Complete vendor management enhancement with contract tracking:
+  - Added contract amount (nominal kontrak) field to vendor database schema
+  - Implemented document upload functionality for vendor contracts and files
+  - Enhanced vendor cards to display contract amounts with proper currency formatting
+  - Updated both create and edit vendor forms with scrollable interface
+  - Fixed modal scrolling issues with max-height and overflow-y-auto classes
+  - Modified backend API to handle file uploads using multer middleware
+  - Supports PDF, DOC, DOCX, JPG, PNG document formats for vendor documentation
+- June 23, 2025. Advanced tax management system for UMKM businesses:
+  - Implemented automatic PPh Final 0.5% calculation based on real financial data from reports
+  - Created professional PDF export functionality with branded Toko Berkah formatting
+  - Added dynamic status management for tax reports (Real-time, Draft, Disetor, Lunas)
+  - Built edit modal for manual corrections and data adjustments
+  - Enhanced tax summary cards with detailed income sources and calculation breakdown
+  - Integrated real-time synchronization with financial reports for accurate tax calculations
+  - Added comprehensive information banner explaining UMKM tax calculation methodology
