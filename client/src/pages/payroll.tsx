@@ -251,6 +251,21 @@ export default function Payroll() {
 
 
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!formData.employeeId || !formData.baseSalary) {
+      toast({
+        title: "Error",
+        description: "Semua field wajib diisi",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    createPayrollMutation.mutate(formData);
+  };
+
   const handleStatusUpdate = (id: number, status: string) => {
     updateStatusMutation.mutate({ id, status });
   };
