@@ -28,6 +28,8 @@ export default function Payroll() {
   const [employeeSearchTerm, setEmployeeSearchTerm] = useState('');
   const [employeeFilterPosition, setEmployeeFilterPosition] = useState('');
   const [showAddNewEmployee, setShowAddNewEmployee] = useState(false);
+  const [showAddPosition, setShowAddPosition] = useState(false);
+  const [newPositionName, setNewPositionName] = useState('');
   const [employeeFormData, setEmployeeFormData] = useState({
     name: '',
     position: '',
@@ -267,6 +269,27 @@ export default function Payroll() {
     };
 
     createEmployeeMutation.mutate(newEmployeeData);
+  };
+
+  const handleAddPosition = () => {
+    if (!newPositionName.trim()) {
+      toast({
+        title: "Error",
+        description: "Nama jabatan tidak boleh kosong",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Add position to employee form data and close modal
+    setEmployeeFormData(prev => ({ ...prev, position: newPositionName }));
+    setShowAddPosition(false);
+    setNewPositionName('');
+    
+    toast({
+      title: "Berhasil",
+      description: `Jabatan "${newPositionName}" berhasil ditambahkan`,
+    });
   };
 
   const handleAddEmployee = (e: React.FormEvent) => {
@@ -1537,109 +1560,173 @@ export default function Payroll() {
 
       {/* Add New Employee Modal */}
       <Dialog open={showAddNewEmployee} onOpenChange={setShowAddNewEmployee}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="max-w-2xl max-h-[90vh] flex flex-col">
           <DialogHeader>
             <DialogTitle>Tambah Karyawan Baru</DialogTitle>
           </DialogHeader>
           
-          <form onSubmit={handleAddNewEmployee} className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <Label htmlFor="new-emp-name">Nama Lengkap *</Label>
-                <Input
-                  id="new-emp-name"
-                  value={employeeFormData.name}
-                  onChange={(e) => setEmployeeFormData(prev => ({...prev, name: e.target.value}))}
-                  placeholder="Masukkan nama lengkap"
-                  required
-                />
+          <div className="flex-1 overflow-y-auto">
+            <form onSubmit={handleAddNewEmployee} className="space-y-4 p-1">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="new-emp-name">Nama Lengkap *</Label>
+                  <Input
+                    id="new-emp-name"
+                    value={employeeFormData.name}
+                    onChange={(e) => setEmployeeFormData(prev => ({...prev, name: e.target.value}))}
+                    placeholder="Masukkan nama lengkap"
+                    required
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="new-emp-position">Jabatan</Label>
+                  <div className="flex gap-2">
+                    <Select 
+                      value={employeeFormData.position} 
+                      onValueChange={(value) => setEmployeeFormData(prev => ({...prev, position: value}))}
+                    >
+                      <SelectTrigger className="flex-1">
+                        <SelectValue placeholder="Pilih jabatan" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {uniqueEmployeePositions.map((position: string) => (
+                          <SelectItem key={position} value={position}>
+                            {position}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <Button 
+                      type="button"
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => setShowAddPosition(true)}
+                      className="whitespace-nowrap"
+                    >
+                      <Plus className="w-4 h-4" />
+                    </Button>
+                  </div>
+                </div>
               </div>
-              <div>
-                <Label htmlFor="new-emp-position">Jabatan</Label>
-                <Input
-                  id="new-emp-position"
-                  value={employeeFormData.position}
-                  onChange={(e) => setEmployeeFormData(prev => ({...prev, position: e.target.value}))}
-                  placeholder="Contoh: Manager, Staff, Kasir"
-                />
-              </div>
-            </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <Label htmlFor="new-emp-email">Email *</Label>
-                <Input
-                  id="new-emp-email"
-                  type="email"
-                  value={employeeFormData.email}
-                  onChange={(e) => setEmployeeFormData(prev => ({...prev, email: e.target.value}))}
-                  placeholder="nama@example.com"
-                  required
-                />
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="new-emp-email">Email *</Label>
+                  <Input
+                    id="new-emp-email"
+                    type="email"
+                    value={employeeFormData.email}
+                    onChange={(e) => setEmployeeFormData(prev => ({...prev, email: e.target.value}))}
+                    placeholder="nama@example.com"
+                    required
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="new-emp-phone">No. Telepon</Label>
+                  <Input
+                    id="new-emp-phone"
+                    value={employeeFormData.phone}
+                    onChange={(e) => setEmployeeFormData(prev => ({...prev, phone: e.target.value}))}
+                    placeholder="08123456789"
+                  />
+                </div>
               </div>
-              <div>
-                <Label htmlFor="new-emp-phone">No. Telepon</Label>
-                <Input
-                  id="new-emp-phone"
-                  value={employeeFormData.phone}
-                  onChange={(e) => setEmployeeFormData(prev => ({...prev, phone: e.target.value}))}
-                  placeholder="08123456789"
-                />
-              </div>
-            </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <Label htmlFor="new-emp-salary">Gaji Pokok</Label>
-                <Input
-                  id="new-emp-salary"
-                  type="number"
-                  value={employeeFormData.baseSalary}
-                  onChange={(e) => setEmployeeFormData(prev => ({...prev, baseSalary: e.target.value}))}
-                  placeholder="3500000"
-                />
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="new-emp-salary">Gaji Pokok</Label>
+                  <Input
+                    id="new-emp-salary"
+                    type="number"
+                    value={employeeFormData.baseSalary}
+                    onChange={(e) => setEmployeeFormData(prev => ({...prev, baseSalary: e.target.value}))}
+                    placeholder="3500000"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="new-emp-outlet">Outlet</Label>
+                  <Select 
+                    value={employeeFormData.outletId} 
+                    onValueChange={(value) => setEmployeeFormData(prev => ({...prev, outletId: value}))}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Pilih outlet" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">Semua Outlet</SelectItem>
+                      {outlets?.map((outlet: any) => (
+                        <SelectItem key={outlet.id} value={outlet.id.toString()}>
+                          {outlet.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
-              <div>
-                <Label htmlFor="new-emp-outlet">Outlet</Label>
-                <Select 
-                  value={employeeFormData.outletId} 
-                  onValueChange={(value) => setEmployeeFormData(prev => ({...prev, outletId: value}))}
+
+              <div className="flex justify-end gap-3 pt-4 border-t">
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  onClick={() => {
+                    setShowAddNewEmployee(false);
+                    resetNewEmployeeForm();
+                  }}
                 >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Pilih outlet" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">Semua Outlet</SelectItem>
-                    {outlets?.map((outlet: any) => (
-                      <SelectItem key={outlet.id} value={outlet.id.toString()}>
-                        {outlet.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                  Batal
+                </Button>
+                <Button 
+                  type="submit" 
+                  className="bg-[#f29716] hover:bg-[#d4820a]"
+                  disabled={createEmployeeMutation.isPending}
+                >
+                  {createEmployeeMutation.isPending ? 'Menyimpan...' : 'Tambah Karyawan'}
+                </Button>
               </div>
-            </div>
+            </form>
+          </div>
+        </DialogContent>
+      </Dialog>
 
-            <div className="flex justify-end gap-3 pt-4">
+      {/* Add Position Modal */}
+      <Dialog open={showAddPosition} onOpenChange={setShowAddPosition}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Tambah Jabatan Baru</DialogTitle>
+          </DialogHeader>
+          
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="position-name">Nama Jabatan</Label>
+              <Input
+                id="position-name"
+                value={newPositionName}
+                onChange={(e) => setNewPositionName(e.target.value)}
+                placeholder="Contoh: Manager, Staff, Kasir"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    handleAddPosition();
+                  }
+                }}
+              />
+            </div>
+            
+            <div className="flex justify-end gap-3">
               <Button 
-                type="button" 
                 variant="outline" 
                 onClick={() => {
-                  setShowAddNewEmployee(false);
-                  resetNewEmployeeForm();
+                  setShowAddPosition(false);
+                  setNewPositionName('');
                 }}
               >
                 Batal
               </Button>
-              <Button 
-                type="submit" 
-                className="bg-[#f29716] hover:bg-[#d4820a]"
-                disabled={createEmployeeMutation.isPending}
-              >
-                {createEmployeeMutation.isPending ? 'Menyimpan...' : 'Tambah Karyawan'}
+              <Button onClick={handleAddPosition} className="bg-[#f29716] hover:bg-[#d4820a]">
+                Tambah
               </Button>
             </div>
-          </form>
+          </div>
         </DialogContent>
       </Dialog>
     </div>
