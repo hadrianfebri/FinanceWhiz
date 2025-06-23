@@ -1361,9 +1361,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { transactionData, dashboardStats } = req.body;
 
-      if (!process.env.OPENAI_API_KEY && !process.env.DEEPSEEK_API_KEY) {
+      if (!process.env.DEEPSEEK_API_KEY && !process.env.OPENAI_API_KEY) {
         return res.status(400).json({ 
-          message: 'AI API key not configured. Please add OPENAI_API_KEY or DEEPSEEK_API_KEY to environment variables.' 
+          message: 'AI API key not configured. Please add DEEPSEEK_API_KEY or OPENAI_API_KEY to environment variables.' 
         });
       }
 
