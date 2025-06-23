@@ -983,19 +983,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
                 <tbody>
                   <tr>
                     <td>Gaji Pokok</td>
-                    <td class="amount">Rp ${(payroll.baseSalary || 0).toLocaleString('id-ID')}</td>
+                    <td class="amount">Rp ${(Number(payroll.baseSalary) || 0).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
                   </tr>
                   <tr>
                     <td>Tunjangan & Bonus</td>
-                    <td class="amount">Rp ${(payroll.bonus || 0).toLocaleString('id-ID')}</td>
+                    <td class="amount">Rp ${(Number(payroll.bonus) || 0).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
                   </tr>
                   <tr>
                     <td>Potongan</td>
-                    <td class="amount">-Rp ${(payroll.deduction || 0).toLocaleString('id-ID')}</td>
+                    <td class="amount">-Rp ${(Number(payroll.deduction) || 0).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
                   </tr>
                   <tr class="total-row">
                     <td><strong>Total Gaji Bersih</strong></td>
-                    <td class="amount">Rp ${(payroll.totalAmount || 0).toLocaleString('id-ID')}</td>
+                    <td class="amount">Rp ${(Number(payroll.totalAmount) || 0).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
                   </tr>
                 </tbody>
               </table>
