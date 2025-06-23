@@ -107,21 +107,31 @@ export default function POSSync() {
     }
   });
 
-  const handleSync = async () => {
+  const handleSync = async (deviceId?: number) => {
     setSyncing(true);
-    setTimeout(() => {
-      setSyncing(false);
+    try {
+      if (deviceId) {
+        await syncDeviceMutation.mutateAsync(deviceId);
+      } else {
+        // Sync all devices
+        for (const device of posDevices) {
+          await syncDeviceMutation.mutateAsync(device.id);
+        }
+      }
+    } catch (error) {
       toast({
-        title: "Sinkronisasi Berhasil",
-        description: "Data POS telah berhasil disinkronkan"
+        title: "Sinkronisasi Gagal",
+        description: "Terjadi kesalahan saat sinkronisasi"
       });
-    }, 3000);
+    } finally {
+      setSyncing(false);
+    }
   };
 
   const handleAddPOS = () => {
     setPosFormData({
       name: '',
-      type: 'cashier',
+      type: 'moka',
       location: '',
       outletId: '',
       apiKey: '',
@@ -138,19 +148,21 @@ export default function POSSync() {
       location: pos.location,
       outletId: pos.outletId.toString(),
       apiKey: '••••••••••••••••', // Hidden for security
-      apiUrl: pos.apiUrl
+      apiUrl: pos.apiUrl || ''
     });
     setShowEditPOSModal(true);
   };
 
   const handleSavePOS = () => {
-    // In real app, this would save to backend
-    toast({
-      title: "POS Berhasil Disimpan",
-      description: "Konfigurasi POS telah berhasil disimpan"
-    });
-    setShowAddPOSModal(false);
-    setShowEditPOSModal(false);
+    if (showAddPOSModal) {
+      createDeviceMutation.mutate(posFormData);
+    } else if (showEditPOSModal && selectedPOS) {
+      const updateData = { ...posFormData };
+      if (updateData.apiKey === '••••••••••••••••') {
+        delete updateData.apiKey; // Don't update if not changed
+      }
+      updateDeviceMutation.mutate({ id: selectedPOS.id, data: updateData });
+    }
   };
 
   const getStatusBadge = (status: string) => {
@@ -174,6 +186,8 @@ export default function POSSync() {
 
   const getPOSTypeLabel = (type: string) => {
     const labels = {
+      moka: 'MOKA POS',
+      custom: 'Custom POS',
       cashier: 'Kasir',
       'self-service': 'Self-Service',
       mobile: 'Mobile POS'
@@ -262,7 +276,7 @@ export default function POSSync() {
                     variant="outline"
                     size="sm"
                     className="flex-1 font-league"
-                    onClick={() => handleSync()}
+                    onClick={() => handleSync(pos.id)}
                   >
                     <RefreshCw className="h-3 w-3 mr-1" />
                     Sync
@@ -399,6 +413,8 @@ export default function POSSync() {
                   <SelectValue placeholder="Pilih jenis POS" />
                 </SelectTrigger>
                 <SelectContent>
+                  <SelectItem value="moka" className="font-league">MOKA POS</SelectItem>
+                  <SelectItem value="custom" className="font-league">Custom POS</SelectItem>
                   <SelectItem value="cashier" className="font-league">Kasir</SelectItem>
                   <SelectItem value="self-service" className="font-league">Self-Service</SelectItem>
                   <SelectItem value="mobile" className="font-league">Mobile POS</SelectItem>
