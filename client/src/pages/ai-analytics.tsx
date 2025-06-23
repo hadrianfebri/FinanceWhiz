@@ -30,12 +30,14 @@ export default function AIAnalytics() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
 
   // Fetch real transaction data for fraud detection
-  const { data: transactionData = [] } = useQuery({
+  const { data: transactionResponse = { transactions: [] } } = useQuery({
     queryKey: ['/api/transactions'],
     queryFn: async () => {
       return api.getTransactions({ limit: 1000 });
     }
   });
+
+  const transactionData = transactionResponse.transactions || [];
 
   // Fetch dashboard stats for AI insights
   const { data: dashboardStats } = useQuery({
@@ -114,27 +116,18 @@ export default function AIAnalytics() {
     return alerts;
   };
 
-  // Generate AI insights from OpenAI
+  // Generate AI insights using DeepSeek API
   const generateAIInsights = useMutation({
     mutationFn: async () => {
-      const response = await fetch('/api/ai/generate-insights', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          transactionData: transactionData.slice(0, 50), // Send recent 50 transactions
-          dashboardStats
-        })
+      return api.generateAIInsights({
+        transactionData: transactionData.slice(0, 50), // Send recent transactions
+        dashboardStats: dashboardStats
       });
-      if (!response.ok) throw new Error('Failed to generate AI insights');
-      return response.json();
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast({
-        title: "AI Analysis Complete",
-        description: "New insights generated successfully",
+        title: "AI Insights Generated",
+        description: "New business insights have been generated using DeepSeek AI",
       });
       refetchInsights();
     },
@@ -147,19 +140,12 @@ export default function AIAnalytics() {
     }
   });
 
+
+
   // Update alert status
   const updateAlertStatus = useMutation({
     mutationFn: async ({ alertId, status }: { alertId: string, status: string }) => {
-      const response = await fetch(`/api/ai/alerts/${alertId}/status`, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ status })
-      });
-      if (!response.ok) throw new Error('Failed to update alert status');
-      return response.json();
+      return api.updateAlertStatus(parseInt(alertId), status);
     },
     onSuccess: () => {
       toast({
