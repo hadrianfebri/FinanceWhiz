@@ -21,6 +21,7 @@ import {
   payrolls,
   employees,
   users,
+  vendors,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, gte, count, desc } from "drizzle-orm";
