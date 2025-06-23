@@ -7,6 +7,7 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 import express from "express";
+import mailgun from "mailgun-js";
 import {
   loginSchema,
   registerSchema,
@@ -954,7 +955,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       `;
 
       // Send email using Mailgun
-      const mailgun = require('mailgun-js');
       const mg = mailgun({
         apiKey: process.env.MAILGUN_API_KEY,
         domain: process.env.MAILGUN_DOMAIN
