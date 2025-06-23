@@ -244,31 +244,28 @@ export default function EnhancedDashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
-            {payrollReminders?.slice(0, 2).map((reminder: any, index: number) => (
-              <div key={index} className="flex items-center justify-between p-3 bg-yellow-50 rounded-lg">
-                <div className="flex items-center gap-2">
-                  <Clock className="h-4 w-4 text-yellow-600" />
-                  <div>
-                    <p className="font-medium text-sm text-gray-900">{reminder.title}</p>
-                    <p className="text-xs text-gray-600">{reminder.description}</p>
+            {notifications && notifications.length > 0 ? (
+              notifications.slice(0, 3).map((notification: any, index: number) => (
+                <div key={index} className="flex items-center justify-between p-3 bg-yellow-50 rounded-lg">
+                  <div className="flex items-center gap-2">
+                    <Clock className="h-4 w-4 text-yellow-600" />
+                    <div>
+                      <p className="font-medium text-sm text-gray-900">{notification.title}</p>
+                      <p className="text-xs text-gray-600">{notification.message}</p>
+                    </div>
                   </div>
+                  <Badge variant="outline" className="bg-yellow-100 text-yellow-800">
+                    {notification.priority === 'high' ? 'Urgent' : 'Info'}
+                  </Badge>
                 </div>
-                <Badge variant="outline" className="bg-yellow-100 text-yellow-800">Urgent</Badge>
+              ))
+            ) : (
+              <div className="text-center py-6">
+                <Bell className="h-8 w-8 text-gray-300 mx-auto mb-2" />
+                <p className="text-sm text-gray-500">Belum ada notifikasi</p>
+                <p className="text-xs text-gray-400">Notifikasi akan muncul saat ada aktivitas bisnis</p>
               </div>
-            ))}
-            
-            {pendingInvoices?.slice(0, 1).map((invoice: any, index: number) => (
-              <div key={index} className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
-                <div className="flex items-center gap-2">
-                  <FileText className="h-4 w-4 text-blue-600" />
-                  <div>
-                    <p className="font-medium text-sm text-gray-900">Invoice Pending</p>
-                    <p className="text-xs text-gray-600">{invoice.vendorName} - {formatCurrency(invoice.amount)}</p>
-                  </div>
-                </div>
-                <Badge variant="outline" className="bg-blue-100 text-blue-800">Review</Badge>
-              </div>
-            ))}
+            )}
           </CardContent>
         </Card>
 
