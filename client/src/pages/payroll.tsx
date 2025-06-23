@@ -348,9 +348,9 @@ export default function Payroll() {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="">Semua Jabatan</SelectItem>
-            {uniquePositions.map((position: string) => (
-              <SelectItem key={position} value={position}>
-                {position}
+            {uniquePositions.map((position) => (
+              <SelectItem key={position as string} value={position as string}>
+                {position as string}
               </SelectItem>
             ))}
           </SelectContent>
@@ -471,14 +471,14 @@ export default function Payroll() {
                       Loading payroll data...
                     </td>
                   </tr>
-                ) : payrollData.length === 0 ? (
+                ) : filteredPayrollData.length === 0 ? (
                   <tr>
                     <td colSpan={10} className="p-8 text-center text-gray-500">
-                      Belum ada data payroll untuk periode ini
+                      {searchTerm || filterPosition ? "Tidak ada data yang sesuai dengan filter" : "Belum ada data payroll untuk periode ini"}
                     </td>
                   </tr>
                 ) : (
-                  payrollData.map((payroll: any) => (
+                  filteredPayrollData.map((payroll: any) => (
                     <tr key={payroll.id} className="border-b hover:bg-gray-50">
                       <td className="p-3">
                         <div className="font-medium text-gray-900">{payroll.employeeName}</div>
