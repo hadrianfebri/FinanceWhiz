@@ -790,7 +790,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           email: email || null,
           address: address || null,
           paymentTerms: parseInt(paymentTerms) || 30,
-          contractAmount: contractAmount ? parseFloat(contractAmount) : null,
+          contractAmount: contractAmount || null,
           documentUrl: documentUrl,
           isActive: true
         })
@@ -803,10 +803,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.put('/api/vendors/:id', authenticate, async (req: any, res: Response) => {
+  app.put('/api/vendors/:id', authenticate, upload.single('document'), async (req: any, res: Response) => {
     try {
       const vendorId = parseInt(req.params.id);
-      const { name, contactPerson, phone, email, address, paymentTerms } = req.body;
+      const { name, contactPerson, phone, email, address, paymentTerms, contractAmount } = req.body;
       
       if (!name) {
         return res.status(400).json({ message: 'Nama vendor wajib diisi' });
@@ -825,6 +825,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: 'Vendor not found' });
       }
 
+      let documentUrl = existingVendor[0].documentUrl; // Keep existing document if no new one
+      if (req.file) {
+        documentUrl = `/uploads/${req.file.filename}`;
+      }
+
       const [updatedVendor] = await db.update(vendors)
         .set({
           name,
@@ -832,7 +837,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
           phone: phone || null,
           email: email || null,
           address: address || null,
-          paymentTerms: paymentTerms || 30,
+          paymentTerms: parseInt(paymentTerms) || 30,
+          contractAmount: contractAmount || null,
+          documentUrl: documentUrl,
           updatedAt: new Date()
         })
         .where(eq(vendors.id, vendorId))

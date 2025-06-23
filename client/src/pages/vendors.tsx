@@ -94,13 +94,22 @@ export default function Vendors() {
   const updateVendorMutation = useMutation({
     mutationFn: async ({ id, vendorData }: { id: number; vendorData: any }) => {
       const token = localStorage.getItem('auth_token');
+      
+      const formDataToSend = new FormData();
+      Object.keys(vendorData).forEach(key => {
+        if (key === 'documentFile' && vendorData[key]) {
+          formDataToSend.append('document', vendorData[key]);
+        } else if (vendorData[key] !== null && vendorData[key] !== '') {
+          formDataToSend.append(key, vendorData[key]);
+        }
+      });
+
       const response = await fetch(`/api/vendors/${id}`, {
         method: 'PUT',
         headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
+          'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify(vendorData)
+        body: formDataToSend
       });
       if (!response.ok) {
         throw new Error('Failed to update vendor');
