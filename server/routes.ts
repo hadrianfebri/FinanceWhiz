@@ -658,7 +658,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         .values({
           employeeId: parseInt(employeeId),
           baseSalary: parsedBaseSalary.toString(),
-          bonus: parsedBonus.toString(),
+          bonus: parsedBonus.toString(), 
           deduction: parsedDeduction.toString(),
           totalAmount: totalAmount.toString(),
           payPeriod,

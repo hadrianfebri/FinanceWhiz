@@ -289,6 +289,22 @@ export default function Payroll() {
     }
   };
 
+  // Filter payroll data based on search and position filter
+  const filteredPayrollData = payrollData?.filter((payroll: any) => {
+    const matchesSearch = !searchTerm || 
+      payroll.employeeName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      payroll.position?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      payroll.outletName?.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    const matchesPosition = !filterPosition || 
+      payroll.position?.toLowerCase() === filterPosition.toLowerCase();
+    
+    return matchesSearch && matchesPosition;
+  }) || [];
+
+  // Get unique positions for filter dropdown
+  const uniquePositions = Array.from(new Set(payrollData?.map((p: any) => p.position).filter(Boolean))) || [];
+
   return (
     <div className="p-6 space-y-6">
       {/* Header */}
@@ -314,6 +330,43 @@ export default function Payroll() {
             Tambah Payroll
           </Button>
         </div>
+      </div>
+
+      {/* Search and Filter Controls */}
+      <div className="flex flex-col sm:flex-row gap-4 mb-6">
+        <div className="flex-1">
+          <Input
+            placeholder="Cari karyawan, jabatan, atau outlet..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full"
+          />
+        </div>
+        <Select value={filterPosition} onValueChange={setFilterPosition}>
+          <SelectTrigger className="w-full sm:w-48">
+            <SelectValue placeholder="Filter Jabatan" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="">Semua Jabatan</SelectItem>
+            {uniquePositions.map((position: string) => (
+              <SelectItem key={position} value={position}>
+                {position}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        {(searchTerm || filterPosition) && (
+          <Button
+            variant="outline"
+            onClick={() => {
+              setSearchTerm('');
+              setFilterPosition('');
+            }}
+            className="w-full sm:w-auto"
+          >
+            Reset Filter
+          </Button>
+        )}
       </div>
 
       {/* Summary Cards */}
