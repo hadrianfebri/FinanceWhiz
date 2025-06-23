@@ -292,7 +292,7 @@ export default function AIChat() {
                       )}
                     </div>
                     
-                    <div className={`rounded-lg p-3 ${
+                    <div className={`rounded-lg p-3 max-h-96 overflow-y-auto ${
                       message.type === 'user'
                         ? 'bg-orange-500 text-white'
                         : 'bg-gray-100 text-gray-900'
