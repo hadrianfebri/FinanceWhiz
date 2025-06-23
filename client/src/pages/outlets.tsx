@@ -117,20 +117,31 @@ export default function Outlets() {
   });
 
   const createManagerMutation = useMutation({
-    mutationFn: (data: any) => api.createEmployee({
-      ...data,
-      position: 'Manager',
-      role: 'manager',
-      isActive: true,
-      baseSalary: 5000000 // Default manager salary
-    }),
+    mutationFn: async (data: any) => {
+      // Create manager as user with manager role
+      const response = await fetch('/api/users/managers', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...localStorage.getItem('auth_token') ? { 'Authorization': `Bearer ${localStorage.getItem('auth_token')}` } : {}
+        },
+        body: JSON.stringify({
+          businessName: data.name,
+          email: data.email,
+          phone: data.phone,
+          password: 'defaultpassword123', // Manager can change this later
+          role: 'manager'
+        })
+      });
+      if (!response.ok) throw new Error('Failed to create manager');
+      return response.json();
+    },
     onSuccess: () => {
       toast({
         title: "Manager Berhasil Ditambahkan",
         description: "Manager baru telah berhasil didaftarkan",
       });
       queryClient.invalidateQueries({ queryKey: ["/api/users/managers"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/employees"] });
       setShowAddManager(false);
       resetManagerForm();
     },

@@ -19,6 +19,7 @@ import {
   transactions,
   payrolls,
   employees,
+  users,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, gte, count, desc } from "drizzle-orm";
@@ -795,27 +796,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // SME Routes - User Managers
   app.get('/api/users/managers', authenticate, async (req: any, res: Response) => {
     try {
-      // Get managers from employees table where position contains 'Manager'
-      const managersData = await db.query.employees.findMany({
-        where: and(
-          eq(employees.businessId, req.user.id),
-          eq(employees.isActive, true)
-        ),
-        with: {
-          outlet: true,
-        }
-      });
+      // Get managers from users table with manager role
+      const managersData = await db
+        .select()
+        .from(users)
+        .where(and(
+          eq(users.role, 'manager'),
+          eq(users.isActive, true)
+        ));
 
-      // Filter for manager positions and format response
-      const managers = managersData
-        .filter(emp => emp.position?.toLowerCase().includes('manager'))
-        .map(manager => ({
-          id: manager.id,
-          name: manager.name,
-          email: manager.email,
-          position: manager.position || 'Manager',
-          outletName: manager.outlet?.name || 'Tidak ada outlet'
-        }));
+      // Format response
+      const managers = managersData.map(manager => ({
+        id: manager.id,
+        name: manager.businessName,
+        email: manager.email,
+        position: 'Manager'
+      }));
 
       res.json(managers);
     } catch (error) {
