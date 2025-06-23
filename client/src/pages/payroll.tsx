@@ -1437,14 +1437,14 @@ export default function Payroll() {
 
       {/* Employee List Modal */}
       <Dialog open={showAddEmployee} onOpenChange={setShowAddEmployee}>
-        <DialogContent className="max-w-4xl max-h-[80vh] flex flex-col">
+        <DialogContent className="max-w-4xl max-h-[85vh] flex flex-col">
           <DialogHeader>
             <DialogTitle>Kelola Karyawan</DialogTitle>
           </DialogHeader>
           
-          <div className="flex-1 space-y-4 overflow-hidden">
+          <div className="flex-1 space-y-4 overflow-hidden min-h-0">
             {/* Search and Filter Controls */}
-            <div className="flex gap-4 p-4 bg-gray-50 rounded-lg">
+            <div className="flex gap-4 p-4 bg-gray-50 rounded-lg flex-shrink-0">
               <div className="flex-1">
                 <Input
                   placeholder="Cari nama atau email karyawan..."
@@ -1486,8 +1486,8 @@ export default function Payroll() {
               )}
             </div>
 
-            <div className="border rounded-lg overflow-hidden flex-1 flex flex-col">
-              <div className="overflow-y-auto max-h-[50vh]">
+            <div className="border rounded-lg overflow-hidden flex-1 min-h-0">
+              <div className="overflow-y-auto h-full max-h-[40vh]">
                 <table className="w-full">
                   <thead className="bg-gray-50 sticky top-0">
                     <tr>
@@ -1536,23 +1536,23 @@ export default function Payroll() {
                 </table>
               </div>
             </div>
-            
-            <div className="flex justify-between items-center pt-4 border-t">
-              <div className="text-sm text-gray-600">
-                Menampilkan {filteredEmployees.length} dari {employees?.length || 0} karyawan
-              </div>
-              <div className="flex gap-3">
-                <Button 
-                  onClick={() => setShowAddNewEmployee(true)}
-                  className="bg-[#f29716] hover:bg-[#d4820a]"
-                >
-                  <Plus className="w-4 h-4 mr-2" />
-                  Tambah Karyawan
-                </Button>
-                <Button variant="outline" onClick={() => setShowAddEmployee(false)}>
-                  Tutup
-                </Button>
-              </div>
+          </div>
+          
+          <div className="flex justify-between items-center pt-4 pb-2 border-t bg-white flex-shrink-0">
+            <div className="text-sm text-gray-600">
+              Menampilkan {filteredEmployees.length} dari {employees?.length || 0} karyawan
+            </div>
+            <div className="flex gap-3">
+              <Button 
+                onClick={() => setShowAddNewEmployee(true)}
+                className="bg-[#f29716] hover:bg-[#d4820a]"
+              >
+                <Plus className="w-4 h-4 mr-2" />
+                Tambah Karyawan
+              </Button>
+              <Button variant="outline" onClick={() => setShowAddEmployee(false)}>
+                Tutup
+              </Button>
             </div>
           </div>
         </DialogContent>
