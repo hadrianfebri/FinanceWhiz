@@ -519,35 +519,57 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // SME Routes - Employees Management
   app.get('/api/employees', authenticate, async (req: any, res: Response) => {
     try {
-      // Mock employee data
-      const employees = [
-        {
-          id: 1,
-          businessId: req.user.id,
-          outletId: 1,
-          name: 'Ahmad Rizki',
-          position: 'Manager',
-          email: 'ahmad@example.com',
-          phone: '081234567890',
-          baseSalary: 6000000,
-          isActive: true
-        },
-        {
-          id: 2,
-          businessId: req.user.id,
-          outletId: 2,
-          name: 'Siti Nurhaliza',
-          position: 'Kasir',
-          email: 'siti@example.com',
-          phone: '087654321098',
-          baseSalary: 3500000,
-          isActive: true
+      // Get real employee data from database
+      const employeesData = await db.query.employees.findMany({
+        where: eq(employees.businessId, req.user.id),
+        with: {
+          outlet: true,
         }
-      ];
-      res.json(employees);
+      });
+
+      const formattedEmployees = employeesData.map(emp => ({
+        id: emp.id,
+        businessId: emp.businessId,
+        outletId: emp.outletId,
+        name: emp.name,
+        position: emp.position,
+        email: emp.email,
+        phone: emp.phone,
+        baseSalary: emp.baseSalary,
+        isActive: emp.isActive,
+        outletName: emp.outlet?.name || 'Tidak ada outlet'
+      }));
+
+      res.json(formattedEmployees);
     } catch (error) {
       console.error('Get employees error:', error);
       res.status(500).json({ message: 'Failed to fetch employees' });
+    }
+  });
+
+  app.post('/api/employees', authenticate, async (req: any, res: Response) => {
+    try {
+      const { name, email, phone, position, baseSalary, outletId } = req.body;
+      
+      // Insert new employee into database
+      const [newEmployee] = await db
+        .insert(employees)
+        .values({
+          businessId: req.user.id,
+          outletId: outletId || 1, // Default to main outlet if not specified
+          name,
+          email,
+          phone,
+          position: position || 'Manager',
+          baseSalary: baseSalary || 5000000,
+          isActive: true
+        })
+        .returning();
+
+      res.json({ success: true, employee: newEmployee });
+    } catch (error) {
+      console.error('Create employee error:', error);
+      res.status(500).json({ message: 'Failed to create employee' });
     }
   });
 
@@ -752,20 +774,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // SME Routes - User Managers
   app.get('/api/users/managers', authenticate, async (req: any, res: Response) => {
     try {
-      const managers = [
-        {
-          id: 1,
-          name: 'Ahmad Rizki',
-          email: 'ahmad@example.com',
-          position: 'Manager Cabang Utama'
-        },
-        {
-          id: 2,
-          name: 'Siti Nurhaliza',
-          email: 'siti@example.com',
-          position: 'Manager Cabang Mall'
+      // Get managers from employees table where position contains 'Manager'
+      const managersData = await db.query.employees.findMany({
+        where: and(
+          eq(employees.businessId, req.user.id),
+          eq(employees.isActive, true)
+        ),
+        with: {
+          outlet: true,
         }
-      ];
+      });
+
+      // Filter for manager positions and format response
+      const managers = managersData
+        .filter(emp => emp.position.toLowerCase().includes('manager'))
+        .map(manager => ({
+          id: manager.id,
+          name: manager.name,
+          email: manager.email,
+          position: manager.position,
+          outletName: manager.outlet?.name || 'Tidak ada outlet'
+        }));
+
       res.json(managers);
     } catch (error) {
       console.error('Get managers error:', error);
