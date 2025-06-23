@@ -820,6 +820,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.post('/api/users/managers', authenticate, async (req: any, res: Response) => {
+    try {
+      const { businessName, email, phone, password } = req.body;
+      
+      // Hash password
+      const hashedPassword = await bcrypt.hash(password, 10);
+      
+      // Insert new manager user into database
+      const [newManager] = await db
+        .insert(users)
+        .values({
+          businessName,
+          email,
+          phone: phone || '',
+          password: hashedPassword,
+          role: 'manager',
+          isActive: true
+        })
+        .returning();
+
+      res.json({ success: true, manager: newManager });
+    } catch (error) {
+      console.error('Create manager error:', error);
+      res.status(500).json({ message: 'Failed to create manager' });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
