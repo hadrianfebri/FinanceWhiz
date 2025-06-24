@@ -398,7 +398,7 @@ export default function Transactions() {
                   .reduce((sum: number, t: any) => sum + parseFloat(t.amount), 0)
               )}
             </div>
-            <p className="text-sm text-gray-600 font-league">Total Pengeluaran</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400 font-league">Total Pengeluaran</p>
           </div>
           
           <div className="card-base text-center">
@@ -409,7 +409,7 @@ export default function Transactions() {
                 }, 0)
               )}
             </div>
-            <p className="text-sm text-gray-600 font-league">Saldo Bersih</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400 font-league">Saldo Bersih</p>
           </div>
         </div>
       )}
@@ -423,7 +423,7 @@ export default function Transactions() {
             </div>
           ) : transactionsData?.transactions?.length === 0 ? (
             <div className="text-center py-12">
-              <p className="text-gray-500 mb-4">Tidak ada transaksi ditemukan</p>
+              <p className="text-gray-500 dark:text-gray-400 mb-4">Tidak ada transaksi ditemukan</p>
               <Button onClick={() => setShowAddTransaction(true)}>
                 <Plus className="h-4 w-4 mr-2" />
                 Tambah Transaksi Pertama
@@ -432,43 +432,43 @@ export default function Transactions() {
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-gray-50 border-b border-gray-200">
+                <thead className="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                       Tanggal
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                       Deskripsi
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                       Kategori
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                       Outlet
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                       Jenis
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                       Jumlah
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                       Aksi
                     </th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+                <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                   {transactionsData?.transactions?.map((transaction: any) => (
-                    <tr key={transaction.id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <tr key={transaction.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
                         {formatDate(transaction.date)}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-gray-900">
+                        <div className="text-sm font-medium text-gray-900 dark:text-white">
                           {transaction.description}
                         </div>
                         {transaction.notes && (
-                          <div className="text-sm text-gray-500">
+                          <div className="text-sm text-gray-500 dark:text-gray-400">
                             {transaction.notes}
                           </div>
                         )}
@@ -481,11 +481,11 @@ export default function Transactions() {
                       <td className="px-6 py-4 whitespace-nowrap">
                         {transaction.outlet ? (
                           <div className="flex items-center space-x-1">
-                            <Building2 className="h-3 w-3 text-gray-400" />
-                            <span className="text-sm text-gray-600">{transaction.outlet.name}</span>
+                            <Building2 className="h-3 w-3 text-gray-400 dark:text-gray-500" />
+                            <span className="text-sm text-gray-600 dark:text-gray-300">{transaction.outlet.name}</span>
                           </div>
                         ) : (
-                          <span className="text-sm text-gray-400">Pusat</span>
+                          <span className="text-sm text-gray-400 dark:text-gray-500">Pusat</span>
                         )}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
@@ -494,12 +494,12 @@ export default function Transactions() {
                         </Badge>
                       </td>
                       <td className={`px-6 py-4 whitespace-nowrap text-sm font-semibold ${
-                        transaction.type === 'income' ? 'text-green-600' : 'text-red-600'
+                        transaction.type === 'income' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
                       }`}>
                         {transaction.type === 'income' ? '+' : '-'}
                         {formatCurrency(parseFloat(transaction.amount))}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                         <div className="flex items-center space-x-2">
                           <Button 
                             variant="ghost" 

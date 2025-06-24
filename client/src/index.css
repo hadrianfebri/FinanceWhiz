@@ -77,7 +77,7 @@
 @layer components {
   /* FinanceWhiz.AI Brand Components */
   .card-base {
-    @apply bg-white rounded-xl shadow-sm p-6 text-black;
+    @apply bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 text-black dark:text-white border border-gray-200 dark:border-gray-700;
   }
   
   .btn-orange {
