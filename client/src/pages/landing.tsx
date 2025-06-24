@@ -74,7 +74,7 @@ export default function Landing() {
       <section className="container mx-auto px-4 py-20">
         <div className="text-center mb-16">
           <div className="mb-4">
-            <span className="badge-yellow font-league">Fitur Terlengkap</span>
+            <span className="badge-yellow">Fitur Terlengkap</span>
           </div>
           <h2 className="text-3xl font-bold text-gray-900 mb-4 font-league">
             Fitur Lengkap untuk UMKM
@@ -89,8 +89,8 @@ export default function Landing() {
             <div className="w-16 h-16 bg-[#f29716]/10 rounded-full flex items-center justify-center mx-auto mb-4">
               <TrendingUp className="h-8 w-8 text-[#f29716]" />
             </div>
-            <h3 className="text-xl font-semibold mb-2 font-league">Dashboard Interaktif</h3>
-            <p className="text-gray-600 font-league">
+            <h3 className="text-xl font-semibold mb-2">Dashboard Interaktif</h3>
+            <p className="text-gray-600">
               Pantau kesehatan keuangan bisnis Anda dengan dashboard yang mudah dipahami
             </p>
           </div>
