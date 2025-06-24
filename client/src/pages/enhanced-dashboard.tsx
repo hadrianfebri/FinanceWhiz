@@ -132,15 +132,15 @@ export default function EnhancedDashboard() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Total Outlet</p>
-                <p className="text-2xl font-bold text-gray-900">{outlets?.length || 0}</p>
-                <p className="text-sm text-blue-600 mt-1">
+                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Outlet</p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-white">{outlets?.length || 0}</p>
+                <p className="text-sm text-blue-600 dark:text-blue-400 mt-1">
                   <Store className="h-4 w-4 inline mr-1" />
                   {outlets?.filter((o: any) => o.isActive).length || 0} aktif
                 </p>
               </div>
-              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                <Store className="h-6 w-6 text-blue-600" />
+              <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center">
+                <Store className="h-6 w-6 text-blue-600 dark:text-blue-400" />
               </div>
             </div>
           </CardContent>
@@ -150,8 +150,8 @@ export default function EnhancedDashboard() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Pendapatan Minggu Ini</p>
-                <p className="text-2xl font-bold text-gray-900">{formatCurrency(dashboardStats?.weeklyIncome || 0)}</p>
+                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Pendapatan Minggu Ini</p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-white">{formatCurrency(dashboardStats?.weeklyIncome || 0)}</p>
                 {dashboardStats?.weeklyIncome > 0 ? (
                   <p className="text-sm text-green-600 mt-1">
                     <ArrowUp className="h-4 w-4 inline mr-1" />
@@ -163,8 +163,8 @@ export default function EnhancedDashboard() {
                   </p>
                 )}
               </div>
-              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                <TrendingUp className="h-6 w-6 text-green-600" />
+              <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center">
+                <TrendingUp className="h-6 w-6 text-green-600 dark:text-green-400" />
               </div>
             </div>
           </CardContent>
@@ -174,15 +174,15 @@ export default function EnhancedDashboard() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Pajak Kuartal Ini</p>
-                <p className="text-2xl font-bold text-gray-900">{formatCurrency(taxSummary?.currentQuarterTax || 0)}</p>
-                <p className="text-sm text-orange-600 mt-1">
+                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Pajak Kuartal Ini</p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-white">{formatCurrency(taxSummary?.currentQuarterTax || 0)}</p>
+                <p className="text-sm text-orange-600 dark:text-orange-400 mt-1">
                   <Calendar className="h-4 w-4 inline mr-1" />
                   PPh Final 0.5%
                 </p>
               </div>
-              <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
-                <FileText className="h-6 w-6 text-orange-600" />
+              <div className="w-12 h-12 bg-orange-100 dark:bg-orange-900/30 rounded-full flex items-center justify-center">
+                <FileText className="h-6 w-6 text-orange-600 dark:text-orange-400" />
               </div>
             </div>
           </CardContent>
@@ -192,9 +192,9 @@ export default function EnhancedDashboard() {
       {/* Quick Actions & Notifications */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Quick Actions */}
-        <Card>
+        <Card className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-gray-900 dark:text-white">
               <Activity className="h-5 w-5 text-[#f29716]" />
               Aksi Cepat
             </CardTitle>
@@ -236,9 +236,9 @@ export default function EnhancedDashboard() {
         </Card>
 
         {/* Notifications & Alerts */}
-        <Card>
+        <Card className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-gray-900 dark:text-white">
               <Bell className="h-5 w-5 text-[#f29716]" />
               Notifikasi & Pengingat
             </CardTitle>
@@ -246,7 +246,7 @@ export default function EnhancedDashboard() {
           <CardContent className="space-y-3">
             {notifications && notifications.length > 0 ? (
               notifications.slice(0, 3).map((notification: any, index: number) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-yellow-50 rounded-lg">
+                <div key={index} className="flex items-center justify-between p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
                   <div className="flex items-center gap-2">
                     <Clock className="h-4 w-4 text-yellow-600" />
                     <div>
