@@ -62,8 +62,8 @@ export default function Navbar() {
               className="w-8 h-8"
             />
             <div>
-              <span className="text-lg font-bold text-gray-900 dark:text-white font-league">FinanceWhiz.AI</span>
-              <div className="text-xs text-gray-500 dark:text-gray-400 font-league">Manajemen Keuangan UMKM</div>
+              <span className="text-lg font-bold text-gray-900 dark:text-white">FinanceWhiz.AI</span>
+              <div className="text-xs text-gray-500 dark:text-gray-400">Manajemen Keuangan UMKM</div>
             </div>
           </div>
 

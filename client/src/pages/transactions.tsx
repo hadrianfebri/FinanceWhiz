@@ -216,14 +216,14 @@ export default function Transactions() {
               className="btn-orange flex items-center space-x-2"
             >
               <Plus className="h-4 w-4" />
-              <span className="font-league">Catat Transaksi</span>
+              <span>Catat Transaksi</span>
             </Button>
             
             {/* Import from File */}
             <Button 
               variant="outline" 
               onClick={() => setShowImportModal(true)}
-              className="flex items-center space-x-2 border-[#04474f] text-[#04474f] hover:bg-[#04474f] hover:text-white font-league"
+              className="flex items-center space-x-2 border-[#04474f] text-[#04474f] hover:bg-[#04474f] hover:text-white"
             >
               <Upload className="h-4 w-4" />
               <span>Import File</span>
@@ -232,7 +232,7 @@ export default function Transactions() {
             {/* Export Data */}
             <Button 
               variant="outline"
-              className="flex items-center space-x-2 border-gray-300 text-gray-700 hover:bg-gray-50 font-league"
+              className="flex items-center space-x-2 border-gray-300 text-gray-700 hover:bg-gray-50"
             >
               <Download className="h-4 w-4" />
               <span>Export</span>
@@ -242,7 +242,7 @@ export default function Transactions() {
             <Button 
               variant="ghost"
               onClick={() => setShowFilters(!showFilters)}
-              className={`flex items-center space-x-2 font-league ${showFilters ? 'bg-gray-100' : ''}`}
+              className={`flex items-center space-x-2 ${showFilters ? 'bg-gray-100' : ''}`}
             >
               <Filter className="h-4 w-4" />
               <span>Filter</span>
@@ -257,7 +257,7 @@ export default function Transactions() {
           <div className="w-12 h-12 bg-[#f29716] rounded-xl flex items-center justify-center mx-auto mb-3">
             <Receipt className="h-6 w-6 text-white" />
           </div>
-          <p className="font-semibold text-gray-900 dark:text-white font-league">Scan Struk</p>
+          <p className="font-semibold text-gray-900 dark:text-white">Scan Struk</p>
           <p className="text-xs text-gray-600 dark:text-gray-400">Upload foto struk</p>
         </div>
         
@@ -265,7 +265,7 @@ export default function Transactions() {
           <div className="w-12 h-12 bg-[#04474f] rounded-xl flex items-center justify-center mx-auto mb-3">
             <Plus className="h-6 w-6 text-white" />
           </div>
-          <p className="font-semibold text-gray-900 dark:text-white font-league">Input Manual</p>
+          <p className="font-semibold text-gray-900 dark:text-white">Input Manual</p>
           <p className="text-xs text-gray-600 dark:text-gray-400">Tambah transaksi</p>
         </div>
         
@@ -273,7 +273,7 @@ export default function Transactions() {
           <div className="w-12 h-12 bg-[#ffde32] rounded-xl flex items-center justify-center mx-auto mb-3">
             <FileSpreadsheet className="h-6 w-6 text-gray-800" />
           </div>
-          <p className="font-semibold text-gray-900 dark:text-white font-league">Import Excel</p>
+          <p className="font-semibold text-gray-900 dark:text-white">Import Excel</p>
           <p className="text-xs text-gray-600 dark:text-gray-400">Upload file CSV/Excel</p>
         </div>
         
@@ -281,7 +281,7 @@ export default function Transactions() {
           <div className="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center mx-auto mb-3">
             <Download className="h-6 w-6 text-white" />
           </div>
-          <p className="font-semibold text-gray-900 dark:text-white font-league">Export Data</p>
+          <p className="font-semibold text-gray-900 dark:text-white">Export Data</p>
           <p className="text-xs text-gray-600 dark:text-gray-400">Download laporan</p>
         </div>
       </div>
@@ -291,7 +291,7 @@ export default function Transactions() {
         <Card>
           <CardContent className="p-6">
             <div className="mb-4">
-              <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-3 font-league">Filter Transaksi</h3>
+              <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-3">Filter Transaksi</h3>
             </div>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
             <div>
@@ -380,36 +380,36 @@ export default function Transactions() {
       {transactionsData?.transactions?.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="card-base text-center">
-            <div className="text-2xl font-bold text-green-600 font-league">
+            <div className="text-2xl font-bold text-green-600">
               {formatCurrency(
                 transactionsData.transactions
                   .filter((t: any) => t.type === 'income')
                   .reduce((sum: number, t: any) => sum + parseFloat(t.amount), 0)
               )}
             </div>
-            <p className="text-sm text-gray-600 dark:text-gray-400 font-league">Total Pemasukan</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Total Pemasukan</p>
           </div>
           
           <div className="card-base text-center">
-            <div className="text-2xl font-bold text-red-600 font-league">
+            <div className="text-2xl font-bold text-red-600">
               {formatCurrency(
                 transactionsData.transactions
                   .filter((t: any) => t.type === 'expense')
                   .reduce((sum: number, t: any) => sum + parseFloat(t.amount), 0)
               )}
             </div>
-            <p className="text-sm text-gray-600 dark:text-gray-400 font-league">Total Pengeluaran</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Total Pengeluaran</p>
           </div>
           
           <div className="card-base text-center">
-            <div className="text-2xl font-bold text-[#04474f] font-league">
+            <div className="text-2xl font-bold text-[#04474f]">
               {formatCurrency(
                 transactionsData.transactions.reduce((sum: number, t: any) => {
                   return sum + (t.type === 'income' ? parseFloat(t.amount) : -parseFloat(t.amount));
                 }, 0)
               )}
             </div>
-            <p className="text-sm text-gray-600 dark:text-gray-400 font-league">Saldo Bersih</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Saldo Bersih</p>
           </div>
         </div>
       )}

@@ -228,3 +228,8 @@ Changelog:
   - Applied consistent dark mode styling across navbar, sidebar, and main content areas
   - Added smooth transitions for theme switching and improved user experience
   - Maintained FinanceWhiz.AI brand colors (orange #f29716) in both light and dark themes
+- June 24, 2025. League Spartan typeface implementation:
+  - Set League Spartan as default font family in Tailwind config and CSS base layer
+  - Removed redundant font-league classes throughout the application
+  - Applied League Spartan consistently across all components and pages
+  - Updated navbar, sidebar, transactions page, and all UI elements to use the new default font
