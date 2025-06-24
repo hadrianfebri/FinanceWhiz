@@ -30,7 +30,7 @@ export default function Sidebar() {
   };
 
   return (
-    <div className="w-64 bg-white h-screen shadow-lg flex flex-col">
+    <div className="w-64 bg-white dark:bg-gray-900 h-screen shadow-lg flex flex-col">
 
       {/* Navigation Menu */}
       <div className="flex-1 py-6 pt-8">
@@ -46,8 +46,8 @@ export default function Sidebar() {
                 className={cn(
                   "w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 font-league",
                   isActive
-                    ? "menu-active bg-[#f29716]/10"
-                    : "text-gray-700 hover:bg-gray-50 hover:text-[#f29716]"
+                    ? "menu-active bg-[#f29716]/10 text-[#f29716] dark:bg-[#f29716]/20"
+                    : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-[#f29716]"
                 )}
               >
                 <Icon className="h-5 w-5" />
