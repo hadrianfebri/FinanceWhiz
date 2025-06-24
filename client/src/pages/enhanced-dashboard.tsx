@@ -78,10 +78,10 @@ export default function EnhancedDashboard() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 font-league">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white font-league">
             {getGreeting()}, {user?.businessName}!
           </h1>
-          <p className="text-gray-600 mt-1 font-league">Dashboard comprehensive untuk manajemen bisnis multi-outlet</p>
+          <p className="text-gray-600 dark:text-gray-400 mt-1 font-league">Dashboard comprehensive untuk manajemen bisnis multi-outlet</p>
         </div>
         <div className="flex gap-3">
           <Button
@@ -108,8 +108,8 @@ export default function EnhancedDashboard() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Saldo Kas Total</p>
-                <p className="text-2xl font-bold text-gray-900">{formatCurrency(dashboardStats?.cashBalance || 0)}</p>
+                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Saldo Kas Total</p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-white">{formatCurrency(dashboardStats?.cashBalance || 0)}</p>
                 {dashboardStats?.cashBalance > 0 ? (
                   <p className="text-sm text-green-600 mt-1">
                     <TrendingUp className="h-4 w-4 inline mr-1" />
