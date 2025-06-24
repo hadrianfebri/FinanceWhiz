@@ -128,7 +128,7 @@ export default function EnhancedDashboard() {
           </CardContent>
         </Card>
 
-        <Card className="hover:shadow-lg transition-all duration-200">
+        <Card className="hover:shadow-lg transition-all duration-200 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
@@ -146,7 +146,7 @@ export default function EnhancedDashboard() {
           </CardContent>
         </Card>
 
-        <Card className="hover:shadow-lg transition-all duration-200">
+        <Card className="hover:shadow-lg transition-all duration-200 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
@@ -170,7 +170,7 @@ export default function EnhancedDashboard() {
           </CardContent>
         </Card>
 
-        <Card className="hover:shadow-lg transition-all duration-200">
+        <Card className="hover:shadow-lg transition-all duration-200 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
