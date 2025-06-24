@@ -105,6 +105,12 @@
   }
 }
 
+@layer base {
+  * {
+    font-family: 'League Spartan', system-ui, -apple-system, sans-serif;
+  }
+}
+
 @layer utilities {
   .font-league {
     font-family: 'League Spartan', system-ui, -apple-system, sans-serif;

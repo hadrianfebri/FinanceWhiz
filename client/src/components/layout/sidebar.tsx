@@ -44,7 +44,7 @@ export default function Sidebar() {
                 key={item.name}
                 onClick={() => setLocation(item.href)}
                 className={cn(
-                  "w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 font-league",
+                  "w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200",
                   isActive
                     ? "menu-active bg-[#f29716]/10 text-[#f29716] dark:bg-[#f29716]/20"
                     : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-[#f29716]"

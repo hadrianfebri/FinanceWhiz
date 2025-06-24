@@ -182,8 +182,8 @@ export default function Transactions() {
       <div className="card-base">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-white font-league mb-1">Manajemen Transaksi</h2>
-            <p className="text-gray-600 dark:text-gray-400 font-league">Kelola semua transaksi keuangan usaha Anda dengan mudah</p>
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">Manajemen Transaksi</h2>
+            <p className="text-gray-600 dark:text-gray-400">Kelola semua transaksi keuangan usaha Anda dengan mudah</p>
             
             {/* Outlet Filter Indicator */}
             {outletFilter && (
