@@ -182,8 +182,8 @@ export default function Transactions() {
       <div className="card-base">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h2 className="text-lg font-semibold text-gray-900 font-league mb-1">Manajemen Transaksi</h2>
-            <p className="text-gray-600 font-league">Kelola semua transaksi keuangan usaha Anda dengan mudah</p>
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white font-league mb-1">Manajemen Transaksi</h2>
+            <p className="text-gray-600 dark:text-gray-400 font-league">Kelola semua transaksi keuangan usaha Anda dengan mudah</p>
             
             {/* Outlet Filter Indicator */}
             {outletFilter && (
@@ -257,32 +257,32 @@ export default function Transactions() {
           <div className="w-12 h-12 bg-[#f29716] rounded-xl flex items-center justify-center mx-auto mb-3">
             <Receipt className="h-6 w-6 text-white" />
           </div>
-          <p className="font-semibold text-gray-900 font-league">Scan Struk</p>
-          <p className="text-xs text-gray-600">Upload foto struk</p>
+          <p className="font-semibold text-gray-900 dark:text-white font-league">Scan Struk</p>
+          <p className="text-xs text-gray-600 dark:text-gray-400">Upload foto struk</p>
         </div>
         
         <div className="card-base hover-lift cursor-pointer text-center p-4" onClick={() => setShowAddTransaction(true)}>
           <div className="w-12 h-12 bg-[#04474f] rounded-xl flex items-center justify-center mx-auto mb-3">
             <Plus className="h-6 w-6 text-white" />
           </div>
-          <p className="font-semibold text-gray-900 font-league">Input Manual</p>
-          <p className="text-xs text-gray-600">Tambah transaksi</p>
+          <p className="font-semibold text-gray-900 dark:text-white font-league">Input Manual</p>
+          <p className="text-xs text-gray-600 dark:text-gray-400">Tambah transaksi</p>
         </div>
         
         <div className="card-base hover-lift cursor-pointer text-center p-4" onClick={() => setShowImportModal(true)}>
           <div className="w-12 h-12 bg-[#ffde32] rounded-xl flex items-center justify-center mx-auto mb-3">
             <FileSpreadsheet className="h-6 w-6 text-gray-800" />
           </div>
-          <p className="font-semibold text-gray-900 font-league">Import Excel</p>
-          <p className="text-xs text-gray-600">Upload file CSV/Excel</p>
+          <p className="font-semibold text-gray-900 dark:text-white font-league">Import Excel</p>
+          <p className="text-xs text-gray-600 dark:text-gray-400">Upload file CSV/Excel</p>
         </div>
         
         <div className="card-base hover-lift cursor-pointer text-center p-4">
           <div className="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center mx-auto mb-3">
             <Download className="h-6 w-6 text-white" />
           </div>
-          <p className="font-semibold text-gray-900 font-league">Export Data</p>
-          <p className="text-xs text-gray-600">Download laporan</p>
+          <p className="font-semibold text-gray-900 dark:text-white font-league">Export Data</p>
+          <p className="text-xs text-gray-600 dark:text-gray-400">Download laporan</p>
         </div>
       </div>
 
@@ -291,11 +291,11 @@ export default function Transactions() {
         <Card>
           <CardContent className="p-6">
             <div className="mb-4">
-              <h3 className="text-sm font-medium text-gray-900 mb-3 font-league">Filter Transaksi</h3>
+              <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-3 font-league">Filter Transaksi</h3>
             </div>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Tanggal Mulai
               </label>
               <Input
@@ -305,7 +305,7 @@ export default function Transactions() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Tanggal Akhir
               </label>
               <Input
@@ -315,7 +315,7 @@ export default function Transactions() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Kategori
               </label>
               <Select
@@ -336,7 +336,7 @@ export default function Transactions() {
               </Select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Jenis
               </label>
               <Select
@@ -387,7 +387,7 @@ export default function Transactions() {
                   .reduce((sum: number, t: any) => sum + parseFloat(t.amount), 0)
               )}
             </div>
-            <p className="text-sm text-gray-600 font-league">Total Pemasukan</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400 font-league">Total Pemasukan</p>
           </div>
           
           <div className="card-base text-center">
