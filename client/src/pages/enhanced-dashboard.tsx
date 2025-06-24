@@ -250,8 +250,8 @@ export default function EnhancedDashboard() {
                   <div className="flex items-center gap-2">
                     <Clock className="h-4 w-4 text-yellow-600" />
                     <div>
-                      <p className="font-medium text-sm text-gray-900">{notification.title}</p>
-                      <p className="text-xs text-gray-600">{notification.message}</p>
+                      <p className="font-medium text-sm text-gray-900 dark:text-white">{notification.title}</p>
+                      <p className="text-xs text-gray-600 dark:text-gray-400">{notification.message}</p>
                     </div>
                   </div>
                   <Badge variant="outline" className="bg-yellow-100 text-yellow-800">
@@ -261,18 +261,18 @@ export default function EnhancedDashboard() {
               ))
             ) : (
               <div className="text-center py-6">
-                <Bell className="h-8 w-8 text-gray-300 mx-auto mb-2" />
-                <p className="text-sm text-gray-500">Belum ada notifikasi</p>
-                <p className="text-xs text-gray-400">Notifikasi akan muncul saat ada aktivitas bisnis</p>
+                <Bell className="h-8 w-8 text-gray-300 dark:text-gray-600 mx-auto mb-2" />
+                <p className="text-sm text-gray-500 dark:text-gray-400">Belum ada notifikasi</p>
+                <p className="text-xs text-gray-400 dark:text-gray-500">Notifikasi akan muncul saat ada aktivitas bisnis</p>
               </div>
             )}
           </CardContent>
         </Card>
 
         {/* AI Insights */}
-        <Card>
+        <Card className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-gray-900 dark:text-white">
               <Lightbulb className="h-5 w-5 text-[#f29716]" />
               AI Business Insights
             </CardTitle>
