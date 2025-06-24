@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { useLocation } from "wouter";
 import { ChevronDown, User, LogOut, Bell, Send, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { useAuth } from "@/hooks/use-auth";
 import { api } from "@/lib/api";
 import financewhizLogo from "@/assets/FINANCEWHIZ_COLOR.svg";
