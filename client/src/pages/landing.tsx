@@ -146,7 +146,7 @@ export default function Landing() {
               </Button>
             </Link>
             <Link href="/login">
-              <Button variant="outline" className="px-8 py-4 text-lg border-[#04474f] text-[#04474f] hover:bg-[#04474f] hover:text-white">
+              <Button variant="outline" className="px-8 py-4 text-lg bg-white border-[#04474f] text-[#04474f] hover:bg-[#04474f] hover:text-white">
                 Sudah Punya Akun?
               </Button>
             </Link>
