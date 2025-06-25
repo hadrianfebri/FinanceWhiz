@@ -232,7 +232,7 @@ export default function Transactions() {
             {/* Export Data */}
             <Button 
               variant="outline"
-              className="flex items-center space-x-2 border-gray-300 text-gray-700 hover:bg-background"
+              className="flex items-center space-x-2 border-gray-300 text-gray-700 dark:text-[#fafafa] dark:border-[#fafafa] hover:bg-background"
             >
               <Download className="h-4 w-4" />
               <span>Export</span>
