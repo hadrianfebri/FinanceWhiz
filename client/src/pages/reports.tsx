@@ -215,7 +215,7 @@ export default function Reports() {
         <CardContent className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-[#fafafa] mb-2">
                 Outlet
               </label>
               <Select value={selectedOutlet} onValueChange={setSelectedOutlet}>
@@ -234,7 +234,7 @@ export default function Reports() {
               </Select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-[#fafafa] mb-2">
                 Periode
               </label>
               <Select onValueChange={handlePeriodChange}>
@@ -250,7 +250,7 @@ export default function Reports() {
               </Select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-[#fafafa] mb-2">
                 Tanggal Mulai
               </label>
               <Input
@@ -260,7 +260,7 @@ export default function Reports() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-[#fafafa] mb-2">
                 Tanggal Akhir
               </label>
               <Input
