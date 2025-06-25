@@ -62,14 +62,13 @@
     font-family: 'League Spartan', system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background: #f4f4f4;
   }
 }
 
 @layer components {
   /* FinanceWhiz.AI Brand Components */
   .card-base {
-    @apply bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 text-black dark:text-white border border-gray-200 dark:border-gray-700;
+    @apply bg-card text-card-foreground rounded-xl shadow-sm p-6 border border-border transition-colors;
   }
   
   .btn-orange {

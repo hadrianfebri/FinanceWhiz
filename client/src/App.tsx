@@ -46,11 +46,11 @@ function AppContent() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background text-foreground">
       <Navbar />
-      <div className="flex">
+      <div className="flex min-h-screen bg-background">
         <Sidebar />
-        <main className="flex-1 overflow-x-hidden ml-64">
+        <main className="flex-1 overflow-x-hidden ml-64 bg-background text-foreground">
           <Switch>
             <Route path="/" component={Dashboard} />
             <Route path="/transactions" component={Transactions} />
