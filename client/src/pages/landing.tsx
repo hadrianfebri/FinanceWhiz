@@ -376,7 +376,7 @@ export default function Landing() {
               </ul>
               
               <Link href="/register">
-                <Button variant="outline" className="w-full px-4 py-2 border-[#04474f] text-[#04474f] hover:bg-[#04474f] hover:text-white">Pilih Professional</Button>
+                <Button variant="outline" className="w-full px-4 py-2 bg-white border-[#04474f] text-[#04474f] hover:bg-[#04474f] hover:text-white">Pilih Professional</Button>
               </Link>
             </div>
           </div>
