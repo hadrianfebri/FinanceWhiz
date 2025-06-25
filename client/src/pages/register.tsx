@@ -147,7 +147,7 @@ export default function Register() {
         </Form>
 
         <div className="mt-6 text-center">
-          <p className="text-sm text-gray-600 font-league">
+          <p className="text-sm font-league text-[#fafafa]">
             Sudah punya akun?{" "}
             <Link href="/login" className="text-[#f29716] hover:underline font-medium">
               Masuk di sini
