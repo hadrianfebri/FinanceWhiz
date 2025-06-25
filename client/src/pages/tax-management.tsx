@@ -397,10 +397,10 @@ export default function TaxManagement() {
         <CardContent>
           <div className="space-y-4">
             {/* Current Quarter Report */}
-            <div className="flex items-center justify-between p-4 border rounded-lg bg-blue-50">
+            <div className="flex items-center justify-between p-4 border rounded-lg bg-blue-50 dark:bg-gray-800">
               <div className="flex-1">
-                <h3 className="font-medium font-league">Laporan PPh Final {taxSummary.quarter || 'Q2 2025'}</h3>
-                <p className="text-sm text-muted-foreground font-league">
+                <h3 className="font-medium font-league text-gray-900 dark:text-white">Laporan PPh Final {taxSummary.quarter || 'Q2 2025'}</h3>
+                <p className="text-sm text-muted-foreground dark:text-gray-300 font-league">
                   Omzet: {formatCurrency(taxSummary.quarterlyIncome || 0)} | 
                   Pajak: {formatCurrency(taxSummary.currentQuarterTax || 0)}
                 </p>
@@ -424,10 +424,10 @@ export default function TaxManagement() {
             </div>
 
             {/* Previous Quarter Example */}
-            <div className="flex items-center justify-between p-4 border rounded-lg">
+            <div className="flex items-center justify-between p-4 border rounded-lg bg-white dark:bg-gray-800">
               <div className="flex-1">
-                <h3 className="font-medium font-league">Laporan PPh Final Q1 2025</h3>
-                <p className="text-sm text-muted-foreground font-league">Periode: Januari - Maret 2025</p>
+                <h3 className="font-medium font-league text-gray-900 dark:text-white">Laporan PPh Final Q1 2025</h3>
+                <p className="text-sm text-muted-foreground dark:text-gray-300 font-league">Periode: Januari - Maret 2025</p>
               </div>
               <div className="flex items-center space-x-3">
                 <div onClick={() => handleStatusChange('q1', reportStates.q1 === 'paid' ? 'submitted' : 'paid')} className="cursor-pointer">
@@ -448,10 +448,10 @@ export default function TaxManagement() {
             </div>
 
             {/* Draft Example - untuk koreksi/revisi */}
-            <div className="flex items-center justify-between p-4 border rounded-lg">
+            <div className="flex items-center justify-between p-4 border rounded-lg bg-white dark:bg-gray-800">
               <div className="flex-1">
-                <h3 className="font-medium font-league">Draft Koreksi PPh Final</h3>
-                <p className="text-sm text-muted-foreground font-league">Untuk revisi perhitungan pajak manual</p>
+                <h3 className="font-medium font-league text-gray-900 dark:text-white">Draft Koreksi PPh Final</h3>
+                <p className="text-sm text-muted-foreground dark:text-gray-300 font-league">Untuk revisi perhitungan pajak manual</p>
               </div>
               <div className="flex items-center space-x-3">
                 <div onClick={() => handleStatusChange('draft', reportStates.draft === 'draft' ? 'submitted' : 'draft')} className="cursor-pointer">
