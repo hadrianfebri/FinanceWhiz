@@ -57,7 +57,7 @@ export default function Register() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#f29716]/5 via-[#ffde32]/5 to-[#04474f]/5 flex items-center justify-center p-4">
-      <div className="card-base w-full max-w-md bg-[#04474f]">
+      <div className="card-base w-full max-w-md bg-[#04474f] text-[#fafafa]">
         <div className="text-center space-y-4 mb-6">
           <div className="flex items-center justify-center">
             <img 
@@ -67,7 +67,7 @@ export default function Register() {
             />
           </div>
           <div>
-            <h1 className="text-3xl font-bold font-league">FinanceWhiz.AI</h1>
+            <h1 className="text-3xl font-bold font-league text-[#fafafa]">FinanceWhiz.AI</h1>
             <p className="mt-2 font-league text-[#fafafa]">Daftar akun baru</p>
           </div>
         </div>
@@ -79,7 +79,7 @@ export default function Register() {
               name="businessName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-league">Nama Usaha</FormLabel>
+                  <FormLabel className="font-league text-[#fafafa]">Nama Usaha</FormLabel>
                   <FormControl>
                     <Input 
                       placeholder="Toko Berkah" 
@@ -98,7 +98,7 @@ export default function Register() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-league">Email</FormLabel>
+                  <FormLabel className="font-league text-[#fafafa]">Email</FormLabel>
                   <FormControl>
                     <Input 
                       type="email" 
@@ -118,7 +118,7 @@ export default function Register() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-league">Password</FormLabel>
+                  <FormLabel className="font-league text-[#fafafa]">Password</FormLabel>
                   <FormControl>
                     <Input 
                       type="password" 

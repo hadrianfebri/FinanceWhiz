@@ -70,7 +70,7 @@ export default function Login() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#f29716]/5 via-[#ffde32]/5 to-[#04474f]/5 flex items-center justify-center p-4">
-      <div className="card-base w-full max-w-md bg-[#04474f]">
+      <div className="card-base w-full max-w-md bg-[#04474f] text-[#fafafa]">
         <div className="text-center space-y-4 mb-6">
           <div className="flex items-center justify-center">
             <img 
@@ -80,7 +80,7 @@ export default function Login() {
             />
           </div>
           <div>
-            <h1 className="text-3xl font-bold font-league">FinanceWhiz.AI</h1>
+            <h1 className="text-3xl font-bold font-league text-[#fafafa]">FinanceWhiz.AI</h1>
             <p className="mt-2 font-league text-[#fafafa]">Masuk ke akun Anda</p>
             <div className="mt-4 p-3 bg-[#f29716]/10 border border-[#f29716]/20 rounded-lg">
               <p className="text-sm text-[#fafafa] font-league mb-1">
@@ -101,7 +101,7 @@ export default function Login() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-league">Email</FormLabel>
+                  <FormLabel className="font-league text-[#fafafa]">Email</FormLabel>
                   <FormControl>
                     <Input 
                       type="email" 
@@ -121,7 +121,7 @@ export default function Login() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-league">Password</FormLabel>
+                  <FormLabel className="font-league text-[#fafafa]">Password</FormLabel>
                   <FormControl>
                     <Input 
                       type="password" 
