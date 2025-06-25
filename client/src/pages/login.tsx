@@ -73,7 +73,7 @@ export default function Login() {
           </div>
           <div>
             <h1 className="text-3xl font-bold font-league">FinanceWhiz.AI</h1>
-            <p className="text-gray-600 mt-2 font-league">Masuk ke akun Anda</p>
+            <p className="mt-2 font-league text-[#fafafa]">Masuk ke akun Anda</p>
           </div>
         </div>
 
