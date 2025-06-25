@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { TrendingUp, FileText, Smartphone, Shield, Users, Zap, BarChart3, Check, Star, Building2, Store, Briefcase, Crown } from "lucide-react";
 import financewhizLogo from "@/assets/FINANCEWHIZ_COLOR.svg";
-import financialIcon from "@assets/3d rendered realistic financial icon with transparent background_1750823720794.png";
 
 export default function Landing() {
   return (
@@ -129,7 +128,7 @@ export default function Landing() {
           {/* 3D Financial Icon */}
           <div className="flex justify-center mb-8">
             <img 
-              src={financialIcon} 
+              src={financewhizLogo} 
               alt="3D Financial Growth Icon" 
               className="w-56 h-56 object-contain drop-shadow-lg hover:scale-105 transition-transform duration-300"
             />
