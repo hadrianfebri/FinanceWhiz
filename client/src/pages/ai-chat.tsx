@@ -306,18 +306,18 @@ export default function AIChat() {
                         <div>
                           {message.type === 'ai' ? (
                             <div 
-                              className="prose prose-sm max-w-none overflow-hidden break-words"
+                              className="prose prose-sm max-w-none overflow-hidden break-words dark:prose-invert"
                               style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}
                               dangerouslySetInnerHTML={{ 
-                                __html: `<div class="mb-2 break-words">${formatMarkdown(message.content)}</div>` 
+                                __html: `<div class="mb-2 break-words text-foreground dark:text-[#fafafa]">${formatMarkdown(message.content)}</div>` 
                               }}
                             />
                           ) : (
-                            <p className="whitespace-pre-wrap break-words">{message.content}</p>
+                            <p className="whitespace-pre-wrap break-words text-white">{message.content}</p>
                           )}
                           <div className="flex items-center justify-between mt-2 pt-2 border-t border-border dark:border-gray-600">
                             <span className={`text-xs ${
-                              message.type === 'user' ? 'text-orange-100' : 'text-muted-foreground'
+                              message.type === 'user' ? 'text-orange-100' : 'text-muted-foreground dark:text-gray-400'
                             }`}>
                               {formatDate(message.timestamp)}
                             </span>
