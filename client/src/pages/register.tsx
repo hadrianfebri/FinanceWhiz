@@ -68,7 +68,7 @@ export default function Register() {
           </div>
           <div>
             <h1 className="text-3xl font-bold font-league">FinanceWhiz.AI</h1>
-            <p className="text-gray-600 mt-2 font-league">Daftar akun baru</p>
+            <p className="mt-2 font-league text-[#fafafa]">Daftar akun baru</p>
           </div>
         </div>
 
