@@ -156,7 +156,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
     } catch (error: any) {
       console.error('Login error:', error);
-      if (error.message?.includes('endpoint is disabled')) {
+      if (error.message?.includes('endpoint is disabled') || error.message?.includes('Connection terminated')) {
         res.status(503).json({ 
           message: 'Database temporarily unavailable. Please try again in a few moments.',
           retry: true 
