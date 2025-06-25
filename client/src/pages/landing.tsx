@@ -436,7 +436,7 @@ export default function Landing() {
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Smartphone className="h-8 w-8 text-blue-600" />
               </div>
-              <h4 className="font-semibold mb-2 font-league">Mobile Ready</h4>
+              <h4 className="font-semibold mb-2 font-league text-[#f29716]">Mobile Ready</h4>
               <p className="text-sm text-gray-600">Akses di mana saja via web & mobile app</p>
             </div>
             <div className="text-center">
