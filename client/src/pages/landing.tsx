@@ -131,7 +131,7 @@ export default function Landing() {
             <img 
               src={financialIcon} 
               alt="3D Financial Growth Icon" 
-              className="w-32 h-32 object-contain drop-shadow-lg hover:scale-105 transition-transform duration-300"
+              className="w-56 h-56 object-contain drop-shadow-lg hover:scale-105 transition-transform duration-300"
             />
           </div>
           
