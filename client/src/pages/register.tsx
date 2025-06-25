@@ -85,7 +85,7 @@ export default function Register() {
                       placeholder="Toko Berkah" 
                       {...field} 
                       disabled={registerMutation.isPending}
-                      className="font-league"
+                      className="font-league text-black bg-white"
                     />
                   </FormControl>
                   <FormMessage />
@@ -105,7 +105,7 @@ export default function Register() {
                       placeholder="email@example.com" 
                       {...field} 
                       disabled={registerMutation.isPending}
-                      className="font-league"
+                      className="font-league text-black bg-white"
                     />
                   </FormControl>
                   <FormMessage />
@@ -125,7 +125,7 @@ export default function Register() {
                       placeholder="Minimal 8 karakter" 
                       {...field}
                       disabled={registerMutation.isPending}
-                      className="font-league"
+                      className="font-league text-black bg-white"
                     />
                   </FormControl>
                   <FormMessage />

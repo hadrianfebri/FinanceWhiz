@@ -108,7 +108,7 @@ export default function Login() {
                       placeholder="email@example.com" 
                       {...field} 
                       disabled={loginMutation.isPending}
-                      className="font-league"
+                      className="font-league text-black bg-white"
                     />
                   </FormControl>
                   <FormMessage />
@@ -128,7 +128,7 @@ export default function Login() {
                       placeholder="Masukkan password" 
                       {...field}
                       disabled={loginMutation.isPending}
-                      className="font-league"
+                      className="font-league text-black bg-white"
                     />
                   </FormControl>
                   <FormMessage />
