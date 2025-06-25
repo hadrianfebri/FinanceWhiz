@@ -91,14 +91,34 @@ export interface IStorage {
 }
 
 export class DatabaseStorage implements IStorage {
+  private async withRetry<T>(operation: () => Promise<T>, maxRetries = 3): Promise<T> {
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        return await operation();
+      } catch (error: any) {
+        if (error.message?.includes('endpoint is disabled') && attempt < maxRetries) {
+          console.log(`Database endpoint disabled, retry ${attempt}/${maxRetries} in 2s...`);
+          await new Promise(resolve => setTimeout(resolve, 2000 * attempt));
+          continue;
+        }
+        throw error;
+      }
+    }
+    throw new Error('Max retries exceeded');
+  }
+
   async getUserById(id: number): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.id, id));
-    return user;
+    return await this.withRetry(async () => {
+      const [user] = await db.select().from(users).where(eq(users.id, id));
+      return user;
+    });
   }
 
   async getUserByEmail(email: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.email, email));
-    return user;
+    return await this.withRetry(async () => {
+      const [user] = await db.select().from(users).where(eq(users.email, email));
+      return user;
+    });
   }
 
   async createUser(userData: InsertUser): Promise<User> {
