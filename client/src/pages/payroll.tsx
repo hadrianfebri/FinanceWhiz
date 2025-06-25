@@ -744,7 +744,7 @@ export default function Payroll() {
           </Button>
           <Button 
             variant="outline"
-            className="bg-green-50 text-green-600 border-green-200 hover:bg-green-100 flex items-center gap-2"
+            className="bg-green-50 text-green-600 border-green-200 hover:bg-green-600 hover:text-white flex items-center gap-2"
             onClick={() => setShowAddEmployee(true)}
           >
             <Users className="h-4 w-4" />
