@@ -124,6 +124,16 @@ export default function Landing() {
           <h1 className="text-5xl font-bold text-gray-900 mb-6 font-league">
             Kelola Keuangan UMKM Anda dengan <span className="text-[#f29716]">AI Cerdas</span>
           </h1>
+          
+          {/* 3D Financial Icon */}
+          <div className="flex justify-center mb-8">
+            <img 
+              src="/attached_assets/3d rendered realistic financial icon with transparent background_1750823720794.png" 
+              alt="3D Financial Growth Icon" 
+              className="w-32 h-32 object-contain drop-shadow-lg hover:scale-105 transition-transform duration-300"
+            />
+          </div>
+          
           <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto font-league leading-relaxed">
             FinanceWhiz.AI adalah aplikasi keuangan berbasis AI yang membantu pelaku UMKM 
             mencatat transaksi, memantau arus kas, dan menghasilkan laporan keuangan secara otomatis.
