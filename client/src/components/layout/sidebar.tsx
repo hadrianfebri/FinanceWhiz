@@ -30,7 +30,7 @@ export default function Sidebar() {
   };
 
   return (
-    <div className="fixed left-0 top-0 w-64 bg-white dark:bg-gray-900 h-screen shadow-lg flex flex-col z-30">
+    <div className="fixed left-0 top-16 w-64 bg-white dark:bg-gray-900 h-[calc(100vh-4rem)] shadow-lg flex flex-col z-30">
 
       {/* Navigation Menu */}
       <div className="flex-1 py-6 pt-8">
