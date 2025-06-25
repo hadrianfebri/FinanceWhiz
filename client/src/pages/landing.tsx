@@ -477,7 +477,7 @@ export default function Landing() {
                   <Star key={i} className="h-4 w-4 text-yellow-400 fill-current" />
                 ))}
               </div>
-              <p className="text-[#fafafa] mb-4 font-league">
+              <p className="text-[#04474f] dark:text-[#fafafa] mb-4 font-league">
                 "Sejak pakai FinanceWhiz.AI, saya bisa track semua transaksi cabang dari HP. Laporan keuangan jadi otomatis dan AI-nya kasih insight yang berguna banget!"
               </p>
               <div className="flex items-center">
@@ -497,7 +497,7 @@ export default function Landing() {
                   <Star key={i} className="h-4 w-4 text-yellow-400 fill-current" />
                 ))}
               </div>
-              <p className="text-[#fafafa] mb-4 font-league">
+              <p className="text-[#04474f] dark:text-[#fafafa] mb-4 font-league">
                 "Dulu ribet banget atur keuangan 3 toko. Sekarang dengan FinanceWhiz.AI, semua terpusat dan bisa monitor real-time. Omzet naik 30% dalam 6 bulan!"
               </p>
               <div className="flex items-center">
@@ -517,7 +517,7 @@ export default function Landing() {
                   <Star key={i} className="h-4 w-4 text-yellow-400 fill-current" />
                 ))}
               </div>
-              <p className="text-[#fafafa] mb-4 font-league">
+              <p className="text-[#04474f] dark:text-[#fafafa] mb-4 font-league">
                 "Fitur AI fraud detection-nya keren! Berhasil detect ada yang manipulasi transaksi. Support tim juga responsif 24/7. Recommended banget!"
               </p>
               <div className="flex items-center">
