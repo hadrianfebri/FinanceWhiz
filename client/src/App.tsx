@@ -36,12 +36,14 @@ function AppContent() {
 
   if (!user) {
     return (
-      <Switch>
-        <Route path="/" component={Landing} />
-        <Route path="/login" component={Login} />
-        <Route path="/register" component={Register} />
-        <Route component={NotFound} />
-      </Switch>
+      <div className="bg-background text-foreground min-h-screen">
+        <Switch>
+          <Route path="/" component={Landing} />
+          <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
+          <Route component={NotFound} />
+        </Switch>
+      </div>
     );
   }
 
