@@ -457,7 +457,7 @@ export default function Landing() {
       <section className="container mx-auto px-4 py-20">
         <div className="text-center mb-16">
           <div className="mb-4">
-            <span className="badge-yellow font-league">FAQ</span>
+            <span className="badge-yellow font-league bg-[#04474f] text-[#ffffff]">FAQ</span>
           </div>
           <h2 className="text-3xl font-bold text-gray-900 mb-4 font-league">
             Pertanyaan yang Sering Diajukan
