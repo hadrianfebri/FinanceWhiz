@@ -83,8 +83,12 @@ export default function Login() {
             <h1 className="text-3xl font-bold font-league">FinanceWhiz.AI</h1>
             <p className="mt-2 font-league text-[#fafafa]">Masuk ke akun Anda</p>
             <div className="mt-4 p-3 bg-[#f29716]/10 border border-[#f29716]/20 rounded-lg">
-              <p className="text-sm text-[#fafafa] font-league">
-                Demo: admin@financewhiz.ai / admin123
+              <p className="text-sm text-[#fafafa] font-league mb-1">
+                <strong>Demo Account:</strong>
+              </p>
+              <p className="text-xs text-[#fafafa] font-league">
+                Email: admin@financewhiz.ai<br />
+                Password: admin123
               </p>
             </div>
           </div>
