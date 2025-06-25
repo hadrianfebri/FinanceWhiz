@@ -550,42 +550,42 @@ export default function Landing() {
         <div className="max-w-4xl mx-auto space-y-6">
           <div className="card-base p-6">
             <h3 className="font-semibold mb-3 font-league">Apakah data keuangan saya aman?</h3>
-            <p className="text-[#fafafa] font-league">
+            <p className="text-[#04474f] dark:text-[#fafafa] font-league">
               Ya, kami menggunakan enkripsi bank-grade SSL 256-bit dan compliance dengan standar keamanan internasional. Data Anda disimpan di server cloud yang aman dan ter-backup otomatis.
             </p>
           </div>
 
           <div className="card-base p-6">
             <h3 className="font-semibold mb-3 font-league">Bisakah saya mencoba gratis dulu?</h3>
-            <p className="text-[#fafafa] font-league">
+            <p className="text-[#04474f] dark:text-[#fafafa] font-league">
               Tentu! Semua paket include trial gratis 14 hari tanpa perlu kartu kredit. Anda bisa explore semua fitur dan memutuskan paket yang tepat untuk bisnis Anda.
             </p>
           </div>
 
           <div className="card-base p-6">
             <h3 className="font-semibold mb-3 font-league">Bagaimana cara migrasi data dari sistem lama?</h3>
-            <p className="text-[#fafafa] font-league">
+            <p className="text-[#04474f] dark:text-[#fafafa] font-league">
               Tim support kami akan membantu proses migrasi data secara gratis untuk paket Business ke atas. Kami support import dari Excel, CSV, dan sistem akuntansi populer lainnya.
             </p>
           </div>
 
           <div className="card-base p-6">
             <h3 className="font-semibold mb-3 font-league">Apakah bisa digunakan offline?</h3>
-            <p className="text-[#fafafa] font-league">
+            <p className="text-[#04474f] dark:text-[#fafafa] font-league">
               FinanceWhiz.AI adalah aplikasi cloud-based yang memerlukan koneksi internet. Namun, semua data ter-sync otomatis dan Anda bisa akses dari device manapun kapan saja.
             </p>
           </div>
 
           <div className="card-base p-6">
             <h3 className="font-semibold mb-3 font-league">Bagaimana dengan pelatihan untuk tim saya?</h3>
-            <p className="text-[#fafafa] font-league">
+            <p className="text-[#04474f] dark:text-[#fafafa] font-league">
               Kami menyediakan onboarding session gratis, dokumentasi lengkap, video tutorial, dan webinar berkala. Untuk paket Enterprise, tersedia on-site training langsung.
             </p>
           </div>
 
           <div className="card-base p-6">
             <h3 className="font-semibold mb-3 font-league">Apakah ada biaya tersembunyi?</h3>
-            <p className="text-[#fafafa] font-league">
+            <p className="text-[#04474f] dark:text-[#fafafa] font-league">
               Tidak ada biaya tersembunyi. Harga yang tertera sudah all-inclusive dengan semua fitur sesuai paket. Anda hanya bayar upgrade storage jika melebihi quota (jarang terjadi).
             </p>
           </div>
