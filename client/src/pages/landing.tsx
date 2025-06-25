@@ -615,7 +615,7 @@ export default function Landing() {
         </div>
       </section>
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12 relative z-10">
+      <footer className="text-white py-12 relative z-10 bg-[#04474f]">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-center space-x-3 mb-8">
             <img 
