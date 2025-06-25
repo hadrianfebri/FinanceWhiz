@@ -6,19 +6,19 @@ import financewhizLogo from "@/assets/FINANCEWHIZ_COLOR.svg";
 
 export default function Landing() {
   return (
-    <div className="min-h-screen relative overflow-hidden bg-white">
-      {/* Animated Background */}
-      <div className="aurora-background"></div>
-      
-      {/* Additional Floating Elements */}
-      <div className="floating-orbs">
-        <div className="orb orb-1"></div>
-        <div className="orb orb-2"></div>
-        <div className="orb orb-3"></div>
-      </div>
-      
+    <div className="min-h-screen bg-gradient-to-br from-[#f29716]/5 via-[#ffde32]/5 to-[#04474f]/5" style={{
+      backgroundImage: `
+        repeating-linear-gradient(
+          45deg,
+          transparent,
+          transparent 35px,
+          rgba(4, 71, 79, 0.02) 35px,
+          rgba(4, 71, 79, 0.02) 70px
+        )
+      `
+    }}>
       {/* Header */}
-      <header className="container mx-auto px-4 py-6 relative z-10">
+      <header className="container mx-auto px-4 py-6">
         <nav className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <img 
@@ -42,7 +42,7 @@ export default function Landing() {
         </nav>
       </header>
       {/* Hero Section */}
-      <section className="container mx-auto px-4 py-20 text-center relative z-10">
+      <section className="container mx-auto px-4 py-20 text-center">
         <div className="max-w-4xl mx-auto">
           <div className="mb-6">
             <span className="badge-yellow font-league bg-[#04474f] text-[#ffff]">Terpercaya oleh 1000+ UMKM</span>
@@ -69,7 +69,7 @@ export default function Landing() {
         </div>
       </section>
       {/* Features Section */}
-      <section className="container mx-auto px-4 py-20 relative z-10">
+      <section className="container mx-auto px-4 py-20">
         <div className="text-center mb-16">
           <div className="mb-4">
             <span className="inline-block text-xs bg-[#04474f] text-white px-3 py-1 rounded-full">Fitur Terlengkap</span>
@@ -151,7 +151,7 @@ export default function Landing() {
         </div>
       </section>
       {/* Pricing Section */}
-      <section className="container mx-auto px-4 py-20 relative z-10">
+      <section className="container mx-auto px-4 py-20">
         <div className="text-center mb-16">
           <div className="mb-4">
             <span className="inline-block text-xs bg-[#04474f] text-white px-3 py-1 rounded-full">Harga Terjangkau</span>
@@ -454,7 +454,7 @@ export default function Landing() {
         </div>
       </section>
       {/* FAQ Section */}
-      <section className="container mx-auto px-4 py-20 relative z-10">
+      <section className="container mx-auto px-4 py-20">
         <div className="text-center mb-16">
           <div className="mb-4">
             <span className="inline-block text-xs bg-[#04474f] text-white px-3 py-1 rounded-full">FAQ</span>
@@ -512,7 +512,7 @@ export default function Landing() {
         </div>
       </section>
       {/* CTA Section */}
-      <section className="bg-gradient-to-r from-[#f29716] to-[#ffde32] text-white py-20 relative z-10">
+      <section className="bg-gradient-to-r from-[#f29716] to-[#ffde32] text-white py-20">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4 font-league">
             Siap Transformasi Digital Keuangan UMKM Anda?
@@ -536,7 +536,7 @@ export default function Landing() {
         </div>
       </section>
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12 relative z-10">
+      <footer className="bg-gray-900 text-white py-12">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-center space-x-3 mb-8">
             <img 
