@@ -72,7 +72,7 @@ export default function Landing() {
       <section className="container mx-auto px-4 py-20">
         <div className="text-center mb-16">
           <div className="mb-4">
-            <span className="badge-yellow">Fitur Terlengkap</span>
+            <span className="badge-yellow bg-[#04474f] text-[#ffffff]">Fitur Terlengkap</span>
           </div>
           <h2 className="text-3xl font-bold text-gray-900 mb-4 font-league">
             Fitur Lengkap untuk UMKM
