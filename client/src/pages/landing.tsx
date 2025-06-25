@@ -10,6 +10,13 @@ export default function Landing() {
       {/* Animated Background */}
       <div className="aurora-background"></div>
       
+      {/* Additional Floating Elements */}
+      <div className="floating-orbs">
+        <div className="orb orb-1"></div>
+        <div className="orb orb-2"></div>
+        <div className="orb orb-3"></div>
+      </div>
+      
       {/* Header */}
       <header className="container mx-auto px-4 py-6 relative z-10">
         <nav className="flex items-center justify-between">
