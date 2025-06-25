@@ -168,67 +168,67 @@ export default function Landing() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div className="card-base hover-lift text-center">
+          <div className="bg-gray-100 rounded-xl p-6 shadow-md hover-lift text-center">
             <div className="w-16 h-16 bg-[#f29716]/10 rounded-full flex items-center justify-center mx-auto mb-4">
               <TrendingUp className="h-8 w-8 text-[#f29716]" />
             </div>
             <h3 className="text-xl font-semibold mb-2">Dashboard Interaktif</h3>
-            <p className="text-gray-600">
+            <p className="text-[#04474f]">
               Pantau kesehatan keuangan bisnis Anda dengan dashboard yang mudah dipahami
             </p>
           </div>
 
-          <div className="card-base hover-lift text-center">
+          <div className="bg-gray-100 rounded-xl p-6 shadow-md hover-lift text-center">
             <div className="w-16 h-16 bg-[#04474f]/10 rounded-full flex items-center justify-center mx-auto mb-4">
               <Smartphone className="h-8 w-8 text-[#04474f]" />
             </div>
             <h3 className="text-xl font-semibold mb-2 font-league">Pencatatan Mudah</h3>
-            <p className="text-gray-600 font-league">
+            <p className="text-[#04474f] font-league">
               Catat transaksi dengan cepat, bahkan bisa upload foto struk untuk auto-fill
             </p>
           </div>
 
-          <div className="card-base hover-lift text-center">
+          <div className="bg-gray-100 rounded-xl p-6 shadow-md hover-lift text-center">
             <div className="w-16 h-16 bg-[#f29716]/10 rounded-full flex items-center justify-center mx-auto mb-4">
               <FileText className="h-8 w-8 text-[#f29716]" />
             </div>
             <h3 className="text-xl font-semibold mb-2 font-league">Laporan Otomatis</h3>
-            <p className="text-gray-600 font-league">
+            <p className="text-[#04474f] font-league">
               Generate laporan keuangan profesional dengan sekali klik
             </p>
           </div>
 
-          <Card className="text-center p-6">
+          <Card className="bg-gray-100 text-center p-6">
             <CardContent className="pt-6">
               <div className="w-16 h-16 bg-[#f29716]/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <BarChart3 className="h-8 w-8 text-[#f29716]" />
               </div>
               <h3 className="text-xl font-semibold mb-2">AI Insights</h3>
-              <p className="text-gray-600">
+              <p className="text-[#04474f]">
                 Dapatkan insight cerdas dan rekomendasi untuk mengoptimalkan keuangan
               </p>
             </CardContent>
           </Card>
 
-          <Card className="text-center p-6">
+          <Card className="bg-gray-100 text-center p-6">
             <CardContent className="pt-6">
               <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Shield className="h-8 w-8 text-primary" />
               </div>
               <h3 className="text-xl font-semibold mb-2">Keamanan Terjamin</h3>
-              <p className="text-gray-600">
+              <p className="text-[#04474f]">
                 Data keuangan Anda aman dengan enkripsi tingkat bank
               </p>
             </CardContent>
           </Card>
 
-          <Card className="text-center p-6">
+          <Card className="bg-gray-100 text-center p-6">
             <CardContent className="pt-6">
               <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Users className="h-8 w-8 text-primary" />
               </div>
               <h3 className="text-xl font-semibold mb-2">Support 24/7</h3>
-              <p className="text-gray-600">
+              <p className="text-[#04474f]">
                 Tim support siap membantu Anda kapan saja melalui berbagai channel
               </p>
             </CardContent>
