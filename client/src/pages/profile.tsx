@@ -166,7 +166,7 @@ export default function Profile() {
       <div className="max-w-2xl mx-auto space-y-6">
         {/* Header */}
         <div>
-          <p className="text-gray-600">Kelola informasi akun dan preferensi Anda</p>
+          <p className="text-muted-foreground">Kelola informasi akun dan preferensi Anda</p>
         </div>
 
         {/* Business Information */}
@@ -339,8 +339,8 @@ export default function Profile() {
             <div className="space-y-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-medium text-gray-900">Email Harian</p>
-                  <p className="text-sm text-gray-600">Terima ringkasan transaksi harian</p>
+                  <p className="font-medium text-foreground">Email Harian</p>
+                  <p className="text-sm text-muted-foreground">Terima ringkasan transaksi harian</p>
                 </div>
                 <Switch
                   checked={settings?.emailNotifications || false}
@@ -351,8 +351,8 @@ export default function Profile() {
 
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-medium text-gray-900">Pengingat Pencatatan</p>
-                  <p className="text-sm text-gray-600">Pengingat untuk mencatat transaksi</p>
+                  <p className="font-medium text-foreground">Pengingat Pencatatan</p>
+                  <p className="text-sm text-muted-foreground">Pengingat untuk mencatat transaksi</p>
                 </div>
                 <Switch
                   checked={settings?.dailyReminders || false}
@@ -363,8 +363,8 @@ export default function Profile() {
 
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-medium text-gray-900">Laporan Mingguan</p>
-                  <p className="text-sm text-gray-600">Terima laporan keuangan mingguan</p>
+                  <p className="font-medium text-foreground">Laporan Mingguan</p>
+                  <p className="text-sm text-muted-foreground">Terima laporan keuangan mingguan</p>
                 </div>
                 <Switch
                   checked={settings?.weeklyReports || false}

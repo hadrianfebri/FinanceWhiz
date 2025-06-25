@@ -83,6 +83,23 @@
     @apply text-[#f29716] font-semibold border-l-4 border-[#f29716] pl-4;
   }
   
+  /* Global page styles */
+  .page-container {
+    @apply bg-background text-foreground min-h-screen;
+  }
+  
+  .content-card {
+    @apply bg-card text-card-foreground border-border;
+  }
+  
+  .text-primary {
+    @apply text-foreground;
+  }
+  
+  .text-secondary {
+    @apply text-muted-foreground;
+  }
+  
   .icon-circle {
     @apply w-10 h-10 flex items-center justify-center bg-gray-100 rounded-full;
   }

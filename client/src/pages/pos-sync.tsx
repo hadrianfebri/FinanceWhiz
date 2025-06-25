@@ -179,7 +179,7 @@ export default function POSSync() {
     };
     
     return {
-      className: styles[status as keyof typeof styles] || 'bg-gray-100 text-gray-800',
+      className: styles[status as keyof typeof styles] || 'bg-muted text-gray-800',
       label: labels[status as keyof typeof labels] || status
     };
   };
@@ -199,8 +199,8 @@ export default function POSSync() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 font-league">Sinkronisasi POS</h1>
-          <p className="text-gray-600 mt-1 font-league">Kelola dan sinkronkan data penjualan dari sistem POS</p>
+          <h1 className="text-3xl font-bold text-foreground font-league">Sinkronisasi POS</h1>
+          <p className="text-muted-foreground mt-1 font-league">Kelola dan sinkronkan data penjualan dari sistem POS</p>
         </div>
         <div className="flex space-x-3">
           <Button 
@@ -241,22 +241,22 @@ export default function POSSync() {
                 
                 <div className="space-y-2 text-sm">
                   <div className="flex items-center space-x-2">
-                    <Monitor className="h-4 w-4 text-gray-500" />
-                    <span className="text-gray-600 font-league">{getPOSTypeLabel(pos.type)}</span>
+                    <Monitor className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-muted-foreground font-league">{getPOSTypeLabel(pos.type)}</span>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <Settings className="h-4 w-4 text-gray-500" />
-                    <span className="text-gray-600 font-league">{pos.location}</span>
+                    <Settings className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-muted-foreground font-league">{pos.location}</span>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <RefreshCw className="h-4 w-4 text-gray-500" />
-                    <span className="text-gray-600 font-league">
+                    <RefreshCw className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-muted-foreground font-league">
                       Sync: {formatDate(pos.lastSync)}
                     </span>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <CheckCircle className="h-4 w-4 text-gray-500" />
-                    <span className="text-gray-600 font-league">
+                    <CheckCircle className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-muted-foreground font-league">
                       {pos.todayTransactions} transaksi hari ini
                     </span>
                   </div>
@@ -294,8 +294,8 @@ export default function POSSync() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600 font-league">Total POS</p>
-                <p className="text-2xl font-bold text-gray-900 font-league">{posDevices.length}</p>
+                <p className="text-sm font-medium text-muted-foreground font-league">Total POS</p>
+                <p className="text-2xl font-bold text-foreground font-league">{posDevices.length}</p>
               </div>
               <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
                 <Monitor className="h-6 w-6 text-blue-600" />
@@ -308,7 +308,7 @@ export default function POSSync() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600 font-league">Terhubung</p>
+                <p className="text-sm font-medium text-muted-foreground font-league">Terhubung</p>
                 <p className="text-2xl font-bold text-green-600 font-league">
                   {posDevices.filter(p => p.status === 'connected').length}
                 </p>
@@ -324,7 +324,7 @@ export default function POSSync() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600 font-league">Terputus</p>
+                <p className="text-sm font-medium text-muted-foreground font-league">Terputus</p>
                 <p className="text-2xl font-bold text-red-600 font-league">
                   {posDevices.filter(p => p.status === 'disconnected').length}
                 </p>
@@ -340,8 +340,8 @@ export default function POSSync() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600 font-league">Transaksi Hari Ini</p>
-                <p className="text-2xl font-bold text-gray-900 font-league">
+                <p className="text-sm font-medium text-muted-foreground font-league">Transaksi Hari Ini</p>
+                <p className="text-2xl font-bold text-foreground font-league">
                   {posDevices.reduce((sum, pos) => sum + pos.todayTransactions, 0)}
                 </p>
               </div>
@@ -363,21 +363,21 @@ export default function POSSync() {
             <div className="flex items-center justify-between p-4 border rounded-lg">
               <div>
                 <h3 className="font-medium font-league">Sinkronisasi Otomatis</h3>
-                <p className="text-sm text-gray-600 font-league">156 transaksi berhasil disinkronkan</p>
+                <p className="text-sm text-muted-foreground font-league">156 transaksi berhasil disinkronkan</p>
               </div>
               <div className="flex items-center space-x-3">
                 <Badge className="bg-green-100 text-green-800 font-league">Berhasil</Badge>
-                <span className="text-sm text-gray-500 font-league">2 menit lalu</span>
+                <span className="text-sm text-muted-foreground font-league">2 menit lalu</span>
               </div>
             </div>
             <div className="flex items-center justify-between p-4 border rounded-lg">
               <div>
                 <h3 className="font-medium font-league">Sinkronisasi Manual</h3>
-                <p className="text-sm text-gray-600 font-league">89 transaksi berhasil disinkronkan</p>
+                <p className="text-sm text-muted-foreground font-league">89 transaksi berhasil disinkronkan</p>
               </div>
               <div className="flex items-center space-x-3">
                 <Badge className="bg-green-100 text-green-800 font-league">Berhasil</Badge>
-                <span className="text-sm text-gray-500 font-league">1 jam lalu</span>
+                <span className="text-sm text-muted-foreground font-league">1 jam lalu</span>
               </div>
             </div>
           </div>

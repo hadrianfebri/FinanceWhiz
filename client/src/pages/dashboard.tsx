@@ -78,7 +78,7 @@ export default function Dashboard() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-xl text-gray-600 font-league">
+          <p className="text-xl text-muted-foreground font-league">
             {getGreeting()}, {user?.businessName}
           </p>
         </div>
@@ -116,7 +116,7 @@ export default function Dashboard() {
                 {formatCurrency(dashboardStats?.cashBalance || 0)}
               </p>
             </div>
-            <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+            <div className="w-12 h-12 bg-card/20 rounded-full flex items-center justify-center">
               <Wallet className="h-6 w-6 text-white" />
             </div>
           </div>
@@ -130,7 +130,7 @@ export default function Dashboard() {
         <div className="card-base hover-lift">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-600 text-sm font-league">Pemasukan Minggu Ini</p>
+              <p className="text-muted-foreground text-sm font-league">Pemasukan Minggu Ini</p>
               <p className="text-2xl font-bold text-success font-league">
                 {formatCurrency(dashboardStats?.weeklyIncome || 0)}
               </p>
@@ -142,7 +142,7 @@ export default function Dashboard() {
           <div className="mt-4 flex items-center gap-6">
             <div className="flex items-center gap-2">
               <ArrowUp className="h-4 w-4 text-success" />
-              <span className="text-xs text-gray-600 font-league">Naik dari minggu lalu</span>
+              <span className="text-xs text-muted-foreground font-league">Naik dari minggu lalu</span>
             </div>
           </div>
         </div>
@@ -151,7 +151,7 @@ export default function Dashboard() {
         <div className="card-base hover-lift">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-600 text-sm font-league">Pengeluaran Minggu Ini</p>
+              <p className="text-muted-foreground text-sm font-league">Pengeluaran Minggu Ini</p>
               <p className="text-2xl font-bold text-red-600 font-league">
                 {formatCurrency(dashboardStats?.weeklyExpenses || 0)}
               </p>
@@ -163,7 +163,7 @@ export default function Dashboard() {
           <div className="mt-4 flex items-center gap-6">
             <div className="flex items-center gap-2">
               <ArrowDown className="h-4 w-4 text-red-600" />
-              <span className="text-xs text-gray-600 font-league">Dari minggu lalu</span>
+              <span className="text-xs text-muted-foreground font-league">Dari minggu lalu</span>
             </div>
           </div>
         </div>
@@ -172,14 +172,14 @@ export default function Dashboard() {
       {/* Profit/Loss & Chart */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="card-base hover-lift">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4 font-league">Laba/Rugi Minggu Ini</h3>
+          <h3 className="text-lg font-semibold text-foreground mb-4 font-league">Laba/Rugi Minggu Ini</h3>
           <div className="text-center space-y-4">
             <div className={`text-3xl font-bold font-league ${
               (dashboardStats?.weeklyProfit || 0) >= 0 ? 'text-success' : 'text-red-600'
             }`}>
               {formatCurrency(dashboardStats?.weeklyProfit || 0)}
             </div>
-            <div className="text-sm text-gray-600 font-league">
+            <div className="text-sm text-muted-foreground font-league">
               {(dashboardStats?.weeklyProfit || 0) >= 0 ? 'Laba bersih' : 'Rugi bersih'}
             </div>
             <div className="flex justify-center">
@@ -195,7 +195,7 @@ export default function Dashboard() {
         </div>
 
         <div className="card-base hover-lift h-40">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4 font-league">Arus Kas 7 Hari</h3>
+          <h3 className="text-lg font-semibold text-foreground mb-4 font-league">Arus Kas 7 Hari</h3>
           <div className="h-32">
             <CashFlowChart data={dashboardStats?.cashFlowData || []} />
           </div>
@@ -210,7 +210,7 @@ export default function Dashboard() {
               <Lightbulb className="h-6 w-6 text-[#f29716]" />
             </div>
             <div className="flex-1">
-              <h4 className="font-semibold text-gray-900 mb-2 font-league">Insight AI Mingguan</h4>
+              <h4 className="font-semibold text-foreground mb-2 font-league">Insight AI Mingguan</h4>
               <p className="text-gray-700 font-league leading-relaxed">{aiInsights.insight}</p>
               <div className="mt-3">
                 <span className="badge-yellow">AI Powered</span>
@@ -223,14 +223,14 @@ export default function Dashboard() {
       {/* Recent Transactions - Latest Spendings List */}
       <div className="card-base hover-lift">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-lg font-semibold text-gray-900 font-league">Transaksi Terbaru</h3>
+          <h3 className="text-lg font-semibold text-foreground font-league">Transaksi Terbaru</h3>
           <Button variant="ghost" size="sm" className="text-[#f29716] hover:bg-[#f29716]/10 font-league">
             Lihat Semua
           </Button>
         </div>
         <div className="divide-y divide-gray-200">
           {dashboardStats?.recentTransactions?.length === 0 ? (
-            <div className="text-center py-8 text-gray-500">
+            <div className="text-center py-8 text-muted-foreground">
               <p className="font-league">Belum ada transaksi</p>
               <button 
                 className="btn-orange mt-4"
@@ -241,7 +241,7 @@ export default function Dashboard() {
             </div>
           ) : (
             dashboardStats?.recentTransactions?.map((transaction: any) => (
-              <div key={transaction.id} className="flex items-center justify-between py-4 hover:bg-gray-50 transition-colors">
+              <div key={transaction.id} className="flex items-center justify-between py-4 hover:bg-background transition-colors">
                 <div className="flex items-center space-x-3">
                   <div className="icon-circle">
                     {transaction.type === 'income' ? (
@@ -251,8 +251,8 @@ export default function Dashboard() {
                     )}
                   </div>
                   <div>
-                    <p className="font-medium text-gray-900 font-league">{transaction.description}</p>
-                    <p className="text-sm text-gray-600 font-league">{formatDateTime(transaction.date)}</p>
+                    <p className="font-medium text-foreground font-league">{transaction.description}</p>
+                    <p className="text-sm text-muted-foreground font-league">{formatDateTime(transaction.date)}</p>
                   </div>
                 </div>
                 <div className="text-right">

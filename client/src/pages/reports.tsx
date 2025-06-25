@@ -182,8 +182,8 @@ export default function Reports() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 font-league">Laporan Keuangan</h1>
-          <p className="text-gray-600">Analisis mendalam tentang kinerja keuangan usaha Anda</p>
+          <h1 className="text-2xl font-bold text-foreground font-league">Laporan Keuangan</h1>
+          <p className="text-muted-foreground">Analisis mendalam tentang kinerja keuangan usaha Anda</p>
           
           {/* Outlet Filter Indicator */}
           {selectedOutlet !== "all" && (
@@ -197,7 +197,7 @@ export default function Reports() {
                 variant="ghost"
                 size="sm"
                 onClick={() => setSelectedOutlet("all")}
-                className="h-6 w-6 p-0 text-gray-400 hover:text-gray-600"
+                className="h-6 w-6 p-0 text-gray-400 hover:text-muted-foreground"
               >
                 <X className="h-3 w-3" />
               </Button>
@@ -279,7 +279,7 @@ export default function Reports() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-600 text-sm">Total Pemasukan</p>
+                <p className="text-muted-foreground text-sm">Total Pemasukan</p>
                 <p className="text-xl font-bold text-success">
                   {formatCurrency(reportData?.totalIncome || 0)}
                 </p>
@@ -295,7 +295,7 @@ export default function Reports() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-600 text-sm">Total Pengeluaran</p>
+                <p className="text-muted-foreground text-sm">Total Pengeluaran</p>
                 <p className="text-xl font-bold text-red-600">
                   {formatCurrency(reportData?.totalExpenses || 0)}
                 </p>
@@ -311,7 +311,7 @@ export default function Reports() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-600 text-sm">Laba Bersih</p>
+                <p className="text-muted-foreground text-sm">Laba Bersih</p>
                 <p className={`text-xl font-bold ${
                   (reportData?.netProfit || 0) >= 0 ? 'text-primary' : 'text-red-600'
                 }`}>
@@ -329,8 +329,8 @@ export default function Reports() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-600 text-sm">Margin Keuntungan</p>
-                <p className="text-xl font-bold text-gray-900">
+                <p className="text-muted-foreground text-sm">Margin Keuntungan</p>
+                <p className="text-xl font-bold text-foreground">
                   {(reportData?.profitMargin || 0).toFixed(1)}%
                 </p>
               </div>
@@ -375,13 +375,13 @@ export default function Reports() {
           <CardContent>
             <div className="space-y-3">
               {reportData?.incomeByCategory?.length === 0 ? (
-                <p className="text-gray-500 text-center py-4">Tidak ada data pemasukan</p>
+                <p className="text-muted-foreground text-center py-4">Tidak ada data pemasukan</p>
               ) : (
                 reportData?.incomeByCategory?.map((item, index) => (
-                  <div key={index} className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                  <div key={index} className="flex justify-between items-center p-3 bg-background rounded-lg">
                     <div>
-                      <p className="font-medium text-gray-900">{item.category}</p>
-                      <p className="text-sm text-gray-600">
+                      <p className="font-medium text-foreground">{item.category}</p>
+                      <p className="text-sm text-muted-foreground">
                         {reportData.totalIncome > 0 
                           ? `${((item.amount / reportData.totalIncome) * 100).toFixed(1)}% dari total pemasukan`
                           : '0% dari total pemasukan'
@@ -405,13 +405,13 @@ export default function Reports() {
           <CardContent>
             <div className="space-y-3">
               {reportData?.expensesByCategory?.length === 0 ? (
-                <p className="text-gray-500 text-center py-4">Tidak ada data pengeluaran</p>
+                <p className="text-muted-foreground text-center py-4">Tidak ada data pengeluaran</p>
               ) : (
                 reportData?.expensesByCategory?.map((item, index) => (
-                  <div key={index} className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                  <div key={index} className="flex justify-between items-center p-3 bg-background rounded-lg">
                     <div>
-                      <p className="font-medium text-gray-900">{item.category}</p>
-                      <p className="text-sm text-gray-600">
+                      <p className="font-medium text-foreground">{item.category}</p>
+                      <p className="text-sm text-muted-foreground">
                         {item.percentage.toFixed(1)}% dari total pengeluaran
                       </p>
                     </div>

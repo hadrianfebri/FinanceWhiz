@@ -229,8 +229,8 @@ export default function AIAnalytics() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">AI Analytics & Fraud Detection</h1>
-          <p className="text-gray-600 mt-2">Analisis cerdas menggunakan DeepSeek AI untuk deteksi fraud dan business intelligence</p>
+          <h1 className="text-3xl font-bold text-foreground">AI Analytics & Fraud Detection</h1>
+          <p className="text-muted-foreground mt-2">Analisis cerdas menggunakan DeepSeek AI untuk deteksi fraud dan business intelligence</p>
         </div>
         <Button 
           onClick={() => generateAIInsights.mutate()} 
@@ -303,7 +303,7 @@ export default function AIAnalytics() {
                   )}
                 </div>
               ) : (
-                <div className="text-center py-8 text-gray-500">
+                <div className="text-center py-8 text-muted-foreground">
                   <Brain className="h-12 w-12 mx-auto mb-4 text-gray-300" />
                   <p>Klik "Generate AI Insights" untuk mendapatkan analisis dari DeepSeek AI</p>
                 </div>
@@ -321,7 +321,7 @@ export default function AIAnalytics() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{fraudAlerts.length}</div>
-                <p className="text-xs text-gray-600">Deteksi otomatis</p>
+                <p className="text-xs text-muted-foreground">Deteksi otomatis</p>
               </CardContent>
             </Card>
 
@@ -334,7 +334,7 @@ export default function AIAnalytics() {
                 <div className="text-2xl font-bold text-red-600">
                   {fraudAlerts.filter(a => a.severity === 'high').length}
                 </div>
-                <p className="text-xs text-gray-600">Perlu tindakan segera</p>
+                <p className="text-xs text-muted-foreground">Perlu tindakan segera</p>
               </CardContent>
             </Card>
 
@@ -345,7 +345,7 @@ export default function AIAnalytics() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold text-green-600">98.5%</div>
-                <p className="text-xs text-gray-600">Akurasi deteksi</p>
+                <p className="text-xs text-muted-foreground">Akurasi deteksi</p>
               </CardContent>
             </Card>
           </div>
@@ -363,7 +363,7 @@ export default function AIAnalytics() {
             <CardContent>
               <div className="space-y-4">
                 {fraudAlerts.length === 0 ? (
-                  <div className="text-center py-8 text-gray-500">
+                  <div className="text-center py-8 text-muted-foreground">
                     <Shield className="h-12 w-12 mx-auto mb-4 text-green-400" />
                     <p className="text-green-600 font-semibold">Tidak ada aktivitas mencurigakan terdeteksi</p>
                     <p className="text-sm">Semua transaksi dalam batas normal</p>
@@ -387,8 +387,8 @@ export default function AIAnalytics() {
                         </div>
                         <div>
                           <h4 className="font-semibold">{alert.title}</h4>
-                          <p className="text-sm text-gray-600">{alert.description}</p>
-                          <p className="text-xs text-gray-500">
+                          <p className="text-sm text-muted-foreground">{alert.description}</p>
+                          <p className="text-xs text-muted-foreground">
                             {formatDate(alert.timestamp)}
                           </p>
                         </div>
@@ -451,17 +451,17 @@ export default function AIAnalytics() {
               <CardContent>
                 <div className="space-y-4">
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Current Balance:</span>
+                    <span className="text-muted-foreground">Current Balance:</span>
                     <span className="font-semibold">{formatCurrency(dashboardStats?.cashBalance || 0)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Projected Balance:</span>
+                    <span className="text-muted-foreground">Projected Balance:</span>
                     <span className="font-semibold text-green-600">
                       {formatCurrency(cashFlowForecast[cashFlowForecast.length - 1]?.balance || 0)}
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Net Change:</span>
+                    <span className="text-muted-foreground">Net Change:</span>
                     <span className={`font-semibold ${
                       (cashFlowForecast[cashFlowForecast.length - 1]?.balance || 0) > (dashboardStats?.cashBalance || 0)
                         ? 'text-green-600' : 'text-red-600'
@@ -504,7 +504,7 @@ export default function AIAnalytics() {
                             height: `${Math.max(10, (day.balance / Math.max(...cashFlowForecast.map(d => d.balance))) * 200)}px` 
                           }}
                         />
-                        <span className="text-xs text-gray-500 mt-1">
+                        <span className="text-xs text-muted-foreground mt-1">
                           {day.date.getDate()}
                         </span>
                       </div>
@@ -538,7 +538,7 @@ export default function AIAnalytics() {
                   </div>
                 </div>
               ) : (
-                <div className="text-center py-8 text-gray-500">
+                <div className="text-center py-8 text-muted-foreground">
                   <LineChart className="h-12 w-12 mx-auto mb-4 text-gray-300" />
                   <p>Data transaksi tidak mencukupi untuk forecast</p>
                 </div>
@@ -573,7 +573,7 @@ export default function AIAnalytics() {
 
               <div className="space-y-4">
                 {filteredAlerts.map((alert) => (
-                  <div key={alert.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50">
+                  <div key={alert.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-background">
                     <div className="flex items-center gap-3">
                       <div className={`p-2 rounded-full ${
                         alert.severity === 'high' ? 'bg-red-100' : 'bg-yellow-100'
@@ -590,9 +590,9 @@ export default function AIAnalytics() {
                       </div>
                       <div>
                         <h4 className="font-semibold">{alert.title}</h4>
-                        <p className="text-sm text-gray-600">{alert.description}</p>
+                        <p className="text-sm text-muted-foreground">{alert.description}</p>
                         <div className="flex items-center gap-4 mt-1">
-                          <span className="text-xs text-gray-500">
+                          <span className="text-xs text-muted-foreground">
                             {formatDate(alert.timestamp)}
                           </span>
                           <Badge variant={alert.severity === 'high' ? 'destructive' : 'secondary'}>
@@ -623,7 +623,7 @@ export default function AIAnalytics() {
                 ))}
 
                 {filteredAlerts.length === 0 && (
-                  <div className="text-center py-8 text-gray-500">
+                  <div className="text-center py-8 text-muted-foreground">
                     <Bell className="h-12 w-12 mx-auto mb-4 text-gray-300" />
                     <p>Tidak ada alert yang cocok dengan filter</p>
                   </div>
@@ -652,7 +652,7 @@ export default function AIAnalytics() {
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold">{selectedAlert.title}</h3>
-                  <p className="text-gray-600">{selectedAlert.description}</p>
+                  <p className="text-muted-foreground">{selectedAlert.description}</p>
                 </div>
               </div>
 
@@ -672,7 +672,7 @@ export default function AIAnalytics() {
               {selectedAlert.data && (
                 <div>
                   <Label>Transaction Details</Label>
-                  <div className="mt-2 p-3 bg-gray-50 rounded">
+                  <div className="mt-2 p-3 bg-background rounded">
                     <p><strong>Amount:</strong> {formatCurrency(selectedAlert.data.amount)}</p>
                     <p><strong>Date:</strong> {formatDate(selectedAlert.data.createdAt)}</p>
                     <p><strong>Description:</strong> {selectedAlert.data.description}</p>

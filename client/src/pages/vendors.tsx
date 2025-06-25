@@ -239,8 +239,8 @@ export default function Vendors() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 font-league">Manajemen Vendor</h1>
-          <p className="text-gray-600 mt-1 font-league">Kelola supplier dan vendor bisnis Anda</p>
+          <h1 className="text-3xl font-bold text-foreground font-league">Manajemen Vendor</h1>
+          <p className="text-muted-foreground mt-1 font-league">Kelola supplier dan vendor bisnis Anda</p>
         </div>
         <Button 
           onClick={handleAddVendor}
@@ -271,24 +271,24 @@ export default function Vendors() {
               </div>
             </CardHeader>
             <CardContent className="space-y-3">
-              <div className="flex items-center space-x-2 text-sm text-gray-600">
+              <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                 <Phone className="h-4 w-4" />
                 <span className="font-league">{vendor.phone || '-'}</span>
               </div>
-              <div className="flex items-center space-x-2 text-sm text-gray-600">
+              <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                 <Mail className="h-4 w-4" />
                 <span className="font-league">{vendor.email || '-'}</span>
               </div>
-              <div className="flex items-center space-x-2 text-sm text-gray-600">
+              <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                 <MapPin className="h-4 w-4" />
                 <span className="font-league">{vendor.address || '-'}</span>
               </div>
-              <div className="flex items-center space-x-2 text-sm text-gray-600">
+              <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                 <Calendar className="h-4 w-4" />
                 <span className="font-league">Payment Terms: {vendor.paymentTerms} hari</span>
               </div>
               {vendor.contractAmount && (
-                <div className="flex items-center space-x-2 text-sm text-gray-600">
+                <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                   <span className="font-semibold text-green-600">Kontrak: {formatCurrency(Number(vendor.contractAmount))}</span>
                 </div>
               )}
@@ -316,7 +316,7 @@ export default function Vendors() {
         )) : (
           <div className="col-span-full text-center py-12">
             <Building2 className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <p className="text-gray-500 font-league">Belum ada vendor yang terdaftar</p>
+            <p className="text-muted-foreground font-league">Belum ada vendor yang terdaftar</p>
           </div>
         )}
       </div>
@@ -409,7 +409,7 @@ export default function Vendors() {
                 accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
                 onChange={(e) => setFormData({ ...formData, documentFile: e.target.files?.[0] || null })}
               />
-              <p className="text-xs text-gray-500 mt-1">Format: PDF, DOC, DOCX, JPG, PNG (Max 5MB)</p>
+              <p className="text-xs text-muted-foreground mt-1">Format: PDF, DOC, DOCX, JPG, PNG (Max 5MB)</p>
             </div>
             <div className="flex justify-end space-x-3 pt-4">
               <Button type="button" variant="outline" onClick={() => setShowAddModal(false)}>
@@ -515,7 +515,7 @@ export default function Vendors() {
                 accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
                 onChange={(e) => setFormData({ ...formData, documentFile: e.target.files?.[0] || null })}
               />
-              <p className="text-xs text-gray-500 mt-1">Format: PDF, DOC, DOCX, JPG, PNG (Max 5MB)</p>
+              <p className="text-xs text-muted-foreground mt-1">Format: PDF, DOC, DOCX, JPG, PNG (Max 5MB)</p>
               {selectedVendor?.documentUrl && (
                 <p className="text-xs text-blue-600 mt-1">Dokumen saat ini: ada</p>
               )}

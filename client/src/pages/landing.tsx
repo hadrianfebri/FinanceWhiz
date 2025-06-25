@@ -101,13 +101,13 @@ export default function Landing() {
               className="w-10 h-10"
             />
             <div>
-              <span className="text-2xl font-bold text-gray-900 font-league">FinanceWhiz.AI</span>
-              <div className="text-xs text-gray-500 font-league">AI-Powered Finance</div>
+              <span className="text-2xl font-bold text-foreground font-league">FinanceWhiz.AI</span>
+              <div className="text-xs text-muted-foreground font-league">AI-Powered Finance</div>
             </div>
           </div>
           <div className="space-x-4">
             <Link href="/login">
-              <Button variant="outline" className="px-6 py-2 bg-white border-[#f29716] text-[#f29716] hover:bg-[#f29716] hover:text-white">Masuk</Button>
+              <Button variant="outline" className="px-6 py-2 bg-card border-[#f29716] text-[#f29716] hover:bg-[#f29716] hover:text-white">Masuk</Button>
             </Link>
             <Link href="/register">
               <Button className="px-6 py-2 bg-[#f29716] text-white hover:bg-[#f29716]/90">Daftar Gratis</Button>
@@ -121,7 +121,7 @@ export default function Landing() {
           <div className="mb-6">
             <span className="badge-yellow font-league bg-[#04474f] text-[#ffff]">Terpercaya oleh 1000+ UMKM</span>
           </div>
-          <h1 className="text-5xl font-bold text-gray-900 mb-6 font-league">
+          <h1 className="text-5xl font-bold text-foreground mb-6 font-league">
             Kelola Keuangan UMKM Anda dengan <span className="text-[#f29716]">AI Cerdas</span>
           </h1>
           
@@ -134,7 +134,7 @@ export default function Landing() {
             />
           </div>
           
-          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto font-league leading-relaxed">
+          <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto font-league leading-relaxed">
             FinanceWhiz.AI adalah aplikasi keuangan berbasis AI yang membantu pelaku UMKM 
             mencatat transaksi, memantau arus kas, dan menghasilkan laporan keuangan secara otomatis.
           </p>
@@ -145,7 +145,7 @@ export default function Landing() {
               </Button>
             </Link>
             <Link href="/login">
-              <Button variant="outline" className="px-8 py-4 text-lg bg-white border-[#04474f] text-[#04474f] hover:bg-[#04474f] hover:text-white">
+              <Button variant="outline" className="px-8 py-4 text-lg bg-card border-[#04474f] text-[#04474f] hover:bg-[#04474f] hover:text-white">
                 Sudah Punya Akun?
               </Button>
             </Link>
@@ -158,16 +158,16 @@ export default function Landing() {
           <div className="mb-4">
             <span className="inline-block text-xs bg-[#04474f] text-white px-3 py-1 rounded-full">Fitur Terlengkap</span>
           </div>
-          <h2 className="text-3xl font-bold text-gray-900 mb-4 font-league">
+          <h2 className="text-3xl font-bold text-foreground mb-4 font-league">
             Fitur Lengkap untuk UMKM
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto font-league">
+          <p className="text-muted-foreground max-w-2xl mx-auto font-league">
             Semua yang Anda butuhkan untuk mengelola keuangan bisnis dalam satu platform
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-[#04474f]">
-          <div className="bg-gray-100 rounded-xl p-6 shadow-md hover-lift text-center">
+          <div className="bg-muted rounded-xl p-6 shadow-md hover-lift text-center">
             <div className="w-16 h-16 bg-[#f29716]/10 rounded-full flex items-center justify-center mx-auto mb-4">
               <TrendingUp className="h-8 w-8 text-[#f29716]" />
             </div>
@@ -177,7 +177,7 @@ export default function Landing() {
             </p>
           </div>
 
-          <div className="bg-gray-100 rounded-xl p-6 shadow-md hover-lift text-center">
+          <div className="bg-muted rounded-xl p-6 shadow-md hover-lift text-center">
             <div className="w-16 h-16 bg-[#04474f]/10 rounded-full flex items-center justify-center mx-auto mb-4">
               <Smartphone className="h-8 w-8 text-[#04474f]" />
             </div>
@@ -187,7 +187,7 @@ export default function Landing() {
             </p>
           </div>
 
-          <div className="bg-gray-100 rounded-xl p-6 shadow-md hover-lift text-center">
+          <div className="bg-muted rounded-xl p-6 shadow-md hover-lift text-center">
             <div className="w-16 h-16 bg-[#f29716]/10 rounded-full flex items-center justify-center mx-auto mb-4">
               <FileText className="h-8 w-8 text-[#f29716]" />
             </div>
@@ -197,7 +197,7 @@ export default function Landing() {
             </p>
           </div>
 
-          <div className="bg-gray-100 rounded-xl p-6 shadow-md hover-lift text-center">
+          <div className="bg-muted rounded-xl p-6 shadow-md hover-lift text-center">
             <div className="w-16 h-16 bg-[#f29716]/10 rounded-full flex items-center justify-center mx-auto mb-4">
               <BarChart3 className="h-8 w-8 text-[#f29716]" />
             </div>
@@ -207,7 +207,7 @@ export default function Landing() {
             </p>
           </div>
 
-          <div className="bg-gray-100 rounded-xl p-6 shadow-md hover-lift text-center">
+          <div className="bg-muted rounded-xl p-6 shadow-md hover-lift text-center">
             <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
               <Shield className="h-8 w-8 text-primary" />
             </div>
@@ -217,7 +217,7 @@ export default function Landing() {
             </p>
           </div>
 
-          <div className="bg-gray-100 rounded-xl p-6 shadow-md hover-lift text-center">
+          <div className="bg-muted rounded-xl p-6 shadow-md hover-lift text-center">
             <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
               <Users className="h-8 w-8 text-primary" />
             </div>
@@ -234,10 +234,10 @@ export default function Landing() {
           <div className="mb-4">
             <span className="inline-block text-xs bg-[#04474f] text-white px-3 py-1 rounded-full">Harga Terjangkau</span>
           </div>
-          <h2 className="text-3xl font-bold text-gray-900 mb-4 font-league">
+          <h2 className="text-3xl font-bold text-foreground mb-4 font-league">
             Paket SaaS untuk Setiap Kebutuhan UMKM
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto font-league">
+          <p className="text-muted-foreground max-w-2xl mx-auto font-league">
             Pilih paket yang sesuai dengan skala bisnis Anda. Semua paket include trial gratis 14 hari
           </p>
         </div>
@@ -250,10 +250,10 @@ export default function Landing() {
                 <Store className="h-6 w-6 text-[#f29716]" />
               </div>
               <h3 className="text-xl font-semibold mb-2 font-league">Starter</h3>
-              <p className="text-gray-600 text-sm mb-4 font-league">Perfect untuk usaha kecil</p>
+              <p className="text-muted-foreground text-sm mb-4 font-league">Perfect untuk usaha kecil</p>
               <div className="mb-6">
                 <span className="text-3xl font-bold font-league">Rp 49K</span>
-                <span className="text-gray-500 font-league">/bulan</span>
+                <span className="text-muted-foreground font-league">/bulan</span>
               </div>
               
               <ul className="space-y-3 mb-6">
@@ -295,10 +295,10 @@ export default function Landing() {
                 <Building2 className="h-6 w-6 text-[#f29716]" />
               </div>
               <h3 className="text-xl font-semibold mb-2 font-league">Business</h3>
-              <p className="text-gray-600 text-sm mb-4 font-league">Untuk bisnis berkembang</p>
+              <p className="text-muted-foreground text-sm mb-4 font-league">Untuk bisnis berkembang</p>
               <div className="mb-6">
                 <span className="text-3xl font-bold font-league">Rp 129K</span>
-                <span className="text-gray-500 font-league">/bulan</span>
+                <span className="text-muted-foreground font-league">/bulan</span>
               </div>
               
               <ul className="space-y-3 mb-6">
@@ -341,10 +341,10 @@ export default function Landing() {
                 <Briefcase className="h-6 w-6 text-[#04474f]" />
               </div>
               <h3 className="text-xl font-semibold mb-2 font-league">Professional</h3>
-              <p className="text-gray-600 text-sm mb-4 font-league">Untuk UKM menengah</p>
+              <p className="text-muted-foreground text-sm mb-4 font-league">Untuk UKM menengah</p>
               <div className="mb-6">
                 <span className="text-3xl font-bold font-league">Rp 249K</span>
-                <span className="text-gray-500 font-league">/bulan</span>
+                <span className="text-muted-foreground font-league">/bulan</span>
               </div>
               
               <ul className="space-y-3 mb-6">
@@ -375,7 +375,7 @@ export default function Landing() {
               </ul>
               
               <Link href="/register">
-                <Button variant="outline" className="w-full px-4 py-2 bg-white border-[#04474f] text-[#04474f] hover:bg-[#04474f] hover:text-white">Pilih Professional</Button>
+                <Button variant="outline" className="w-full px-4 py-2 bg-card border-[#04474f] text-[#04474f] hover:bg-[#04474f] hover:text-white">Pilih Professional</Button>
               </Link>
             </div>
           </div>
@@ -387,10 +387,10 @@ export default function Landing() {
                 <Crown className="h-6 w-6 text-white" />
               </div>
               <h3 className="text-xl font-semibold mb-2 font-league">Enterprise</h3>
-              <p className="text-gray-600 text-sm mb-4 font-league">Untuk bisnis besar</p>
+              <p className="text-muted-foreground text-sm mb-4 font-league">Untuk bisnis besar</p>
               <div className="mb-6">
                 <span className="text-3xl font-bold font-league">Custom</span>
-                <span className="text-gray-500 font-league text-sm block">Hubungi sales</span>
+                <span className="text-muted-foreground font-league text-sm block">Hubungi sales</span>
               </div>
               
               <ul className="space-y-3 mb-6">
@@ -427,43 +427,43 @@ export default function Landing() {
 
         {/* Additional Features */}
         <div className="mt-16 text-center">
-          <h3 className="text-2xl font-bold text-gray-900 mb-8 font-league">Fitur Unggulan Semua Paket</h3>
+          <h3 className="text-2xl font-bold text-foreground mb-8 font-league">Fitur Unggulan Semua Paket</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             <div className="text-center">
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Shield className="h-8 w-8 text-green-600" />
               </div>
               <h4 className="font-semibold mb-2 font-league text-[#f29716]">Keamanan Bank-Grade</h4>
-              <p className="text-sm text-gray-600">Enkripsi SSL 256-bit & compliance GDPR</p>
+              <p className="text-sm text-muted-foreground">Enkripsi SSL 256-bit & compliance GDPR</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Smartphone className="h-8 w-8 text-blue-600" />
               </div>
               <h4 className="font-semibold mb-2 font-league text-[#f29716]">Mobile Ready</h4>
-              <p className="text-sm text-gray-600">Akses di mana saja via web & mobile app</p>
+              <p className="text-sm text-muted-foreground">Akses di mana saja via web & mobile app</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <BarChart3 className="h-8 w-8 text-purple-600" />
               </div>
               <h4 className="font-semibold mb-2 font-league text-[#f29716]">Real-time Analytics</h4>
-              <p className="text-sm text-gray-600">Dashboard dan insights real-time</p>
+              <p className="text-sm text-muted-foreground">Dashboard dan insights real-time</p>
             </div>
           </div>
         </div>
       </section>
       {/* Testimonials Section */}
-      <section className="bg-gray-50 py-20">
+      <section className="bg-background py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <div className="mb-4">
               <span className="badge-yellow font-league bg-[#04474f] text-[#ffffff]">Testimoni</span>
             </div>
-            <h2 className="text-3xl font-bold text-gray-900 mb-4 font-league">
+            <h2 className="text-3xl font-bold text-foreground mb-4 font-league">
               Dipercaya oleh UMKM di Seluruh Indonesia
             </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto font-league">
+            <p className="text-muted-foreground max-w-2xl mx-auto font-league">
               Dengar langsung dari para pengusaha yang telah merasakan manfaat FinanceWhiz.AI
             </p>
           </div>
@@ -484,7 +484,7 @@ export default function Landing() {
                 </div>
                 <div>
                   <p className="font-semibold font-league">Budi Prasetyo</p>
-                  <p className="text-sm text-gray-500">Owner Warung Makan Sederhana</p>
+                  <p className="text-sm text-muted-foreground">Owner Warung Makan Sederhana</p>
                 </div>
               </div>
             </div>
@@ -504,7 +504,7 @@ export default function Landing() {
                 </div>
                 <div>
                   <p className="font-semibold font-league">Sari Andini</p>
-                  <p className="text-sm text-gray-500">Owner Toko Fashion Modern</p>
+                  <p className="text-sm text-muted-foreground">Owner Toko Fashion Modern</p>
                 </div>
               </div>
             </div>
@@ -524,7 +524,7 @@ export default function Landing() {
                 </div>
                 <div>
                   <p className="font-semibold font-league">Rahman Tanjung</p>
-                  <p className="text-sm text-gray-500">Owner Bengkel Motor Chain</p>
+                  <p className="text-sm text-muted-foreground">Owner Bengkel Motor Chain</p>
                 </div>
               </div>
             </div>
@@ -537,10 +537,10 @@ export default function Landing() {
           <div className="mb-4">
             <span className="inline-block text-xs bg-[#04474f] text-white px-3 py-1 rounded-full">FAQ</span>
           </div>
-          <h2 className="text-3xl font-bold text-gray-900 mb-4 font-league">
+          <h2 className="text-3xl font-bold text-foreground mb-4 font-league">
             Pertanyaan yang Sering Diajukan
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto font-league">
+          <p className="text-muted-foreground max-w-2xl mx-auto font-league">
             Temukan jawaban untuk pertanyaan umum tentang FinanceWhiz.AI
           </p>
         </div>
@@ -600,11 +600,11 @@ export default function Landing() {
           </p>
           <div className="space-x-4">
             <Link href="/register">
-              <Button className="px-8 py-4 text-lg bg-white text-[#f29716] hover:bg-gray-100">
+              <Button className="px-8 py-4 text-lg bg-card text-[#f29716] hover:bg-muted">
                 Mulai Trial Gratis 14 Hari
               </Button>
             </Link>
-            <Button variant="outline" className="px-8 py-4 text-lg border-white text-white hover:bg-white hover:text-[#f29716]">
+            <Button variant="outline" className="px-8 py-4 text-lg border-white text-white hover:bg-card hover:text-[#f29716]">
               Jadwalkan Demo
             </Button>
           </div>

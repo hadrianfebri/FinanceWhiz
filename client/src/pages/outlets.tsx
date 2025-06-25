@@ -262,8 +262,8 @@ export default function Outlets() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 font-league">Manajemen Outlet</h1>
-          <p className="text-gray-600 font-league">
+          <h1 className="text-2xl font-bold text-foreground font-league">Manajemen Outlet</h1>
+          <p className="text-muted-foreground font-league">
             Kelola semua outlet dan cabang bisnis Anda
           </p>
         </div>
@@ -409,23 +409,23 @@ export default function Outlets() {
               {/* Address */}
               {outlet.address && (
                 <div className="flex items-start space-x-2">
-                  <MapPin className="h-4 w-4 text-gray-500 mt-0.5" />
-                  <p className="text-sm text-gray-600">{outlet.address}</p>
+                  <MapPin className="h-4 w-4 text-muted-foreground mt-0.5" />
+                  <p className="text-sm text-muted-foreground">{outlet.address}</p>
                 </div>
               )}
 
               {/* Phone */}
               {outlet.phone && (
                 <div className="flex items-center space-x-2">
-                  <Phone className="h-4 w-4 text-gray-500" />
-                  <p className="text-sm text-gray-600">{outlet.phone}</p>
+                  <Phone className="h-4 w-4 text-muted-foreground" />
+                  <p className="text-sm text-muted-foreground">{outlet.phone}</p>
                 </div>
               )}
 
               {/* Manager */}
               <div className="flex items-center space-x-2">
-                <User className="h-4 w-4 text-gray-500" />
-                <p className="text-sm text-gray-600">
+                <User className="h-4 w-4 text-muted-foreground" />
+                <p className="text-sm text-muted-foreground">
                   {outlet.managerName || 'Belum ada manager'}
                 </p>
               </div>
@@ -434,14 +434,14 @@ export default function Outlets() {
               <div className="pt-3 border-t border-gray-100">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <p className="text-xs text-gray-500 font-league">Omzet Bulan Ini</p>
+                    <p className="text-xs text-muted-foreground font-league">Omzet Bulan Ini</p>
                     <p className="font-semibold text-green-600 font-league">
                       {formatCurrency(outlet.currentMonthSales || 0)}
                     </p>
                   </div>
                   <div>
-                    <p className="text-xs text-gray-500 font-league">Transaksi</p>
-                    <p className="font-semibold text-gray-900 font-league">
+                    <p className="text-xs text-muted-foreground font-league">Transaksi</p>
+                    <p className="font-semibold text-foreground font-league">
                       {outlet.totalTransactions || 0}
                     </p>
                   </div>
@@ -475,7 +475,7 @@ export default function Outlets() {
         {outlets?.length === 0 && (
           <div className="col-span-full text-center py-12">
             <Building2 className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <p className="text-gray-500 mb-4 font-league">Belum ada outlet yang terdaftar</p>
+            <p className="text-muted-foreground mb-4 font-league">Belum ada outlet yang terdaftar</p>
             <Button 
               className="btn-orange font-league"
               onClick={() => setShowAddOutlet(true)}
@@ -502,11 +502,11 @@ export default function Outlets() {
               {/* Basic Info */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label className="font-league text-gray-600">Nama Outlet</Label>
+                  <Label className="font-league text-muted-foreground">Nama Outlet</Label>
                   <p className="font-semibold">{selectedOutlet.name}</p>
                 </div>
                 <div>
-                  <Label className="font-league text-gray-600">Status</Label>
+                  <Label className="font-league text-muted-foreground">Status</Label>
                   <div>
                     <Badge variant={selectedOutlet.isActive ? "default" : "secondary"}>
                       {selectedOutlet.isActive ? "Aktif" : "Tidak Aktif"}
@@ -518,25 +518,25 @@ export default function Outlets() {
               {/* Contact Info */}
               <div className="space-y-3">
                 <div className="flex items-start space-x-3">
-                  <MapPin className="h-4 w-4 text-gray-500 mt-1" />
+                  <MapPin className="h-4 w-4 text-muted-foreground mt-1" />
                   <div className="flex-1">
-                    <Label className="font-league text-gray-600">Alamat</Label>
+                    <Label className="font-league text-muted-foreground">Alamat</Label>
                     <p className="text-sm">{selectedOutlet.address || 'Belum ada alamat'}</p>
                   </div>
                 </div>
                 
                 <div className="flex items-center space-x-3">
-                  <Phone className="h-4 w-4 text-gray-500" />
+                  <Phone className="h-4 w-4 text-muted-foreground" />
                   <div className="flex-1">
-                    <Label className="font-league text-gray-600">Telepon</Label>
+                    <Label className="font-league text-muted-foreground">Telepon</Label>
                     <p className="text-sm">{selectedOutlet.phone || 'Belum ada nomor telepon'}</p>
                   </div>
                 </div>
 
                 <div className="flex items-center space-x-3">
-                  <User className="h-4 w-4 text-gray-500" />
+                  <User className="h-4 w-4 text-muted-foreground" />
                   <div className="flex-1">
-                    <Label className="font-league text-gray-600">Manager</Label>
+                    <Label className="font-league text-muted-foreground">Manager</Label>
                     <p className="text-sm">{selectedOutlet.managerName || 'Belum ada manager'}</p>
                   </div>
                 </div>
@@ -544,7 +544,7 @@ export default function Outlets() {
 
               {/* Performance Metrics */}
               <div className="border-t pt-4">
-                <Label className="font-league text-gray-600 mb-3 block">Performa Outlet</Label>
+                <Label className="font-league text-muted-foreground mb-3 block">Performa Outlet</Label>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="p-4 bg-green-50 rounded-lg">
                     <p className="text-sm text-green-600 font-league">Omzet Bulan Ini</p>

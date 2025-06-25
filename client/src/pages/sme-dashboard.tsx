@@ -169,7 +169,7 @@ export default function SmeDashboard() {
                 {formatCurrency(dashboardStats?.cashBalance || 0)}
               </p>
             </div>
-            <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+            <div className="w-12 h-12 bg-card/20 rounded-full flex items-center justify-center">
               <Wallet className="h-6 w-6 text-white" />
             </div>
           </div>
@@ -181,7 +181,7 @@ export default function SmeDashboard() {
         <CardContent className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-600 text-sm font-league">Pemasukan Bulan Ini</p>
+              <p className="text-muted-foreground text-sm font-league">Pemasukan Bulan Ini</p>
               <p className="text-xl font-bold text-green-600 font-league">
                 {formatCurrency(dashboardStats?.weeklyIncome || 0)}
               </p>
@@ -198,7 +198,7 @@ export default function SmeDashboard() {
         <CardContent className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-600 text-sm font-league">Pengeluaran Bulan Ini</p>
+              <p className="text-muted-foreground text-sm font-league">Pengeluaran Bulan Ini</p>
               <p className="text-xl font-bold text-red-600 font-league">
                 {formatCurrency(dashboardStats?.weeklyExpenses || 0)}
               </p>
@@ -215,7 +215,7 @@ export default function SmeDashboard() {
         <CardContent className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-600 text-sm font-league">Laba Bulan Ini</p>
+              <p className="text-muted-foreground text-sm font-league">Laba Bulan Ini</p>
               <p className={`text-xl font-bold font-league ${
                 (dashboardStats?.weeklyProfit || 0) >= 0 ? 'text-[#04474f]' : 'text-red-600'
               }`}>
@@ -245,18 +245,18 @@ export default function SmeDashboard() {
         <CardContent>
           <div className="space-y-4">
             {outlets?.map((outlet: any) => (
-              <div key={outlet.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+              <div key={outlet.id} className="flex items-center justify-between p-4 bg-background rounded-lg">
                 <div className="flex items-center space-x-3">
                   <div className="w-8 h-8 bg-[#f29716] rounded-lg flex items-center justify-center">
                     <Building2 className="h-4 w-4 text-white" />
                   </div>
                   <div>
-                    <p className="font-medium text-gray-900 font-league">{outlet.name}</p>
-                    <p className="text-sm text-gray-600">{outlet.address}</p>
+                    <p className="font-medium text-foreground font-league">{outlet.name}</p>
+                    <p className="text-sm text-muted-foreground">{outlet.address}</p>
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="font-semibold text-gray-900 font-league">
+                  <p className="font-semibold text-foreground font-league">
                     {formatCurrency(outlet.monthlyRevenue || 0)}
                   </p>
                   <Badge variant={outlet.status === 'active' ? 'default' : 'secondary'}>
@@ -331,15 +331,15 @@ export default function SmeDashboard() {
 
           {/* General Notifications */}
           {notifications?.slice(0, 3).map((notification: any) => (
-            <div key={notification.id} className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+            <div key={notification.id} className="flex items-center space-x-3 p-3 bg-background rounded-lg">
               <div className={`w-2 h-2 rounded-full ${
                 notification.isRead ? 'bg-gray-400' : 'bg-[#f29716]'
               }`} />
               <div className="flex-1">
-                <p className="font-medium text-gray-900 font-league">{notification.title}</p>
-                <p className="text-sm text-gray-600">{notification.message}</p>
+                <p className="font-medium text-foreground font-league">{notification.title}</p>
+                <p className="text-sm text-muted-foreground">{notification.message}</p>
               </div>
-              <span className="text-xs text-gray-500">
+              <span className="text-xs text-muted-foreground">
                 {formatDateTime(notification.createdAt)}
               </span>
             </div>
@@ -366,7 +366,7 @@ export default function SmeDashboard() {
                   <PieChart className="h-4 w-4 text-white" />
                 </div>
                 <div className="flex-1">
-                  <p className="font-medium text-gray-900 font-league mb-2">Analisis Otomatis</p>
+                  <p className="font-medium text-foreground font-league mb-2">Analisis Otomatis</p>
                   <p className="text-sm text-gray-700 leading-relaxed">{aiInsights.insight}</p>
                 </div>
               </div>
@@ -420,10 +420,10 @@ export default function SmeDashboard() {
       {/* Enhanced Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 font-league">
+          <h1 className="text-2xl font-bold text-foreground font-league">
             {renderRoleBasedHeader()}
           </h1>
-          <p className="text-gray-600 font-league">
+          <p className="text-muted-foreground font-league">
             Kelola keuangan multi-outlet dengan insight AI terdepan
           </p>
         </div>

@@ -179,8 +179,8 @@ export default function AIChat() {
     <div className="space-y-6 p-6 ml-4">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">AI Chat Assistant</h1>
-          <p className="text-gray-600 mt-2">Tanyakan apa saja tentang data bisnis Anda kepada FinanceWhiz AI</p>
+          <h1 className="text-3xl font-bold text-foreground">AI Chat Assistant</h1>
+          <p className="text-muted-foreground mt-2">Tanyakan apa saja tentang data bisnis Anda kepada FinanceWhiz AI</p>
         </div>
         <Button 
           onClick={clearChat}
@@ -201,7 +201,7 @@ export default function AIChat() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{transactionData.length}</div>
-            <p className="text-xs text-gray-600">Data tersedia untuk AI</p>
+            <p className="text-xs text-muted-foreground">Data tersedia untuk AI</p>
           </CardContent>
         </Card>
 
@@ -212,7 +212,7 @@ export default function AIChat() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{formatCurrency(dashboardStats?.cashBalance || 0)}</div>
-            <p className="text-xs text-gray-600">Real-time balance</p>
+            <p className="text-xs text-muted-foreground">Real-time balance</p>
           </CardContent>
         </Card>
 
@@ -223,7 +223,7 @@ export default function AIChat() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{formatCurrency(dashboardStats?.weeklyIncome || 0)}</div>
-            <p className="text-xs text-gray-600">7 hari terakhir</p>
+            <p className="text-xs text-muted-foreground">7 hari terakhir</p>
           </CardContent>
         </Card>
 
@@ -234,7 +234,7 @@ export default function AIChat() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{outletsData.length}</div>
-            <p className="text-xs text-gray-600">Cabang aktif</p>
+            <p className="text-xs text-muted-foreground">Cabang aktif</p>
           </CardContent>
         </Card>
       </div>
@@ -283,7 +283,7 @@ export default function AIChat() {
                     <div className={`p-2 rounded-full ${
                       message.type === 'user' 
                         ? 'bg-orange-500 text-white' 
-                        : 'bg-gray-100 text-gray-700'
+                        : 'bg-muted text-gray-700'
                     }`}>
                       {message.type === 'user' ? (
                         <User className="h-4 w-4" />
@@ -295,7 +295,7 @@ export default function AIChat() {
                     <div className={`rounded-lg p-3 break-words ${
                       message.type === 'user'
                         ? 'bg-orange-500 text-white'
-                        : 'bg-gray-100 text-gray-900'
+                        : 'bg-muted text-foreground'
                     }`}>
                       {message.isTyping ? (
                         <div className="flex items-center gap-2">
@@ -315,9 +315,9 @@ export default function AIChat() {
                           ) : (
                             <p className="whitespace-pre-wrap break-words">{message.content}</p>
                           )}
-                          <div className="flex items-center justify-between mt-2 pt-2 border-t border-gray-200 dark:border-gray-600">
+                          <div className="flex items-center justify-between mt-2 pt-2 border-t border-border dark:border-gray-600">
                             <span className={`text-xs ${
-                              message.type === 'user' ? 'text-orange-100' : 'text-gray-500'
+                              message.type === 'user' ? 'text-orange-100' : 'text-muted-foreground'
                             }`}>
                               {formatDate(message.timestamp)}
                             </span>

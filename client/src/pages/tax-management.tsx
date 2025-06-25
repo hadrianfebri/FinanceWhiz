@@ -275,7 +275,7 @@ export default function TaxManagement() {
     };
     
     return {
-      className: styles[status as keyof typeof styles] || 'bg-gray-100 text-gray-800',
+      className: styles[status as keyof typeof styles] || 'bg-muted text-gray-800',
       label: labels[status as keyof typeof labels] || status
     };
   };
@@ -299,8 +299,8 @@ export default function TaxManagement() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 font-league">Manajemen Pajak</h1>
-          <p className="text-gray-600 mt-1 font-league">Kelola kewajiban pajak dan laporan UMKM</p>
+          <h1 className="text-3xl font-bold text-foreground font-league">Manajemen Pajak</h1>
+          <p className="text-muted-foreground mt-1 font-league">Kelola kewajiban pajak dan laporan UMKM</p>
         </div>
         <Button 
           onClick={handleExportReport}
@@ -333,13 +333,13 @@ export default function TaxManagement() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600 font-league">
+                <p className="text-sm font-medium text-muted-foreground font-league">
                   Pajak {taxSummary.quarter || 'Kuartal Ini'}
                 </p>
-                <p className="text-2xl font-bold text-gray-900 font-league">
+                <p className="text-2xl font-bold text-foreground font-league">
                   {formatCurrency(taxSummary.currentQuarterTax || 0)}
                 </p>
-                <p className="text-xs text-gray-500 font-league">
+                <p className="text-xs text-muted-foreground font-league">
                   Dari omzet: {formatCurrency(taxSummary.quarterlyIncome || 0)}
                 </p>
               </div>
@@ -354,11 +354,11 @@ export default function TaxManagement() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600 font-league">Total Pajak Tahun Ini</p>
-                <p className="text-2xl font-bold text-gray-900 font-league">
+                <p className="text-sm font-medium text-muted-foreground font-league">Total Pajak Tahun Ini</p>
+                <p className="text-2xl font-bold text-foreground font-league">
                   {formatCurrency(taxSummary.yearToDateTax || 0)}
                 </p>
-                <p className="text-xs text-gray-500 font-league">
+                <p className="text-xs text-muted-foreground font-league">
                   Dari omzet: {formatCurrency(taxSummary.yearlyIncome || 0)}
                 </p>
               </div>
@@ -373,11 +373,11 @@ export default function TaxManagement() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600 font-league">Tarif PPh Final UMKM</p>
-                <p className="text-2xl font-bold text-gray-900 font-league">
+                <p className="text-sm font-medium text-muted-foreground font-league">Tarif PPh Final UMKM</p>
+                <p className="text-2xl font-bold text-foreground font-league">
                   {((taxSummary.taxRate || 0.005) * 100).toFixed(1)}%
                 </p>
-                <p className="text-xs text-gray-500 font-league">
+                <p className="text-xs text-muted-foreground font-league">
                   Jatuh tempo: {taxSummary.upcomingDeadline ? new Date(taxSummary.upcomingDeadline).toLocaleDateString('id-ID') : 'N/A'}
                 </p>
               </div>
@@ -400,7 +400,7 @@ export default function TaxManagement() {
             <div className="flex items-center justify-between p-4 border rounded-lg bg-blue-50">
               <div className="flex-1">
                 <h3 className="font-medium font-league">Laporan PPh Final {taxSummary.quarter || 'Q2 2025'}</h3>
-                <p className="text-sm text-gray-600 font-league">
+                <p className="text-sm text-muted-foreground font-league">
                   Omzet: {formatCurrency(taxSummary.quarterlyIncome || 0)} | 
                   Pajak: {formatCurrency(taxSummary.currentQuarterTax || 0)}
                 </p>
@@ -427,7 +427,7 @@ export default function TaxManagement() {
             <div className="flex items-center justify-between p-4 border rounded-lg">
               <div className="flex-1">
                 <h3 className="font-medium font-league">Laporan PPh Final Q1 2025</h3>
-                <p className="text-sm text-gray-600 font-league">Periode: Januari - Maret 2025</p>
+                <p className="text-sm text-muted-foreground font-league">Periode: Januari - Maret 2025</p>
               </div>
               <div className="flex items-center space-x-3">
                 <div onClick={() => handleStatusChange('q1', reportStates.q1 === 'paid' ? 'submitted' : 'paid')} className="cursor-pointer">
@@ -451,7 +451,7 @@ export default function TaxManagement() {
             <div className="flex items-center justify-between p-4 border rounded-lg">
               <div className="flex-1">
                 <h3 className="font-medium font-league">Draft Koreksi PPh Final</h3>
-                <p className="text-sm text-gray-600 font-league">Untuk revisi perhitungan pajak manual</p>
+                <p className="text-sm text-muted-foreground font-league">Untuk revisi perhitungan pajak manual</p>
               </div>
               <div className="flex items-center space-x-3">
                 <div onClick={() => handleStatusChange('draft', reportStates.draft === 'draft' ? 'submitted' : 'draft')} className="cursor-pointer">

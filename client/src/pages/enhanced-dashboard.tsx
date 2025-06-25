@@ -74,14 +74,14 @@ export default function EnhancedDashboard() {
   }
 
   return (
-    <div className="p-6 space-y-6 bg-gray-50 dark:bg-gray-900 min-h-screen">
+    <div className="p-6 space-y-6 bg-background text-foreground min-h-screen">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white font-league">
+          <h1 className="text-3xl font-bold text-foreground font-league">
             {getGreeting()}, {user?.businessName}!
           </h1>
-          <p className="text-gray-600 dark:text-gray-400 mt-1 font-league">Dashboard comprehensive untuk manajemen bisnis multi-outlet</p>
+          <p className="text-muted-foreground mt-1 font-league">Dashboard comprehensive untuk manajemen bisnis multi-outlet</p>
         </div>
         <div className="flex gap-3">
           <Button
@@ -104,19 +104,19 @@ export default function EnhancedDashboard() {
 
       {/* Key Business Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="hover:shadow-lg transition-all duration-200 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+        <Card className="hover:shadow-lg transition-all duration-200 bg-card text-card-foreground border-border">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Saldo Kas Total</p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">{formatCurrency(dashboardStats?.cashBalance || 0)}</p>
+                <p className="text-sm font-medium text-muted-foreground">Saldo Kas Total</p>
+                <p className="text-2xl font-bold text-foreground">{formatCurrency(dashboardStats?.cashBalance || 0)}</p>
                 {dashboardStats?.cashBalance > 0 ? (
                   <p className="text-sm text-green-600 mt-1">
                     <TrendingUp className="h-4 w-4 inline mr-1" />
                     +12.5% dari bulan lalu
                   </p>
                 ) : (
-                  <p className="text-sm text-gray-500 mt-1">
+                  <p className="text-sm text-muted-foreground mt-1">
                     Belum ada data perbandingan
                   </p>
                 )}
@@ -128,12 +128,12 @@ export default function EnhancedDashboard() {
           </CardContent>
         </Card>
 
-        <Card className="hover:shadow-lg transition-all duration-200 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+        <Card className="hover:shadow-lg transition-all duration-200 bg-card text-card-foreground border-border">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Outlet</p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">{outlets?.length || 0}</p>
+                <p className="text-sm font-medium text-muted-foreground">Total Outlet</p>
+                <p className="text-2xl font-bold text-foreground">{outlets?.length || 0}</p>
                 <p className="text-sm text-blue-600 dark:text-blue-400 mt-1">
                   <Store className="h-4 w-4 inline mr-1" />
                   {outlets?.filter((o: any) => o.isActive).length || 0} aktif
@@ -146,19 +146,19 @@ export default function EnhancedDashboard() {
           </CardContent>
         </Card>
 
-        <Card className="hover:shadow-lg transition-all duration-200 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+        <Card className="hover:shadow-lg transition-all duration-200 bg-card text-card-foreground border-border">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Pendapatan Minggu Ini</p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">{formatCurrency(dashboardStats?.weeklyIncome || 0)}</p>
+                <p className="text-sm font-medium text-muted-foreground">Pendapatan Minggu Ini</p>
+                <p className="text-2xl font-bold text-foreground">{formatCurrency(dashboardStats?.weeklyIncome || 0)}</p>
                 {dashboardStats?.weeklyIncome > 0 ? (
                   <p className="text-sm text-green-600 mt-1">
                     <ArrowUp className="h-4 w-4 inline mr-1" />
                     +8.2% dari minggu lalu
                   </p>
                 ) : (
-                  <p className="text-sm text-gray-500 mt-1">
+                  <p className="text-sm text-muted-foreground mt-1">
                     Belum ada data mingguan
                   </p>
                 )}
@@ -170,12 +170,12 @@ export default function EnhancedDashboard() {
           </CardContent>
         </Card>
 
-        <Card className="hover:shadow-lg transition-all duration-200 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+        <Card className="hover:shadow-lg transition-all duration-200 bg-card text-card-foreground border-border">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Pajak Kuartal Ini</p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">{formatCurrency(taxSummary?.currentQuarterTax || 0)}</p>
+                <p className="text-sm font-medium text-muted-foreground">Pajak Kuartal Ini</p>
+                <p className="text-2xl font-bold text-foreground">{formatCurrency(taxSummary?.currentQuarterTax || 0)}</p>
                 <p className="text-sm text-orange-600 dark:text-orange-400 mt-1">
                   <Calendar className="h-4 w-4 inline mr-1" />
                   PPh Final 0.5%
@@ -192,9 +192,9 @@ export default function EnhancedDashboard() {
       {/* Quick Actions & Notifications */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Quick Actions */}
-        <Card className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+        <Card className="bg-card text-card-foreground border-border">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-gray-900 dark:text-white">
+            <CardTitle className="flex items-center gap-2 text-foreground">
               <Activity className="h-5 w-5 text-[#f29716]" />
               Aksi Cepat
             </CardTitle>
@@ -236,9 +236,9 @@ export default function EnhancedDashboard() {
         </Card>
 
         {/* Notifications & Alerts */}
-        <Card className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+        <Card className="bg-card text-card-foreground border-border">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-gray-900 dark:text-white">
+            <CardTitle className="flex items-center gap-2 text-foreground">
               <Bell className="h-5 w-5 text-[#f29716]" />
               Notifikasi & Pengingat
             </CardTitle>
@@ -250,8 +250,8 @@ export default function EnhancedDashboard() {
                   <div className="flex items-center gap-2">
                     <Clock className="h-4 w-4 text-yellow-600" />
                     <div>
-                      <p className="font-medium text-sm text-gray-900 dark:text-white">{notification.title}</p>
-                      <p className="text-xs text-gray-600 dark:text-gray-400">{notification.message}</p>
+                      <p className="font-medium text-sm text-foreground">{notification.title}</p>
+                      <p className="text-xs text-muted-foreground">{notification.message}</p>
                     </div>
                   </div>
                   <Badge variant="outline" className="bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-200 border-yellow-200 dark:border-yellow-700">
@@ -261,18 +261,18 @@ export default function EnhancedDashboard() {
               ))
             ) : (
               <div className="text-center py-6">
-                <Bell className="h-8 w-8 text-gray-300 dark:text-gray-600 mx-auto mb-2" />
-                <p className="text-sm text-gray-500 dark:text-gray-400">Belum ada notifikasi</p>
-                <p className="text-xs text-gray-400 dark:text-gray-500">Notifikasi akan muncul saat ada aktivitas bisnis</p>
+                <Bell className="h-8 w-8 text-gray-300 dark:text-muted-foreground mx-auto mb-2" />
+                <p className="text-sm text-muted-foreground dark:text-gray-400">Belum ada notifikasi</p>
+                <p className="text-xs text-gray-400 dark:text-muted-foreground">Notifikasi akan muncul saat ada aktivitas bisnis</p>
               </div>
             )}
           </CardContent>
         </Card>
 
         {/* AI Insights */}
-        <Card className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+        <Card className="bg-card text-card-foreground border-border">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-gray-900 dark:text-white">
+            <CardTitle className="flex items-center gap-2 text-foreground">
               <Lightbulb className="h-5 w-5 text-[#f29716]" />
               AI Business Insights
             </CardTitle>
@@ -289,9 +289,9 @@ export default function EnhancedDashboard() {
 
       {/* Outlet Performance */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+        <Card className="bg-card text-card-foreground border-border">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-gray-900 dark:text-white">
+            <CardTitle className="flex items-center gap-2 text-foreground">
               <Store className="h-5 w-5 text-[#f29716]" />
               Performance Outlet
             </CardTitle>
@@ -299,19 +299,19 @@ export default function EnhancedDashboard() {
           <CardContent>
             <div className="space-y-4">
               {outlets?.map((outlet: any) => (
-                <div key={outlet.id} className="flex items-center justify-between p-3 border border-gray-200 dark:border-gray-700 rounded-lg">
+                <div key={outlet.id} className="flex items-center justify-between p-3 border border-border dark:border-gray-700 rounded-lg">
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center">
                       <Store className="h-4 w-4 text-blue-600 dark:text-blue-400" />
                     </div>
                     <div>
-                      <p className="font-medium text-gray-900 dark:text-white">{outlet.name}</p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">{outlet.managerName}</p>
+                      <p className="font-medium text-foreground">{outlet.name}</p>
+                      <p className="text-sm text-muted-foreground">{outlet.managerName}</p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="font-semibold text-gray-900 dark:text-white">{formatCurrency(outlet.currentMonthSales)}</p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                    <p className="font-semibold text-foreground">{formatCurrency(outlet.currentMonthSales)}</p>
+                    <p className="text-sm text-muted-foreground">
                       Target: {formatCurrency(outlet.monthlyTarget)}
                     </p>
                     <div className="w-20 bg-gray-200 dark:bg-gray-700 rounded-full h-2 mt-1">
@@ -328,9 +328,9 @@ export default function EnhancedDashboard() {
         </Card>
 
         {/* Cash Flow Chart */}
-        <Card className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+        <Card className="bg-card text-card-foreground border-border">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-gray-900 dark:text-white">
+            <CardTitle className="flex items-center gap-2 text-foreground">
               <TrendingUp className="h-5 w-5 text-[#f29716]" />
               Tren Arus Kas
             </CardTitle>
@@ -339,9 +339,9 @@ export default function EnhancedDashboard() {
             {dashboardStats?.cashFlowData && dashboardStats.cashFlowData.length > 0 ? (
               <CashFlowChart data={dashboardStats.cashFlowData} />
             ) : (
-              <div className="flex items-center justify-center h-48 text-gray-500 dark:text-gray-400">
+              <div className="flex items-center justify-center h-48 text-muted-foreground dark:text-gray-400">
                 <div className="text-center">
-                  <TrendingUp className="h-12 w-12 mx-auto mb-2 text-gray-300 dark:text-gray-600" />
+                  <TrendingUp className="h-12 w-12 mx-auto mb-2 text-gray-300 dark:text-muted-foreground" />
                   <p>Data arus kas akan muncul setelah transaksi pertama</p>
                 </div>
               </div>
@@ -362,7 +362,7 @@ export default function EnhancedDashboard() {
           <CardContent>
             <div className="space-y-3">
               {dashboardStats?.recentTransactions?.slice(0, 5).map((transaction) => (
-                <div key={transaction.id} className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg">
+                <div key={transaction.id} className="flex items-center justify-between p-3 hover:bg-background rounded-lg">
                   <div className="flex items-center gap-3">
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
                       transaction.type === 'income' ? 'bg-green-100' : 'bg-red-100'
@@ -373,8 +373,8 @@ export default function EnhancedDashboard() {
                       }
                     </div>
                     <div>
-                      <p className="font-medium text-gray-900">{transaction.description}</p>
-                      <p className="text-sm text-gray-600">{transaction.categoryName}</p>
+                      <p className="font-medium text-foreground">{transaction.description}</p>
+                      <p className="text-sm text-muted-foreground">{transaction.categoryName}</p>
                     </div>
                   </div>
                   <div className="text-right">
@@ -383,7 +383,7 @@ export default function EnhancedDashboard() {
                     }`}>
                       {transaction.type === 'income' ? '+' : '-'}{formatCurrency(transaction.amount)}
                     </p>
-                    <p className="text-sm text-gray-500">{formatDateTime(transaction.date)}</p>
+                    <p className="text-sm text-muted-foreground">{formatDateTime(transaction.date)}</p>
                   </div>
                 </div>
               ))}
@@ -400,16 +400,16 @@ export default function EnhancedDashboard() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="text-center p-4 bg-green-50 rounded-lg">
-              <p className="text-sm text-gray-600">Keuntungan Minggu Ini</p>
+              <p className="text-sm text-muted-foreground">Keuntungan Minggu Ini</p>
               <p className="text-2xl font-bold text-green-600">{formatCurrency(dashboardStats?.weeklyProfit || 0)}</p>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="text-center">
-                <p className="text-sm text-gray-600">Pendapatan</p>
+                <p className="text-sm text-muted-foreground">Pendapatan</p>
                 <p className="font-semibold text-green-600">{formatCurrency(dashboardStats?.weeklyIncome || 0)}</p>
               </div>
               <div className="text-center">
-                <p className="text-sm text-gray-600">Pengeluaran</p>
+                <p className="text-sm text-muted-foreground">Pengeluaran</p>
                 <p className="font-semibold text-red-600">{formatCurrency(dashboardStats?.weeklyExpenses || 0)}</p>
               </div>
             </div>

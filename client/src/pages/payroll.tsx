@@ -730,8 +730,8 @@ export default function Payroll() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Manajemen Payroll</h1>
-          <p className="text-gray-600 mt-1">Kelola penggajian karyawan dan tunjangan</p>
+          <h1 className="text-3xl font-bold text-foreground">Manajemen Payroll</h1>
+          <p className="text-muted-foreground mt-1">Kelola penggajian karyawan dan tunjangan</p>
         </div>
         <div className="flex gap-3">
           <Button 
@@ -803,8 +803,8 @@ export default function Payroll() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Total Karyawan</p>
-                <p className="text-2xl font-bold text-gray-900">{payrollSummary.totalEmployees}</p>
+                <p className="text-sm font-medium text-muted-foreground">Total Karyawan</p>
+                <p className="text-2xl font-bold text-foreground">{payrollSummary.totalEmployees}</p>
               </div>
               <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
                 <Users className="h-6 w-6 text-blue-600" />
@@ -817,8 +817,8 @@ export default function Payroll() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Total Payroll</p>
-                <p className="text-2xl font-bold text-gray-900">{formatCurrency(payrollSummary.totalPayroll)}</p>
+                <p className="text-sm font-medium text-muted-foreground">Total Payroll</p>
+                <p className="text-2xl font-bold text-foreground">{formatCurrency(payrollSummary.totalPayroll)}</p>
               </div>
               <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
                 <DollarSign className="h-6 w-6 text-green-600" />
@@ -831,7 +831,7 @@ export default function Payroll() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Pembayaran Pending</p>
+                <p className="text-sm font-medium text-muted-foreground">Pembayaran Pending</p>
                 <p className="text-2xl font-bold text-yellow-600">{payrollSummary.pendingPayments}</p>
               </div>
               <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center">
@@ -845,7 +845,7 @@ export default function Payroll() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Sudah Dibayar</p>
+                <p className="text-sm font-medium text-muted-foreground">Sudah Dibayar</p>
                 <p className="text-2xl font-bold text-green-600">{payrollSummary.paidPayments}</p>
               </div>
               <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
@@ -880,45 +880,45 @@ export default function Payroll() {
             <table className="w-full">
               <thead>
                 <tr className="border-b">
-                  <th className="text-left p-3 font-medium text-gray-900">Karyawan</th>
-                  <th className="text-left p-3 font-medium text-gray-900">Posisi</th>
-                  <th className="text-left p-3 font-medium text-gray-900">Outlet</th>
-                  <th className="text-right p-3 font-medium text-gray-900">Gaji Pokok</th>
-                  <th className="text-right p-3 font-medium text-gray-900">Bonus</th>
-                  <th className="text-right p-3 font-medium text-gray-900">Potongan</th>
-                  <th className="text-right p-3 font-medium text-gray-900">Total</th>
-                  <th className="text-center p-3 font-medium text-gray-900">Status</th>
-                  <th className="text-center p-3 font-medium text-gray-900">Tanggal Bayar</th>
-                  <th className="text-center p-3 font-medium text-gray-900">Aksi</th>
+                  <th className="text-left p-3 font-medium text-foreground">Karyawan</th>
+                  <th className="text-left p-3 font-medium text-foreground">Posisi</th>
+                  <th className="text-left p-3 font-medium text-foreground">Outlet</th>
+                  <th className="text-right p-3 font-medium text-foreground">Gaji Pokok</th>
+                  <th className="text-right p-3 font-medium text-foreground">Bonus</th>
+                  <th className="text-right p-3 font-medium text-foreground">Potongan</th>
+                  <th className="text-right p-3 font-medium text-foreground">Total</th>
+                  <th className="text-center p-3 font-medium text-foreground">Status</th>
+                  <th className="text-center p-3 font-medium text-foreground">Tanggal Bayar</th>
+                  <th className="text-center p-3 font-medium text-foreground">Aksi</th>
                 </tr>
               </thead>
               <tbody>
                 {isLoadingPayroll ? (
                   <tr>
-                    <td colSpan={10} className="p-8 text-center text-gray-500">
+                    <td colSpan={10} className="p-8 text-center text-muted-foreground">
                       Loading payroll data...
                     </td>
                   </tr>
                 ) : filteredPayrollData.length === 0 ? (
                   <tr>
-                    <td colSpan={10} className="p-8 text-center text-gray-500">
+                    <td colSpan={10} className="p-8 text-center text-muted-foreground">
                       {searchTerm || filterPosition ? "Tidak ada data yang sesuai dengan filter" : "Belum ada data payroll untuk periode ini"}
                     </td>
                   </tr>
                 ) : (
                   filteredPayrollData.map((payroll: any) => (
-                    <tr key={payroll.id} className="border-b hover:bg-gray-50">
+                    <tr key={payroll.id} className="border-b hover:bg-background">
                       <td className="p-3">
-                        <div className="font-medium text-gray-900">{payroll.employeeName}</div>
+                        <div className="font-medium text-foreground">{payroll.employeeName}</div>
                       </td>
-                      <td className="p-3 text-gray-600">{payroll.position}</td>
-                      <td className="p-3 text-gray-600">{payroll.outletName}</td>
-                      <td className="p-3 text-right text-gray-900">{formatCurrency(payroll.baseSalary)}</td>
+                      <td className="p-3 text-muted-foreground">{payroll.position}</td>
+                      <td className="p-3 text-muted-foreground">{payroll.outletName}</td>
+                      <td className="p-3 text-right text-foreground">{formatCurrency(payroll.baseSalary)}</td>
                       <td className="p-3 text-right text-green-600">{formatCurrency(payroll.bonus)}</td>
                       <td className="p-3 text-right text-red-600">{formatCurrency(payroll.deduction)}</td>
-                      <td className="p-3 text-right font-semibold text-gray-900">{formatCurrency(payroll.totalAmount)}</td>
+                      <td className="p-3 text-right font-semibold text-foreground">{formatCurrency(payroll.totalAmount)}</td>
                       <td className="p-3 text-center">{getStatusBadge(payroll.status)}</td>
-                      <td className="p-3 text-center text-gray-600">
+                      <td className="p-3 text-center text-muted-foreground">
                         {payroll.payDate ? formatDate(payroll.payDate) : '-'}
                       </td>
                       <td className="p-3 text-center">
@@ -984,15 +984,15 @@ export default function Payroll() {
           <div className="space-y-3">
             <div className="flex items-center justify-between p-3 bg-yellow-50 rounded-lg">
               <div>
-                <p className="font-medium text-gray-900">Payroll Juli 2024</p>
-                <p className="text-sm text-gray-600">Deadline pembayaran: 31 Juli 2024</p>
+                <p className="font-medium text-foreground">Payroll Juli 2024</p>
+                <p className="text-sm text-muted-foreground">Deadline pembayaran: 31 Juli 2024</p>
               </div>
               <Badge variant="outline" className="bg-yellow-100 text-yellow-800">7 hari lagi</Badge>
             </div>
             <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
               <div>
-                <p className="font-medium text-gray-900">Review Bonus Karyawan</p>
-                <p className="text-sm text-gray-600">Evaluasi bonus berdasarkan performa</p>
+                <p className="font-medium text-foreground">Review Bonus Karyawan</p>
+                <p className="text-sm text-muted-foreground">Evaluasi bonus berdasarkan performa</p>
               </div>
               <Badge variant="outline" className="bg-blue-100 text-blue-800">14 hari lagi</Badge>
             </div>
@@ -1125,25 +1125,25 @@ export default function Payroll() {
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label className="font-league text-gray-600">Nama Karyawan</Label>
+                  <Label className="font-league text-muted-foreground">Nama Karyawan</Label>
                   <p className="font-medium">{selectedPayroll.employeeName}</p>
                 </div>
                 <div>
-                  <Label className="font-league text-gray-600">Posisi</Label>
+                  <Label className="font-league text-muted-foreground">Posisi</Label>
                   <p className="font-medium">{selectedPayroll.position}</p>
                 </div>
                 <div>
-                  <Label className="font-league text-gray-600">Outlet</Label>
+                  <Label className="font-league text-muted-foreground">Outlet</Label>
                   <p className="font-medium">{selectedPayroll.outletName}</p>
                 </div>
                 <div>
-                  <Label className="font-league text-gray-600">Periode</Label>
+                  <Label className="font-league text-muted-foreground">Periode</Label>
                   <p className="font-medium">{selectedPayroll.payPeriod}</p>
                 </div>
               </div>
 
               <div className="border-t pt-4">
-                <Label className="font-league text-gray-600 mb-3 block">Rincian Gaji</Label>
+                <Label className="font-league text-muted-foreground mb-3 block">Rincian Gaji</Label>
                 <div className="space-y-2">
                   <div className="flex justify-between">
                     <span>Gaji Pokok:</span>
@@ -1165,11 +1165,11 @@ export default function Payroll() {
               </div>
 
               <div className="border-t pt-4">
-                <Label className="font-league text-gray-600">Status Pembayaran</Label>
+                <Label className="font-league text-muted-foreground">Status Pembayaran</Label>
                 <div className="flex items-center justify-between mt-2">
                   {getStatusBadge(selectedPayroll.status)}
                   {selectedPayroll.payDate && (
-                    <span className="text-sm text-gray-500">
+                    <span className="text-sm text-muted-foreground">
                       Dibayar: {formatDate(selectedPayroll.payDate)}
                     </span>
                   )}
@@ -1178,7 +1178,7 @@ export default function Payroll() {
 
               {selectedPayroll.notes && (
                 <div className="border-t pt-4">
-                  <Label className="font-league text-gray-600">Catatan</Label>
+                  <Label className="font-league text-muted-foreground">Catatan</Label>
                   <p className="text-sm text-gray-700 mt-1">{selectedPayroll.notes}</p>
                 </div>
               )}
@@ -1341,7 +1341,7 @@ export default function Payroll() {
                     value={employeeFormData.name}
                     onChange={(e) => setEmployeeFormData(prev => ({...prev, name: e.target.value}))}
                     disabled={!isEditingEmployee}
-                    className={!isEditingEmployee ? 'bg-gray-50' : ''}
+                    className={!isEditingEmployee ? 'bg-background' : ''}
                   />
                 </div>
                 <div>
@@ -1351,7 +1351,7 @@ export default function Payroll() {
                     value={employeeFormData.position}
                     onChange={(e) => setEmployeeFormData(prev => ({...prev, position: e.target.value}))}
                     disabled={!isEditingEmployee}
-                    className={!isEditingEmployee ? 'bg-gray-50' : ''}
+                    className={!isEditingEmployee ? 'bg-background' : ''}
                   />
                 </div>
                 <div>
@@ -1362,7 +1362,7 @@ export default function Payroll() {
                     value={employeeFormData.email}
                     onChange={(e) => setEmployeeFormData(prev => ({...prev, email: e.target.value}))}
                     disabled={!isEditingEmployee}
-                    className={!isEditingEmployee ? 'bg-gray-50' : ''}
+                    className={!isEditingEmployee ? 'bg-background' : ''}
                   />
                 </div>
                 <div>
@@ -1372,7 +1372,7 @@ export default function Payroll() {
                     value={employeeFormData.phone}
                     onChange={(e) => setEmployeeFormData(prev => ({...prev, phone: e.target.value}))}
                     disabled={!isEditingEmployee}
-                    className={!isEditingEmployee ? 'bg-gray-50' : ''}
+                    className={!isEditingEmployee ? 'bg-background' : ''}
                   />
                 </div>
                 <div>
@@ -1383,7 +1383,7 @@ export default function Payroll() {
                     value={employeeFormData.baseSalary}
                     onChange={(e) => setEmployeeFormData(prev => ({...prev, baseSalary: e.target.value}))}
                     disabled={!isEditingEmployee}
-                    className={!isEditingEmployee ? 'bg-gray-50' : ''}
+                    className={!isEditingEmployee ? 'bg-background' : ''}
                   />
                 </div>
                 <div>
@@ -1393,7 +1393,7 @@ export default function Payroll() {
                     onValueChange={(value) => setEmployeeFormData(prev => ({...prev, outletId: value}))}
                     disabled={!isEditingEmployee}
                   >
-                    <SelectTrigger className={!isEditingEmployee ? 'bg-gray-50' : ''}>
+                    <SelectTrigger className={!isEditingEmployee ? 'bg-background' : ''}>
                       <SelectValue placeholder="Pilih outlet" />
                     </SelectTrigger>
                     <SelectContent>
@@ -1444,7 +1444,7 @@ export default function Payroll() {
           
           <div className="flex-1 space-y-4 overflow-hidden min-h-0">
             {/* Search and Filter Controls */}
-            <div className="flex gap-4 p-4 bg-gray-50 rounded-lg flex-shrink-0">
+            <div className="flex gap-4 p-4 bg-background rounded-lg flex-shrink-0">
               <div className="flex-1">
                 <Input
                   placeholder="Cari nama atau email karyawan..."
@@ -1489,7 +1489,7 @@ export default function Payroll() {
             <div className="border rounded-lg overflow-hidden flex-1 min-h-0">
               <div className="overflow-y-auto h-full max-h-[40vh]">
                 <table className="w-full">
-                  <thead className="bg-gray-50 sticky top-0">
+                  <thead className="bg-background sticky top-0">
                     <tr>
                       <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Nama</th>
                       <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Jabatan</th>
@@ -1501,7 +1501,7 @@ export default function Payroll() {
                   <tbody className="divide-y divide-gray-200">
                     {filteredEmployees.length === 0 ? (
                       <tr>
-                        <td colSpan={5} className="px-4 py-8 text-center text-gray-500">
+                        <td colSpan={5} className="px-4 py-8 text-center text-muted-foreground">
                           {employeeSearchTerm || employeeFilterPosition 
                             ? "Tidak ada karyawan yang sesuai dengan filter" 
                             : "Belum ada data karyawan"}
@@ -1509,11 +1509,11 @@ export default function Payroll() {
                       </tr>
                     ) : (
                       filteredEmployees.map((employee: any) => (
-                        <tr key={employee.id} className="hover:bg-gray-50">
-                          <td className="px-4 py-3 text-sm text-gray-900">{employee.name}</td>
-                          <td className="px-4 py-3 text-sm text-gray-600">{employee.position}</td>
-                          <td className="px-4 py-3 text-sm text-gray-600">{employee.email || '-'}</td>
-                          <td className="px-4 py-3 text-sm text-gray-900">
+                        <tr key={employee.id} className="hover:bg-background">
+                          <td className="px-4 py-3 text-sm text-foreground">{employee.name}</td>
+                          <td className="px-4 py-3 text-sm text-muted-foreground">{employee.position}</td>
+                          <td className="px-4 py-3 text-sm text-muted-foreground">{employee.email || '-'}</td>
+                          <td className="px-4 py-3 text-sm text-foreground">
                             {formatCurrency(employee.baseSalary || 0)}
                           </td>
                           <td className="px-4 py-3 text-center">
@@ -1538,8 +1538,8 @@ export default function Payroll() {
             </div>
           </div>
           
-          <div className="flex justify-between items-center pt-4 pb-2 border-t bg-white flex-shrink-0">
-            <div className="text-sm text-gray-600">
+          <div className="flex justify-between items-center pt-4 pb-2 border-t bg-card flex-shrink-0">
+            <div className="text-sm text-muted-foreground">
               Menampilkan {filteredEmployees.length} dari {employees?.length || 0} karyawan
             </div>
             <div className="flex gap-3">

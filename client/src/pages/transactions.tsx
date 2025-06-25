@@ -177,13 +177,13 @@ export default function Transactions() {
   const totalPages = Math.ceil((transactionsData?.total || 0) / filters.limit);
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-6 space-y-6 bg-background text-foreground min-h-screen">
       {/* Enhanced Header for UMKM */}
       <div className="card-base">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">Manajemen Transaksi</h2>
-            <p className="text-gray-600 dark:text-gray-400">Kelola semua transaksi keuangan usaha Anda dengan mudah</p>
+            <h2 className="text-lg font-semibold text-foreground dark:text-white mb-1">Manajemen Transaksi</h2>
+            <p className="text-muted-foreground dark:text-gray-400">Kelola semua transaksi keuangan usaha Anda dengan mudah</p>
             
             {/* Outlet Filter Indicator */}
             {outletFilter && (
@@ -200,7 +200,7 @@ export default function Transactions() {
                     setFilters(prev => ({ ...prev, outletId: "" }));
                     window.history.replaceState({}, '', '/transactions');
                   }}
-                  className="h-6 w-6 p-0 text-gray-400 hover:text-gray-600"
+                  className="h-6 w-6 p-0 text-gray-400 hover:text-muted-foreground"
                 >
                   <X className="h-3 w-3" />
                 </Button>
@@ -232,7 +232,7 @@ export default function Transactions() {
             {/* Export Data */}
             <Button 
               variant="outline"
-              className="flex items-center space-x-2 border-gray-300 text-gray-700 hover:bg-gray-50"
+              className="flex items-center space-x-2 border-gray-300 text-gray-700 hover:bg-background"
             >
               <Download className="h-4 w-4" />
               <span>Export</span>
@@ -242,7 +242,7 @@ export default function Transactions() {
             <Button 
               variant="ghost"
               onClick={() => setShowFilters(!showFilters)}
-              className={`flex items-center space-x-2 ${showFilters ? 'bg-gray-100' : ''}`}
+              className={`flex items-center space-x-2 ${showFilters ? 'bg-muted' : ''}`}
             >
               <Filter className="h-4 w-4" />
               <span>Filter</span>
@@ -257,32 +257,32 @@ export default function Transactions() {
           <div className="w-12 h-12 bg-[#f29716] rounded-xl flex items-center justify-center mx-auto mb-3">
             <Receipt className="h-6 w-6 text-white" />
           </div>
-          <p className="font-semibold text-gray-900 dark:text-white">Scan Struk</p>
-          <p className="text-xs text-gray-600 dark:text-gray-400">Upload foto struk</p>
+          <p className="font-semibold text-foreground dark:text-white">Scan Struk</p>
+          <p className="text-xs text-muted-foreground dark:text-gray-400">Upload foto struk</p>
         </div>
         
         <div className="card-base hover-lift cursor-pointer text-center p-4" onClick={() => setShowAddTransaction(true)}>
           <div className="w-12 h-12 bg-[#04474f] rounded-xl flex items-center justify-center mx-auto mb-3">
             <Plus className="h-6 w-6 text-white" />
           </div>
-          <p className="font-semibold text-gray-900 dark:text-white">Input Manual</p>
-          <p className="text-xs text-gray-600 dark:text-gray-400">Tambah transaksi</p>
+          <p className="font-semibold text-foreground dark:text-white">Input Manual</p>
+          <p className="text-xs text-muted-foreground dark:text-gray-400">Tambah transaksi</p>
         </div>
         
         <div className="card-base hover-lift cursor-pointer text-center p-4" onClick={() => setShowImportModal(true)}>
           <div className="w-12 h-12 bg-[#ffde32] rounded-xl flex items-center justify-center mx-auto mb-3">
             <FileSpreadsheet className="h-6 w-6 text-gray-800" />
           </div>
-          <p className="font-semibold text-gray-900 dark:text-white">Import Excel</p>
-          <p className="text-xs text-gray-600 dark:text-gray-400">Upload file CSV/Excel</p>
+          <p className="font-semibold text-foreground dark:text-white">Import Excel</p>
+          <p className="text-xs text-muted-foreground dark:text-gray-400">Upload file CSV/Excel</p>
         </div>
         
         <div className="card-base hover-lift cursor-pointer text-center p-4">
           <div className="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center mx-auto mb-3">
             <Download className="h-6 w-6 text-white" />
           </div>
-          <p className="font-semibold text-gray-900 dark:text-white">Export Data</p>
-          <p className="text-xs text-gray-600 dark:text-gray-400">Download laporan</p>
+          <p className="font-semibold text-foreground dark:text-white">Export Data</p>
+          <p className="text-xs text-muted-foreground dark:text-gray-400">Download laporan</p>
         </div>
       </div>
 
@@ -291,7 +291,7 @@ export default function Transactions() {
         <Card>
           <CardContent className="p-6">
             <div className="mb-4">
-              <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-3">Filter Transaksi</h3>
+              <h3 className="text-sm font-medium text-foreground dark:text-white mb-3">Filter Transaksi</h3>
             </div>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
             <div>
@@ -387,7 +387,7 @@ export default function Transactions() {
                   .reduce((sum: number, t: any) => sum + parseFloat(t.amount), 0)
               )}
             </div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Total Pemasukan</p>
+            <p className="text-sm text-muted-foreground dark:text-gray-400">Total Pemasukan</p>
           </div>
           
           <div className="card-base text-center">
@@ -398,7 +398,7 @@ export default function Transactions() {
                   .reduce((sum: number, t: any) => sum + parseFloat(t.amount), 0)
               )}
             </div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Total Pengeluaran</p>
+            <p className="text-sm text-muted-foreground dark:text-gray-400">Total Pengeluaran</p>
           </div>
           
           <div className="card-base text-center">
@@ -409,7 +409,7 @@ export default function Transactions() {
                 }, 0)
               )}
             </div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Saldo Bersih</p>
+            <p className="text-sm text-muted-foreground dark:text-gray-400">Saldo Bersih</p>
           </div>
         </div>
       )}
@@ -423,7 +423,7 @@ export default function Transactions() {
             </div>
           ) : transactionsData?.transactions?.length === 0 ? (
             <div className="text-center py-12">
-              <p className="text-gray-500 dark:text-gray-400 mb-4">Tidak ada transaksi ditemukan</p>
+              <p className="text-muted-foreground dark:text-gray-400 mb-4">Tidak ada transaksi ditemukan</p>
               <Button onClick={() => setShowAddTransaction(true)}>
                 <Plus className="h-4 w-4 mr-2" />
                 Tambah Transaksi Pertama
@@ -432,43 +432,43 @@ export default function Transactions() {
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+                <thead className="bg-background dark:bg-gray-900 border-b border-border dark:border-gray-700">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground dark:text-gray-400 uppercase tracking-wider">
                       Tanggal
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground dark:text-gray-400 uppercase tracking-wider">
                       Deskripsi
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground dark:text-gray-400 uppercase tracking-wider">
                       Kategori
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground dark:text-gray-400 uppercase tracking-wider">
                       Outlet
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground dark:text-gray-400 uppercase tracking-wider">
                       Jenis
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground dark:text-gray-400 uppercase tracking-wider">
                       Jumlah
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground dark:text-gray-400 uppercase tracking-wider">
                       Aksi
                     </th>
                   </tr>
                 </thead>
-                <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                <tbody className="bg-card dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                   {transactionsData?.transactions?.map((transaction: any) => (
-                    <tr key={transaction.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                    <tr key={transaction.id} className="hover:bg-background dark:hover:bg-gray-700">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground dark:text-white">
                         {formatDate(transaction.date)}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-gray-900 dark:text-white">
+                        <div className="text-sm font-medium text-foreground dark:text-white">
                           {transaction.description}
                         </div>
                         {transaction.notes && (
-                          <div className="text-sm text-gray-500 dark:text-gray-400">
+                          <div className="text-sm text-muted-foreground dark:text-gray-400">
                             {transaction.notes}
                           </div>
                         )}
@@ -481,11 +481,11 @@ export default function Transactions() {
                       <td className="px-6 py-4 whitespace-nowrap">
                         {transaction.outlet ? (
                           <div className="flex items-center space-x-1">
-                            <Building2 className="h-3 w-3 text-gray-400 dark:text-gray-500" />
-                            <span className="text-sm text-gray-600 dark:text-gray-300">{transaction.outlet.name}</span>
+                            <Building2 className="h-3 w-3 text-gray-400 dark:text-muted-foreground" />
+                            <span className="text-sm text-muted-foreground dark:text-gray-300">{transaction.outlet.name}</span>
                           </div>
                         ) : (
-                          <span className="text-sm text-gray-400 dark:text-gray-500">Pusat</span>
+                          <span className="text-sm text-gray-400 dark:text-muted-foreground">Pusat</span>
                         )}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
@@ -499,7 +499,7 @@ export default function Transactions() {
                         {transaction.type === 'income' ? '+' : '-'}
                         {formatCurrency(parseFloat(transaction.amount))}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-muted-foreground dark:text-gray-400">
                         <div className="flex items-center space-x-2">
                           <Button 
                             variant="ghost" 
@@ -527,7 +527,7 @@ export default function Transactions() {
 
           {/* Pagination */}
           {transactionsData?.total > 0 && (
-            <div className="bg-white px-4 py-3 border-t border-gray-200 sm:px-6">
+            <div className="bg-card px-4 py-3 border-t border-border sm:px-6">
               <div className="flex justify-between items-center">
                 <div className="text-sm text-gray-700">
                   Menampilkan {((filters.page - 1) * filters.limit) + 1} sampai{' '}
