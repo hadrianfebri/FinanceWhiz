@@ -91,7 +91,6 @@ export default function Landing() {
           <div className="particle particle-6"></div>
         </div>
       </div>
-
       {/* Header */}
       <header className="container mx-auto px-4 py-6 relative z-10">
         <nav className="flex items-center justify-between">
@@ -430,7 +429,7 @@ export default function Landing() {
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Shield className="h-8 w-8 text-green-600" />
               </div>
-              <h4 className="font-semibold mb-2 font-league">Keamanan Bank-Grade</h4>
+              <h4 className="font-semibold mb-2 font-league text-[#f29716]">Keamanan Bank-Grade</h4>
               <p className="text-sm text-gray-600">Enkripsi SSL 256-bit & compliance GDPR</p>
             </div>
             <div className="text-center">
