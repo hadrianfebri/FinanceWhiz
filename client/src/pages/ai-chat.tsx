@@ -283,7 +283,7 @@ export default function AIChat() {
                     <div className={`p-2 rounded-full ${
                       message.type === 'user' 
                         ? 'bg-orange-500 text-white' 
-                        : 'bg-muted text-gray-700'
+                        : 'bg-muted text-gray-700 dark:text-[#fafafa]'
                     }`}>
                       {message.type === 'user' ? (
                         <User className="h-4 w-4" />
