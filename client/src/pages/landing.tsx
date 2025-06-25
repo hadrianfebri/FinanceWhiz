@@ -147,7 +147,7 @@ export default function Landing() {
               </Button>
             </Link>
             <Link href="/login">
-              <Button variant="outline" className="px-8 py-4 text-lg bg-card border-[#04474f] text-[#04474f] hover:bg-[#04474f] hover:text-white">
+              <Button variant="outline" className="px-8 py-4 text-lg bg-card border-[#04474f] text-[#04474f] dark:text-[#fafafa] dark:border-[#fafafa] hover:bg-[#04474f] hover:text-white dark:hover:bg-[#fafafa] dark:hover:text-[#04474f]">
                 Sudah Punya Akun?
               </Button>
             </Link>
@@ -377,7 +377,7 @@ export default function Landing() {
               </ul>
               
               <Link href="/register">
-                <Button variant="outline" className="w-full px-4 py-2 bg-card border-[#04474f] text-[#04474f] hover:bg-[#04474f] hover:text-white">Pilih Professional</Button>
+                <Button variant="outline" className="w-full px-4 py-2 bg-card border-[#04474f] text-[#04474f] dark:text-[#fafafa] dark:border-[#fafafa] hover:bg-[#04474f] hover:text-white dark:hover:bg-[#fafafa] dark:hover:text-[#04474f]">Pilih Professional</Button>
               </Link>
             </div>
           </div>
