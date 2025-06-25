@@ -172,8 +172,8 @@ export default function Landing() {
             <div className="w-16 h-16 bg-[#f29716]/10 rounded-full flex items-center justify-center mx-auto mb-4">
               <TrendingUp className="h-8 w-8 text-[#f29716]" />
             </div>
-            <h3 className="text-xl font-semibold mb-2">Dashboard Interaktif</h3>
-            <p className="text-[#04474f]">
+            <h3 className="text-xl font-semibold mb-2 font-league">Dashboard Interaktif</h3>
+            <p className="text-[#04474f] font-league">
               Pantau kesehatan keuangan bisnis Anda dengan dashboard yang mudah dipahami
             </p>
           </div>
@@ -198,41 +198,35 @@ export default function Landing() {
             </p>
           </div>
 
-          <Card className="bg-gray-100 text-center p-6">
-            <CardContent className="pt-6">
-              <div className="w-16 h-16 bg-[#f29716]/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <BarChart3 className="h-8 w-8 text-[#f29716]" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">AI Insights</h3>
-              <p className="text-[#04474f]">
-                Dapatkan insight cerdas dan rekomendasi untuk mengoptimalkan keuangan
-              </p>
-            </CardContent>
-          </Card>
+          <div className="bg-gray-100 rounded-xl p-6 shadow-md hover-lift text-center">
+            <div className="w-16 h-16 bg-[#f29716]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <BarChart3 className="h-8 w-8 text-[#f29716]" />
+            </div>
+            <h3 className="text-xl font-semibold mb-2 font-league">AI Insights</h3>
+            <p className="text-[#04474f] font-league">
+              Dapatkan insight cerdas dan rekomendasi untuk mengoptimalkan keuangan
+            </p>
+          </div>
 
-          <Card className="bg-gray-100 text-center p-6">
-            <CardContent className="pt-6">
-              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Shield className="h-8 w-8 text-primary" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Keamanan Terjamin</h3>
-              <p className="text-[#04474f]">
-                Data keuangan Anda aman dengan enkripsi tingkat bank
-              </p>
-            </CardContent>
-          </Card>
+          <div className="bg-gray-100 rounded-xl p-6 shadow-md hover-lift text-center">
+            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Shield className="h-8 w-8 text-primary" />
+            </div>
+            <h3 className="text-xl font-semibold mb-2 font-league">Keamanan Terjamin</h3>
+            <p className="text-[#04474f] font-league">
+              Data keuangan Anda aman dengan enkripsi tingkat bank
+            </p>
+          </div>
 
-          <Card className="bg-gray-100 text-center p-6">
-            <CardContent className="pt-6">
-              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Users className="h-8 w-8 text-primary" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Support 24/7</h3>
-              <p className="text-[#04474f]">
-                Tim support siap membantu Anda kapan saja melalui berbagai channel
-              </p>
-            </CardContent>
-          </Card>
+          <div className="bg-gray-100 rounded-xl p-6 shadow-md hover-lift text-center">
+            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Users className="h-8 w-8 text-primary" />
+            </div>
+            <h3 className="text-xl font-semibold mb-2 font-league">Support 24/7</h3>
+            <p className="text-[#04474f] font-league">
+              Tim support siap membantu Anda kapan saja melalui berbagai channel
+            </p>
+          </div>
         </div>
       </section>
       {/* Pricing Section */}
