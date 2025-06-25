@@ -168,13 +168,13 @@ export default function Landing() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-[#04474f]">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-[#04474f] dark:text-[#fafafa]">
           <div className="bg-muted rounded-xl p-6 shadow-md hover-lift text-center">
             <div className="w-16 h-16 bg-[#f29716]/10 rounded-full flex items-center justify-center mx-auto mb-4">
               <TrendingUp className="h-8 w-8 text-[#f29716]" />
             </div>
             <h3 className="text-xl font-semibold mb-2 font-league">Dashboard Interaktif</h3>
-            <p className="text-[#04474f] font-league">
+            <p className="text-[#04474f] dark:text-[#fafafa] font-league">
               Pantau kesehatan keuangan bisnis Anda dengan dashboard yang mudah dipahami
             </p>
           </div>
@@ -184,7 +184,7 @@ export default function Landing() {
               <Smartphone className="h-8 w-8 text-[#04474f]" />
             </div>
             <h3 className="text-xl font-semibold mb-2 font-league">Pencatatan Mudah</h3>
-            <p className="text-[#04474f] font-league">
+            <p className="text-[#04474f] dark:text-[#fafafa] font-league">
               Catat transaksi dengan cepat, bahkan bisa upload foto struk untuk auto-fill
             </p>
           </div>
@@ -194,7 +194,7 @@ export default function Landing() {
               <FileText className="h-8 w-8 text-[#f29716]" />
             </div>
             <h3 className="text-xl font-semibold mb-2 font-league">Laporan Otomatis</h3>
-            <p className="text-[#04474f] font-league">
+            <p className="text-[#04474f] dark:text-[#fafafa] font-league">
               Generate laporan keuangan profesional dengan sekali klik
             </p>
           </div>
@@ -204,7 +204,7 @@ export default function Landing() {
               <BarChart3 className="h-8 w-8 text-[#f29716]" />
             </div>
             <h3 className="text-xl font-semibold mb-2 font-league">AI Insights</h3>
-            <p className="text-[#04474f] font-league">
+            <p className="text-[#04474f] dark:text-[#fafafa] font-league">
               Dapatkan insight cerdas dan rekomendasi untuk mengoptimalkan keuangan
             </p>
           </div>
@@ -214,7 +214,7 @@ export default function Landing() {
               <Shield className="h-8 w-8 text-primary" />
             </div>
             <h3 className="text-xl font-semibold mb-2 font-league">Keamanan Terjamin</h3>
-            <p className="text-[#04474f] font-league">
+            <p className="text-[#04474f] dark:text-[#fafafa] font-league">
               Data keuangan Anda aman dengan enkripsi tingkat bank
             </p>
           </div>
@@ -224,7 +224,7 @@ export default function Landing() {
               <Users className="h-8 w-8 text-primary" />
             </div>
             <h3 className="text-xl font-semibold mb-2 font-league">Support 24/7</h3>
-            <p className="text-[#04474f] font-league">
+            <p className="text-[#04474f] dark:text-[#fafafa] font-league">
               Tim support siap membantu Anda kapan saja melalui berbagai channel
             </p>
           </div>
