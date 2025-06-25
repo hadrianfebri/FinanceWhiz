@@ -443,7 +443,7 @@ export default function Landing() {
               <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <BarChart3 className="h-8 w-8 text-purple-600" />
               </div>
-              <h4 className="font-semibold mb-2 font-league">Real-time Analytics</h4>
+              <h4 className="font-semibold mb-2 font-league text-[#f29716]">Real-time Analytics</h4>
               <p className="text-sm text-gray-600">Dashboard dan insights real-time</p>
             </div>
           </div>
