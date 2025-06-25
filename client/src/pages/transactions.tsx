@@ -223,7 +223,7 @@ export default function Transactions() {
             <Button 
               variant="outline" 
               onClick={() => setShowImportModal(true)}
-              className="flex items-center space-x-2 border-[#04474f] text-[#04474f] hover:bg-[#04474f] hover:text-white"
+              className="flex items-center space-x-2 border-[#04474f] text-[#04474f] dark:text-[#ffde32] dark:border-[#ffde32] hover:bg-[#04474f] hover:text-white"
             >
               <Upload className="h-4 w-4" />
               <span>Import File</span>
