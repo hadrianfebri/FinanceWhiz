@@ -133,7 +133,7 @@ export default function Login() {
         </Form>
 
         <div className="mt-6 text-center">
-          <p className="text-sm text-gray-600 font-league">
+          <p className="text-sm font-league text-[#fafafa]">
             Belum punya akun?{" "}
             <Link href="/register" className="text-[#f29716] hover:underline font-medium">
               Daftar sekarang
