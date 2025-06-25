@@ -62,7 +62,7 @@ export default function Login() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#f29716]/5 via-[#ffde32]/5 to-[#04474f]/5 flex items-center justify-center p-4">
-      <div className="card-base w-full max-w-md">
+      <div className="card-base w-full max-w-md bg-[#04474f]">
         <div className="text-center space-y-4 mb-6">
           <div className="flex items-center justify-center">
             <img 
