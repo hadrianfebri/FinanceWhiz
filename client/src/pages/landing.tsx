@@ -55,8 +55,13 @@ export default function Landing() {
             </linearGradient>
           </defs>
           
-          {/* Background base */}
-          <rect width="100%" height="100%" fill="url(#wave-gradient-1)" />
+          {/* Abstract gradient background */}
+          <rect width="100%" height="100%" fill="url(#abstract-gradient)" />
+          
+          {/* Additional gradient overlays */}
+          <circle cx="200" cy="150" r="300" fill="url(#gradient-circle-1)" opacity="0.3" />
+          <circle cx="1000" cy="400" r="400" fill="url(#gradient-circle-2)" opacity="0.25" />
+          <ellipse cx="600" cy="600" rx="500" ry="200" fill="url(#gradient-ellipse)" opacity="0.2" />
           
           {/* Animated wave layers */}
           <path
