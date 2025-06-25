@@ -140,7 +140,7 @@
   animation: fadeIn 0.3s ease-in-out;
 }
 
-/* Liquid Aurora Background Animation */
+/* Wave-like Aurora Background Animation */
 .aurora-background {
   position: fixed;
   top: 0;
@@ -148,101 +148,103 @@
   width: 100%;
   height: 100%;
   background: 
-    radial-gradient(ellipse 80% 50% at 20% 30%, rgba(242, 151, 22, 0.15), transparent),
-    radial-gradient(ellipse 60% 40% at 80% 70%, rgba(255, 222, 50, 0.12), transparent),
-    radial-gradient(ellipse 100% 60% at 40% 20%, rgba(4, 71, 79, 0.08), transparent),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.98) 100%);
-  animation: liquid-morph 18s ease-in-out infinite;
-  z-index: 0;
+    radial-gradient(ellipse 120% 80% at 0% 50%, rgba(242, 151, 22, 0.12), transparent),
+    radial-gradient(ellipse 100% 60% at 100% 30%, rgba(255, 222, 50, 0.10), transparent),
+    radial-gradient(ellipse 80% 120% at 50% 100%, rgba(4, 71, 79, 0.06), transparent),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0.98) 100%);
+  animation: wave-flow 20s ease-in-out infinite;
+  z-index: -2;
 }
 
 .aurora-background::before {
   content: '';
   position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background: 
-    radial-gradient(circle at 25% 25%, rgba(242, 151, 22, 0.2) 0%, transparent 35%),
-    radial-gradient(circle at 75% 75%, rgba(255, 222, 50, 0.15) 0%, transparent 40%),
-    radial-gradient(circle at 50% 80%, rgba(4, 71, 79, 0.1) 0%, transparent 45%);
-  animation: liquid-float 25s ease-in-out infinite reverse;
-  filter: blur(60px);
-  border-radius: 50%;
+    linear-gradient(45deg, 
+      rgba(242, 151, 22, 0.08) 0%, 
+      rgba(255, 222, 50, 0.06) 25%,
+      rgba(4, 71, 79, 0.04) 50%,
+      rgba(242, 151, 22, 0.05) 75%,
+      rgba(255, 222, 50, 0.03) 100%
+    );
+  animation: wave-swirl 25s ease-in-out infinite;
+  filter: blur(50px);
   transform-origin: center center;
+  z-index: -1;
 }
 
 .aurora-background::after {
   content: '';
   position: absolute;
-  top: 10%;
-  left: 10%;
-  width: 80%;
-  height: 80%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background: 
-    radial-gradient(ellipse 120% 80% at 30% 60%, rgba(242, 151, 22, 0.08) 0%, transparent 50%),
-    radial-gradient(ellipse 90% 120% at 70% 40%, rgba(255, 222, 50, 0.06) 0%, transparent 50%),
-    radial-gradient(ellipse 100% 100% at 50% 50%, rgba(4, 71, 79, 0.04) 0%, transparent 60%);
-  animation: liquid-wave 20s ease-in-out infinite;
-  filter: blur(40px);
-  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    conic-gradient(from 0deg at 30% 70%, 
+      rgba(242, 151, 22, 0.06) 0deg,
+      rgba(255, 222, 50, 0.04) 90deg,
+      rgba(4, 71, 79, 0.03) 180deg,
+      rgba(242, 151, 22, 0.04) 270deg,
+      rgba(255, 222, 50, 0.05) 360deg
+    );
+  animation: wave-spiral 30s linear infinite;
+  filter: blur(80px);
+  transform-origin: 30% 70%;
+  z-index: -1;
 }
 
-@keyframes liquid-morph {
+@keyframes wave-flow {
   0%, 100% {
-    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-    transform: translate(0%, 0%) scale(1) rotate(0deg);
-  }
-  20% {
-    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
-    transform: translate(5%, 2%) scale(1.05) rotate(2deg);
-  }
-  40% {
-    border-radius: 70% 30% 40% 60% / 40% 70% 60% 30%;
-    transform: translate(-3%, 3%) scale(0.98) rotate(-1deg);
-  }
-  60% {
-    border-radius: 40% 70% 60% 30% / 70% 40% 30% 60%;
-    transform: translate(2%, -2%) scale(1.02) rotate(1deg);
-  }
-  80% {
-    border-radius: 50% 50% 50% 50% / 60% 40% 60% 40%;
-    transform: translate(-1%, 1%) scale(0.99) rotate(-0.5deg);
-  }
-}
-
-@keyframes liquid-float {
-  0%, 100% {
-    transform: translate(0%, 0%) scale(1) rotate(0deg);
-    border-radius: 50% 60% 70% 40% / 60% 40% 30% 70%;
+    transform: translateX(0%) skewX(0deg);
+    background-position: 0% 50%, 100% 30%, 50% 100%;
   }
   25% {
-    transform: translate(8%, -5%) scale(1.1) rotate(45deg);
-    border-radius: 40% 50% 60% 70% / 50% 70% 40% 60%;
+    transform: translateX(3%) skewX(2deg);
+    background-position: 25% 40%, 80% 60%, 30% 80%;
   }
   50% {
-    transform: translate(-5%, 8%) scale(0.9) rotate(90deg);
-    border-radius: 70% 40% 50% 60% / 40% 60% 70% 50%;
+    transform: translateX(-2%) skewX(-1deg);
+    background-position: 50% 60%, 60% 90%, 70% 60%;
   }
   75% {
-    transform: translate(3%, 3%) scale(1.05) rotate(135deg);
-    border-radius: 60% 70% 40% 50% / 70% 50% 60% 40%;
+    transform: translateX(1%) skewX(1deg);
+    background-position: 75% 30%, 40% 20%, 90% 40%;
   }
 }
 
-@keyframes liquid-wave {
+@keyframes wave-swirl {
   0%, 100% {
-    transform: scale(1) rotate(0deg);
-    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    transform: rotate(0deg) scaleX(1) scaleY(1);
+    background-position: 0% 0%;
   }
-  33% {
-    transform: scale(1.15) rotate(120deg);
-    border-radius: 30% 70% 60% 40% / 40% 60% 30% 70%;
+  25% {
+    transform: rotate(5deg) scaleX(1.05) scaleY(0.95);
+    background-position: 25% 25%;
   }
-  66% {
-    transform: scale(0.85) rotate(240deg);
-    border-radius: 70% 30% 40% 60% / 70% 40% 60% 30%;
+  50% {
+    transform: rotate(-3deg) scaleX(0.95) scaleY(1.05);
+    background-position: 50% 50%;
+  }
+  75% {
+    transform: rotate(2deg) scaleX(1.02) scaleY(0.98);
+    background-position: 75% 75%;
+  }
+}
+
+@keyframes wave-spiral {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.1);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
   }
 }
 
@@ -254,14 +256,14 @@
   width: 100%;
   height: 100%;
   pointer-events: none;
-  z-index: 1;
+  z-index: -1;
 }
 
 .orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(1px);
-  opacity: 0.4;
+  filter: blur(2px);
+  opacity: 0.3;
 }
 
 .orb-1 {
@@ -293,58 +295,46 @@
 
 @keyframes float-1 {
   0%, 100% {
-    transform: translateX(0px) translateY(0px) scale(1);
-    border-radius: 50%;
+    transform: translateX(0px) translateY(0px) scale(1) rotate(0deg);
   }
   25% {
-    transform: translateX(50px) translateY(-30px) scale(1.1);
-    border-radius: 60% 40% 70% 30%;
+    transform: translateX(30px) translateY(sin(25%) * 20px) scale(1.1) rotate(90deg);
   }
   50% {
-    transform: translateX(-30px) translateY(40px) scale(0.9);
-    border-radius: 40% 60% 30% 70%;
+    transform: translateX(-20px) translateY(sin(50%) * 30px) scale(0.9) rotate(180deg);
   }
   75% {
-    transform: translateX(20px) translateY(-20px) scale(1.05);
-    border-radius: 70% 30% 50% 50%;
+    transform: translateX(15px) translateY(sin(75%) * 15px) scale(1.05) rotate(270deg);
   }
 }
 
 @keyframes float-2 {
   0%, 100% {
-    transform: translateX(0px) translateY(0px) scale(1);
-    border-radius: 50%;
+    transform: translateX(0px) translateY(0px) scale(1) rotate(0deg);
   }
   33% {
-    transform: translateX(-40px) translateY(25px) scale(1.15);
-    border-radius: 30% 70% 60% 40%;
+    transform: translateX(-25px) translateY(cos(33%) * 25px) scale(1.15) rotate(120deg);
   }
   66% {
-    transform: translateX(35px) translateY(-35px) scale(0.85);
-    border-radius: 80% 20% 40% 60%;
+    transform: translateX(30px) translateY(cos(66%) * -30px) scale(0.85) rotate(240deg);
   }
 }
 
 @keyframes float-3 {
   0%, 100% {
-    transform: translateX(0px) translateY(0px) scale(1);
-    border-radius: 50%;
+    transform: translateX(0px) translateY(0px) scale(1) rotate(0deg);
   }
   20% {
-    transform: translateX(-25px) translateY(-40px) scale(1.2);
-    border-radius: 40% 60% 80% 20%;
+    transform: translateX(-15px) translateY(sin(20%) * -25px) scale(1.2) rotate(72deg);
   }
   40% {
-    transform: translateX(45px) translateY(20px) scale(0.8);
-    border-radius: 70% 30% 30% 70%;
+    transform: translateX(35px) translateY(sin(40%) * 20px) scale(0.8) rotate(144deg);
   }
   60% {
-    transform: translateX(-15px) translateY(35px) scale(1.1);
-    border-radius: 20% 80% 60% 40%;
+    transform: translateX(-10px) translateY(sin(60%) * 25px) scale(1.1) rotate(216deg);
   }
   80% {
-    transform: translateX(30px) translateY(-25px) scale(0.95);
-    border-radius: 60% 40% 20% 80%;
+    transform: translateX(20px) translateY(sin(80%) * -15px) scale(0.95) rotate(288deg);
   }
 }
 
