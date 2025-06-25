@@ -61,17 +61,7 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#f29716]/5 via-[#ffde32]/5 to-[#04474f]/5 flex items-center justify-center p-4" style={{
-      backgroundImage: `
-        repeating-linear-gradient(
-          45deg,
-          transparent,
-          transparent 35px,
-          rgba(4, 71, 79, 0.02) 35px,
-          rgba(4, 71, 79, 0.02) 70px
-        )
-      `
-    }}>
+    <div className="min-h-screen bg-gradient-to-br from-[#f29716]/5 via-[#ffde32]/5 to-[#04474f]/5 flex items-center justify-center p-4">
       <div className="card-base w-full max-w-md">
         <div className="text-center space-y-4 mb-6">
           <div className="flex items-center justify-center">
