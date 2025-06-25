@@ -106,7 +106,8 @@ export default function Landing() {
               <div className="text-xs text-muted-foreground font-league">AI-Powered Finance</div>
             </div>
           </div>
-          <div className="space-x-4">
+          <div className="flex items-center space-x-4">
+            <ThemeToggle />
             <Link href="/login">
               <Button variant="outline" className="px-6 py-2 bg-card border-[#f29716] text-[#f29716] hover:bg-[#f29716] hover:text-white">Masuk</Button>
             </Link>
