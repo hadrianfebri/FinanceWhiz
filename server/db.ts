@@ -11,10 +11,29 @@ if (!process.env.DATABASE_URL) {
   );
 }
 
+// Enhanced connection configuration for better reliability
 export const pool = new Pool({ 
   connectionString: process.env.DATABASE_URL,
-  max: 10,
-  idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 15000,
+  max: 20,
+  idleTimeoutMillis: 60000,
+  connectionTimeoutMillis: 30000,
 });
+
 export const db = drizzle({ client: pool, schema });
+
+// Test database connection and handle endpoint disabled errors
+export async function testConnection() {
+  try {
+    const client = await pool.connect();
+    console.log('Database connection successful');
+    client.release();
+    return true;
+  } catch (error: any) {
+    if (error.message?.includes('endpoint is disabled')) {
+      console.warn('Database endpoint is disabled. The database may need to be reactivated.');
+      return false;
+    }
+    console.error('Database connection error:', error);
+    return false;
+  }
+}
