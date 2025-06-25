@@ -6,21 +6,16 @@ import financewhizLogo from "@/assets/FINANCEWHIZ_COLOR.svg";
 
 export default function Landing() {
   return (
-    <div className="min-h-screen relative overflow-hidden" style={{
-      background: `
-        linear-gradient(135deg, 
-          rgba(255, 255, 255, 0.95) 0%,
-          rgba(242, 151, 22, 0.02) 25%,
-          rgba(255, 222, 50, 0.02) 50%,
-          rgba(4, 71, 79, 0.02) 75%,
-          rgba(255, 255, 255, 0.95) 100%
-        ),
-        radial-gradient(circle at 20% 80%, rgba(242, 151, 22, 0.03) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(255, 222, 50, 0.03) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(4, 71, 79, 0.02) 0%, transparent 50%)
-      `,
-      backdropFilter: 'blur(0.5px)',
-      animation: 'liquidGlass 8s ease-in-out infinite'
+    <div className="min-h-screen bg-gradient-to-br from-[#f29716]/5 via-[#ffde32]/5 to-[#04474f]/5" style={{
+      backgroundImage: `
+        repeating-linear-gradient(
+          45deg,
+          transparent,
+          transparent 35px,
+          rgba(4, 71, 79, 0.02) 35px,
+          rgba(4, 71, 79, 0.02) 70px
+        )
+      `
     }}>
       {/* Header */}
       <header className="container mx-auto px-4 py-6">
