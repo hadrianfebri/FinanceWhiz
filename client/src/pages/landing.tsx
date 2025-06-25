@@ -16,11 +16,33 @@ export default function Landing() {
           xmlns="http://www.w3.org/2000/svg"
         >
           <defs>
-            <linearGradient id="wave-gradient-1" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#f29716" stopOpacity="0.1" />
-              <stop offset="50%" stopColor="#ffde32" stopOpacity="0.15" />
-              <stop offset="100%" stopColor="#04474f" stopOpacity="0.1" />
+            {/* Abstract gradient definitions */}
+            <radialGradient id="abstract-gradient" cx="30%" cy="20%" r="120%">
+              <stop offset="0%" stopColor="#f29716" stopOpacity="0.08" />
+              <stop offset="25%" stopColor="#ffde32" stopOpacity="0.12" />
+              <stop offset="50%" stopColor="#04474f" stopOpacity="0.06" />
+              <stop offset="75%" stopColor="#f29716" stopOpacity="0.10" />
+              <stop offset="100%" stopColor="#ffde32" stopOpacity="0.05" />
+            </radialGradient>
+            
+            <radialGradient id="gradient-circle-1" cx="50%" cy="50%" r="100%">
+              <stop offset="0%" stopColor="#f29716" stopOpacity="0.15" />
+              <stop offset="70%" stopColor="#ffde32" stopOpacity="0.08" />
+              <stop offset="100%" stopColor="transparent" />
+            </radialGradient>
+            
+            <radialGradient id="gradient-circle-2" cx="50%" cy="50%" r="100%">
+              <stop offset="0%" stopColor="#04474f" stopOpacity="0.12" />
+              <stop offset="60%" stopColor="#f29716" stopOpacity="0.06" />
+              <stop offset="100%" stopColor="transparent" />
+            </radialGradient>
+            
+            <linearGradient id="gradient-ellipse" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#ffde32" stopOpacity="0.10" />
+              <stop offset="50%" stopColor="#04474f" stopOpacity="0.08" />
+              <stop offset="100%" stopColor="#f29716" stopOpacity="0.06" />
             </linearGradient>
+            
             <linearGradient id="wave-gradient-2" x1="100%" y1="0%" x2="0%" y2="100%">
               <stop offset="0%" stopColor="#04474f" stopOpacity="0.08" />
               <stop offset="50%" stopColor="#f29716" stopOpacity="0.12" />
@@ -49,7 +71,7 @@ export default function Landing() {
           />
           <path
             d="M0,600 C200,400 400,800 1200,500 L1200,800 L0,800 Z"
-            fill="url(#wave-gradient-1)"
+            fill="url(#gradient-ellipse)"
             className="animate-wave-fast"
           />
         </svg>
