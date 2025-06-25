@@ -606,7 +606,7 @@ export default function Landing() {
                 Mulai Trial Gratis 14 Hari
               </Button>
             </Link>
-            <Button variant="outline" className="px-8 py-4 text-lg border-white text-white hover:bg-card hover:text-[#f29716]">
+            <Button className="px-8 py-4 text-lg bg-[#f29716] text-white border border-[#f29716] hover:bg-[#f29716]/90 dark:bg-transparent dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-[#f29716]">
               Jadwalkan Demo
             </Button>
           </div>
