@@ -50,7 +50,7 @@ function AppContent() {
       <Navbar />
       <div className="flex">
         <Sidebar />
-        <main className="flex-1 overflow-x-hidden">
+        <main className="flex-1 overflow-x-hidden ml-64">
           <Switch>
             <Route path="/" component={Dashboard} />
             <Route path="/transactions" component={Transactions} />
