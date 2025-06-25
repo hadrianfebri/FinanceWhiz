@@ -108,7 +108,7 @@ export default function Landing() {
           </div>
           <div className="space-x-4">
             <Link href="/login">
-              <Button variant="outline" className="px-6 py-2 border-[#f29716] text-[#f29716] hover:bg-[#f29716] hover:text-white">Masuk</Button>
+              <Button variant="outline" className="px-6 py-2 bg-white border-[#f29716] text-[#f29716] hover:bg-[#f29716] hover:text-white">Masuk</Button>
             </Link>
             <Link href="/register">
               <Button className="px-6 py-2 bg-[#f29716] text-white hover:bg-[#f29716]/90">Daftar Gratis</Button>
