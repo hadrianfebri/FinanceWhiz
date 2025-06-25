@@ -380,7 +380,7 @@ export default function Landing() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <div className="mb-4">
-              <span className="badge-yellow font-league">Testimoni</span>
+              <span className="badge-yellow font-league bg-[#04474f] text-[#ffffff]">Testimoni</span>
             </div>
             <h2 className="text-3xl font-bold text-gray-900 mb-4 font-league">
               Dipercaya oleh UMKM di Seluruh Indonesia
