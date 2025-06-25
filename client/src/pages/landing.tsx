@@ -41,12 +41,11 @@ export default function Landing() {
           </div>
         </nav>
       </header>
-
       {/* Hero Section */}
       <section className="container mx-auto px-4 py-20 text-center">
         <div className="max-w-4xl mx-auto">
           <div className="mb-6">
-            <span className="badge-yellow font-league">Terpercaya oleh 1000+ UMKM</span>
+            <span className="badge-yellow font-league bg-[#04474f] text-[#ffff]">Terpercaya oleh 1000+ UMKM</span>
           </div>
           <h1 className="text-5xl font-bold text-gray-900 mb-6 font-league">
             Kelola Keuangan UMKM Anda dengan <span className="text-[#f29716]">AI Cerdas</span>
@@ -69,7 +68,6 @@ export default function Landing() {
           </div>
         </div>
       </section>
-
       {/* Features Section */}
       <section className="container mx-auto px-4 py-20">
         <div className="text-center mb-16">
@@ -152,7 +150,6 @@ export default function Landing() {
           </Card>
         </div>
       </section>
-
       {/* Pricing Section */}
       <section className="container mx-auto px-4 py-20">
         <div className="text-center mb-16">
@@ -378,7 +375,6 @@ export default function Landing() {
           </div>
         </div>
       </section>
-
       {/* Testimonials Section */}
       <section className="bg-gray-50 py-20">
         <div className="container mx-auto px-4">
@@ -457,7 +453,6 @@ export default function Landing() {
           </div>
         </div>
       </section>
-
       {/* FAQ Section */}
       <section className="container mx-auto px-4 py-20">
         <div className="text-center mb-16">
@@ -516,7 +511,6 @@ export default function Landing() {
           </div>
         </div>
       </section>
-
       {/* CTA Section */}
       <section className="bg-gradient-to-r from-[#f29716] to-[#ffde32] text-white py-20">
         <div className="container mx-auto px-4 text-center">
@@ -541,7 +535,6 @@ export default function Landing() {
           </p>
         </div>
       </section>
-
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-12">
         <div className="container mx-auto px-4">
