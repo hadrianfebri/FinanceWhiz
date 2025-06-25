@@ -91,20 +91,20 @@ export interface IStorage {
 }
 
 export class DatabaseStorage implements IStorage {
-  private async withRetry<T>(operation: () => Promise<T>, maxRetries = 3): Promise<T> {
+  private async withRetry<T>(operation: () => Promise<T>, maxRetries = 2): Promise<T> {
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
       try {
         return await operation();
       } catch (error: any) {
-        if (error.message?.includes('endpoint is disabled') && attempt < maxRetries) {
-          console.log(`Database endpoint disabled, retry ${attempt}/${maxRetries} in 2s...`);
-          await new Promise(resolve => setTimeout(resolve, 2000 * attempt));
+        if ((error.message?.includes('endpoint is disabled') || error.message?.includes('Connection terminated')) && attempt < maxRetries) {
+          console.log(`Database connection issue, retry ${attempt}/${maxRetries}...`);
+          await new Promise(resolve => setTimeout(resolve, 1000));
           continue;
         }
         throw error;
       }
     }
-    throw new Error('Max retries exceeded');
+    throw new Error('Database connection failed');
   }
 
   async getUserById(id: number): Promise<User | undefined> {

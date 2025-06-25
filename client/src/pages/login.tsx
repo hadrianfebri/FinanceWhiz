@@ -48,11 +48,19 @@ export default function Login() {
       }, 100);
     },
     onError: (error: Error) => {
-      toast({
-        title: "Login gagal",
-        description: error.message,
-        variant: "destructive",
-      });
+      if (error.message?.includes('temporarily unavailable')) {
+        toast({
+          title: "Database Loading",
+          description: "Database sedang aktif. Silakan tunggu 15 detik dan coba lagi.",
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Login gagal",
+          description: error.message || "Email atau password salah",
+          variant: "destructive",
+        });
+      }
     },
   });
 
