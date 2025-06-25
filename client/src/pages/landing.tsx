@@ -33,10 +33,10 @@ export default function Landing() {
           </div>
           <div className="space-x-4">
             <Link href="/login">
-              <Button variant="ghost" className="font-league border-[#f29716] text-[#f29716] hover:bg-[#f29716] hover:text-white">Masuk</Button>
+              <Button variant="outline" className="px-6 py-2 border-[#f29716] text-[#f29716] hover:bg-[#f29716] hover:text-white">Masuk</Button>
             </Link>
             <Link href="/register">
-              <button className="btn-orange">Daftar Gratis</button>
+              <Button className="px-6 py-2 bg-[#f29716] text-white hover:bg-[#f29716]/90">Daftar Gratis</Button>
             </Link>
           </div>
         </nav>
@@ -56,12 +56,12 @@ export default function Landing() {
           </p>
           <div className="space-x-4">
             <Link href="/register">
-              <button className="btn-orange text-lg px-8 py-4">
+              <Button className="px-8 py-4 text-lg bg-[#f29716] text-white hover:bg-[#f29716]/90">
                 Mulai Gratis Sekarang
-              </button>
+              </Button>
             </Link>
             <Link href="/login">
-              <Button variant="outline" size="lg" className="px-8 py-4 text-lg font-league border-[#04474f] text-[#04474f] hover:bg-[#04474f] hover:text-white">
+              <Button variant="outline" className="px-8 py-4 text-lg border-[#04474f] text-[#04474f] hover:bg-[#04474f] hover:text-white">
                 Sudah Punya Akun?
               </Button>
             </Link>
@@ -72,7 +72,7 @@ export default function Landing() {
       <section className="container mx-auto px-4 py-20">
         <div className="text-center mb-16">
           <div className="mb-4">
-            <span className="badge-yellow bg-[#04474f] text-[#ffffff]">Fitur Terlengkap</span>
+            <span className="inline-block text-xs bg-[#04474f] text-white px-3 py-1 rounded-full">Fitur Terlengkap</span>
           </div>
           <h2 className="text-3xl font-bold text-gray-900 mb-4 font-league">
             Fitur Lengkap untuk UMKM
@@ -154,7 +154,7 @@ export default function Landing() {
       <section className="container mx-auto px-4 py-20">
         <div className="text-center mb-16">
           <div className="mb-4">
-            <span className="badge-yellow font-league bg-[#04474f] text-[#ffffff]">Harga Terjangkau</span>
+            <span className="inline-block text-xs bg-[#04474f] text-white px-3 py-1 rounded-full">Harga Terjangkau</span>
           </div>
           <h2 className="text-3xl font-bold text-gray-900 mb-4 font-league">
             Paket SaaS untuk Setiap Kebutuhan UMKM
@@ -202,7 +202,7 @@ export default function Landing() {
               </ul>
               
               <Link href="/register">
-                <Button className="w-full btn-orange font-league">Mulai Gratis</Button>
+                <Button className="w-full px-4 py-2 bg-[#f29716] text-white hover:bg-[#f29716]/90">Mulai Gratis</Button>
               </Link>
             </div>
           </div>
@@ -210,7 +210,7 @@ export default function Landing() {
           {/* Business Package - Most Popular */}
           <div className="card-base hover-lift relative border-2 border-[#f29716]">
             <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-              <span className="bg-[#f29716] text-white px-4 py-1 rounded-full text-xs font-league">Terpopuler</span>
+              <span className="bg-[#f29716] text-white px-4 py-1 rounded-full text-xs">Terpopuler</span>
             </div>
             <div className="p-6">
               <div className="flex items-center justify-center w-12 h-12 bg-[#f29716]/10 rounded-lg mb-4">
@@ -251,7 +251,7 @@ export default function Landing() {
               </ul>
               
               <Link href="/register">
-                <Button className="w-full btn-orange font-league">Pilih Business</Button>
+                <Button className="w-full px-4 py-2 bg-[#f29716] text-white hover:bg-[#f29716]/90">Pilih Business</Button>
               </Link>
             </div>
           </div>
@@ -297,7 +297,7 @@ export default function Landing() {
               </ul>
               
               <Link href="/register">
-                <Button className="w-full border-[#04474f] text-[#04474f] hover:bg-[#04474f] hover:text-white font-league" variant="outline">Pilih Professional</Button>
+                <Button variant="outline" className="w-full px-4 py-2 border-[#04474f] text-[#04474f] hover:bg-[#04474f] hover:text-white">Pilih Professional</Button>
               </Link>
             </div>
           </div>
@@ -342,7 +342,7 @@ export default function Landing() {
                 </li>
               </ul>
               
-              <Button className="w-full bg-gradient-to-r from-[#f29716] to-[#ffde32] text-white font-league">Hubungi Sales</Button>
+              <Button className="w-full px-4 py-2 bg-gradient-to-r from-[#f29716] to-[#ffde32] text-white hover:opacity-90">Hubungi Sales</Button>
             </div>
           </div>
         </div>
@@ -457,7 +457,7 @@ export default function Landing() {
       <section className="container mx-auto px-4 py-20">
         <div className="text-center mb-16">
           <div className="mb-4">
-            <span className="badge-yellow font-league bg-[#04474f] text-[#ffffff]">FAQ</span>
+            <span className="inline-block text-xs bg-[#04474f] text-white px-3 py-1 rounded-full">FAQ</span>
           </div>
           <h2 className="text-3xl font-bold text-gray-900 mb-4 font-league">
             Pertanyaan yang Sering Diajukan
@@ -522,11 +522,11 @@ export default function Landing() {
           </p>
           <div className="space-x-4">
             <Link href="/register">
-              <Button size="lg" className="bg-white text-[#f29716] hover:bg-gray-100 px-8 py-4 font-league">
+              <Button className="px-8 py-4 text-lg bg-white text-[#f29716] hover:bg-gray-100">
                 Mulai Trial Gratis 14 Hari
               </Button>
             </Link>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-[#f29716] px-8 py-4 font-league">
+            <Button variant="outline" className="px-8 py-4 text-lg border-white text-white hover:bg-white hover:text-[#f29716]">
               Jadwalkan Demo
             </Button>
           </div>
