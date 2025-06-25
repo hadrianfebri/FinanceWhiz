@@ -6,19 +6,67 @@ import financewhizLogo from "@/assets/FINANCEWHIZ_COLOR.svg";
 
 export default function Landing() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#f29716]/5 via-[#ffde32]/5 to-[#04474f]/5" style={{
-      backgroundImage: `
-        repeating-linear-gradient(
-          45deg,
-          transparent,
-          transparent 35px,
-          rgba(4, 71, 79, 0.02) 35px,
-          rgba(4, 71, 79, 0.02) 70px
-        )
-      `
-    }}>
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Animated Background */}
+      <div className="absolute inset-0 z-0">
+        <svg
+          className="absolute inset-0 w-full h-full"
+          viewBox="0 0 1200 800"
+          preserveAspectRatio="xMidYMid slice"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <defs>
+            <linearGradient id="wave-gradient-1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#f29716" stopOpacity="0.1" />
+              <stop offset="50%" stopColor="#ffde32" stopOpacity="0.15" />
+              <stop offset="100%" stopColor="#04474f" stopOpacity="0.1" />
+            </linearGradient>
+            <linearGradient id="wave-gradient-2" x1="100%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="#04474f" stopOpacity="0.08" />
+              <stop offset="50%" stopColor="#f29716" stopOpacity="0.12" />
+              <stop offset="100%" stopColor="#ffde32" stopOpacity="0.1" />
+            </linearGradient>
+            <linearGradient id="wave-gradient-3" x1="50%" y1="0%" x2="50%" y2="100%">
+              <stop offset="0%" stopColor="#ffde32" stopOpacity="0.06" />
+              <stop offset="50%" stopColor="#04474f" stopOpacity="0.1" />
+              <stop offset="100%" stopColor="#f29716" stopOpacity="0.08" />
+            </linearGradient>
+          </defs>
+          
+          {/* Background base */}
+          <rect width="100%" height="100%" fill="url(#wave-gradient-1)" />
+          
+          {/* Animated wave layers */}
+          <path
+            d="M0,400 C300,200 600,600 1200,300 L1200,800 L0,800 Z"
+            fill="url(#wave-gradient-2)"
+            className="animate-wave-slow"
+          />
+          <path
+            d="M0,500 C400,300 800,700 1200,400 L1200,800 L0,800 Z"
+            fill="url(#wave-gradient-3)"
+            className="animate-wave-medium"
+          />
+          <path
+            d="M0,600 C200,400 400,800 1200,500 L1200,800 L0,800 Z"
+            fill="url(#wave-gradient-1)"
+            className="animate-wave-fast"
+          />
+        </svg>
+        
+        {/* Floating particles */}
+        <div className="absolute inset-0">
+          <div className="particle particle-1"></div>
+          <div className="particle particle-2"></div>
+          <div className="particle particle-3"></div>
+          <div className="particle particle-4"></div>
+          <div className="particle particle-5"></div>
+          <div className="particle particle-6"></div>
+        </div>
+      </div>
+
       {/* Header */}
-      <header className="container mx-auto px-4 py-6">
+      <header className="container mx-auto px-4 py-6 relative z-10">
         <nav className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <img 
@@ -42,7 +90,7 @@ export default function Landing() {
         </nav>
       </header>
       {/* Hero Section */}
-      <section className="container mx-auto px-4 py-20 text-center">
+      <section className="container mx-auto px-4 py-20 text-center relative z-10">
         <div className="max-w-4xl mx-auto">
           <div className="mb-6">
             <span className="badge-yellow font-league bg-[#04474f] text-[#ffff]">Terpercaya oleh 1000+ UMKM</span>
@@ -69,7 +117,7 @@ export default function Landing() {
         </div>
       </section>
       {/* Features Section */}
-      <section className="container mx-auto px-4 py-20">
+      <section className="container mx-auto px-4 py-20 relative z-10">
         <div className="text-center mb-16">
           <div className="mb-4">
             <span className="inline-block text-xs bg-[#04474f] text-white px-3 py-1 rounded-full">Fitur Terlengkap</span>
@@ -151,7 +199,7 @@ export default function Landing() {
         </div>
       </section>
       {/* Pricing Section */}
-      <section className="container mx-auto px-4 py-20">
+      <section className="container mx-auto px-4 py-20 relative z-10">
         <div className="text-center mb-16">
           <div className="mb-4">
             <span className="inline-block text-xs bg-[#04474f] text-white px-3 py-1 rounded-full">Harga Terjangkau</span>
@@ -454,7 +502,7 @@ export default function Landing() {
         </div>
       </section>
       {/* FAQ Section */}
-      <section className="container mx-auto px-4 py-20">
+      <section className="container mx-auto px-4 py-20 relative z-10">
         <div className="text-center mb-16">
           <div className="mb-4">
             <span className="inline-block text-xs bg-[#04474f] text-white px-3 py-1 rounded-full">FAQ</span>
@@ -512,7 +560,7 @@ export default function Landing() {
         </div>
       </section>
       {/* CTA Section */}
-      <section className="bg-gradient-to-r from-[#f29716] to-[#ffde32] text-white py-20">
+      <section className="bg-gradient-to-r from-[#f29716] to-[#ffde32] text-white py-20 relative z-10">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4 font-league">
             Siap Transformasi Digital Keuangan UMKM Anda?
@@ -536,7 +584,7 @@ export default function Landing() {
         </div>
       </section>
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
+      <footer className="bg-gray-900 text-white py-12 relative z-10">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-center space-x-3 mb-8">
             <img 
