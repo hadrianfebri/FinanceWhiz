@@ -46,8 +46,19 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     echo "🔄 Pushing database schema..."
     npm run db:push
     echo "✅ Database schema created successfully!"
+    
+    echo ""
+    read -p "Would you like to seed the database with demo data? (y/N): " -r
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        echo "🌱 Seeding database with demo data..."
+        tsx scripts/seed.ts
+        echo "✅ Demo data created successfully!"
+        echo "📧 Login credentials: demo@financewhiz.ai / demo123"
+    fi
 else
     echo "⚠️  Please complete database setup and run 'npm run db:push' manually."
+    echo "    After that, you can seed demo data with: tsx scripts/seed.ts"
+fiun 'npm run db:push' manually."
 fi
 
 echo ""
