@@ -93,7 +93,7 @@ NODE_ENV=development
 npm run db:push
 
 # (Optional) Seed data untuk testing
-npm run db:seed
+tsx scripts/seed.ts
 ```
 
 ### 6. Start Development Server
@@ -105,6 +105,19 @@ npm run dev
 Server akan berjalan di:
 - **Frontend**: http://localhost:5000
 - **Backend API**: http://localhost:5000/api
+
+### 7. Demo Account (Optional)
+
+Jika Anda menjalankan seeding database, Anda dapat login dengan:
+- **Email**: demo@financewhiz.ai
+- **Password**: demo123
+
+Demo account sudah terisi dengan:
+- 12 kategori transaksi (income & expense)
+- 3 outlet bisnis (Jakarta, Bandung, Surabaya)
+- 4 karyawan dengan data payroll
+- 2 vendor supplier
+- 9 transaksi sample untuk testing
 
 ## 📁 Project Structure
 
@@ -216,10 +229,9 @@ npm run test:e2e
 - `npm run build` - Build for production
 - `npm start` - Start production server
 - `npm run db:push` - Push database schema
-- `npm run db:studio` - Open database studio
-- `npm run type-check` - TypeScript type checking
-- `npm run lint` - Run ESLint
-- `npm run lint:fix` - Fix ESLint errors
+- `drizzle-kit studio` - Open database studio
+- `tsx scripts/seed.ts` - Seed database with demo data
+- `npm run check` - TypeScript type checking
 
 ## 🐛 Troubleshooting
 

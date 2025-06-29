@@ -233,3 +233,12 @@ Changelog:
   - Removed redundant font-league classes throughout the application
   - Applied League Spartan consistently across all components and pages
   - Updated navbar, sidebar, transactions page, and all UI elements to use the new default font
+- June 29, 2025. Complete local development setup documentation and database seeding:
+  - Created comprehensive database seeding script (scripts/seed.ts) with demo business data
+  - Updated README.md with complete installation instructions for local development
+  - Created QUICKSTART.md for 5-minute setup guide with step-by-step instructions
+  - Enhanced setup.sh script with automated database seeding workflow
+  - Added demo account credentials (demo@financewhiz.ai / demo123) with realistic business data
+  - Implemented complete seed data: 12 categories, 3 outlets, 4 employees, 2 vendors, 9 transactions
+  - Fixed .env.example template with all required environment variables for local setup
+  - Documented all API dependencies, troubleshooting steps, and optional features
